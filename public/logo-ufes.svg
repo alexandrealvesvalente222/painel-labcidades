@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" role="img" aria-label="Universidade Federal do Esp�rito Santo">
+  <rect width="420" height="120" rx="0" fill="none"/>
+  <!-- Simplified institutional lockup for dark UI; replace with official UFES file if available -->
+  <circle cx="48" cy="60" r="34" fill="none" stroke="#ffffff" stroke-width="3"/>
+  <circle cx="48" cy="60" r="22" fill="none" stroke="#4BA3D9" stroke-width="2.5"/>
+  <path d="M48 34 L58 52 L48 48 L38 52 Z" fill="#ffffff"/>
+  <path d="M34 66 L48 86 L62 66 L48 72 Z" fill="#4BA3D9"/>
+  <text x="100" y="52" fill="#ffffff" font-family="Montserrat, Arial, sans-serif" font-size="42" font-weight="700" letter-spacing="4">UFES</text>
+  <text x="100" y="82" fill="rgba(255,255,255,0.78)" font-family="Montserrat, Arial, sans-serif" font-size="13" font-weight="500" letter-spacing="0.5">Universidade Federal do Esp�rito Santo</text>
+</svg>

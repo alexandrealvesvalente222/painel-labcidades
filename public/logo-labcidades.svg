@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 112" role="img" aria-label="LabCidades — projetos inteligentes">
+  <rect width="520" height="112" rx="10" fill="#5d058c"/>
+  <text
+    x="26"
+    y="58"
+    fill="#FFFFFF"
+    font-family="'Plus Jakarta Sans', Montserrat, Arial, Helvetica, sans-serif"
+    font-size="42"
+    font-weight="800"
+    letter-spacing="0.5"
+  >LaBCIDADES</text>
+  <text
+    x="28"
+    y="90"
+    fill="#ff8300"
+    font-family="'Plus Jakarta Sans', Montserrat, Arial, Helvetica, sans-serif"
+    font-size="20"
+    font-weight="500"
+    letter-spacing="0.8"
+  >projetos inteligentes</text>
+</svg>
