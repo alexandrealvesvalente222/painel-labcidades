@@ -516,7 +516,7 @@ export function Brinde({
                 <span className="slot-round-cap">Início</span>
               </button>
               <div className="slot-deck-mark">
-                <Logo height={96} />
+                <Logo />
               </div>
               <button
                 type="button"

@@ -1,6 +1,7 @@
-/** Escala fluida com base no menor lado da viewport (referência 1080px). */
+/** Escala fluida para caber a arte 1920×1080 em qualquer janela. */
 export function getUiScale(width: number, height: number) {
-  return Math.max(0.55, Math.min(1.35, Math.min(width, height) / 1080))
+  const fit = Math.min(width / 1920, height / 1080)
+  return Math.max(0.4, Math.min(1.35, fit))
 }
 
 export function viewportSize() {

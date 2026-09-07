@@ -7,7 +7,9 @@ export function useUiScale() {
   useEffect(() => {
     const update = () => {
       const { width, height } = viewportSize()
-      setScale(getUiScale(width, height))
+      const next = getUiScale(width, height)
+      document.documentElement.style.setProperty('--ui-scale', String(next))
+      setScale(next)
     }
     update()
     window.addEventListener('resize', update)
