@@ -144,7 +144,7 @@ export default function CityCanvas({
     let lastWave = 0
     let lastData = 0
 
-    const staticScene = mode === 'hub' || mode === 'pos' || mode === 'explore'
+    const staticScene = mode === 'hub' || mode === 'pos' || mode === 'explore' || mode === 'brinde'
     const vivid = true
     const cinematic = mode === 'splash' || mode === 'contact'
     const dense = true

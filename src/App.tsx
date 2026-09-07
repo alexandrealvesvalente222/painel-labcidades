@@ -3,7 +3,7 @@ import BrainDataCanvas from './BrainDataCanvas'
 import CityCanvas, { type CanvasFocus } from './CityCanvas'
 import { SOLUTIONS, type SolutionId, type StageId, type ViewId } from './data'
 import { useIdle, useUiScale } from './hooks'
-import { Contact, Explore, Hub, Pos, Splash } from './screens'
+import { Contact, Explore, Hub, Pos, Splash, Brinde } from './screens'
 import { Ripples } from './visuals'
 
 export default function App() {
@@ -28,7 +28,7 @@ export default function App() {
 
   const solution = SOLUTIONS.find((item) => item.id === solutionId) ?? SOLUTIONS[0]
   const cinematic = view === 'splash' || view === 'contact'
-  const staticBg = view === 'hub' || view === 'pos' || view === 'explore'
+  const staticBg = view === 'hub' || view === 'pos' || view === 'explore' || view === 'brinde'
   const focusY = logoFocus ? `${(logoFocus.y / Math.max(window.innerHeight, 1)) * 100}%` : '38%'
 
   const addRipple = (x: number, y: number) => {
@@ -83,7 +83,10 @@ export default function App() {
           onContact={() => setView('contact')}
         />
       )}
-      {view === 'contact' && <Contact onHome={goHome} onFocus={onLogoFocus} />}
+      {view === 'contact' && (
+        <Contact onHome={goHome} onFocus={onLogoFocus} onBrinde={() => setView('brinde')} />
+      )}
+      {view === 'brinde' && <Brinde onHome={goHome} onBack={() => setView('contact')} />}
       {view === 'pos' && <Pos onHome={goHome} />}
       {view === 'hub' && (
         <Hub

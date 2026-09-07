@@ -1,6 +1,17 @@
 export type SolutionId = 'consulta' | 'reurb' | 'fiscal' | 'licencas'
 export type StageId = 'problema' | 'solucao' | 'impacto'
-export type ViewId = 'splash' | 'hub' | 'explore' | 'contact' | 'pos'
+export type ViewId = 'splash' | 'hub' | 'explore' | 'contact' | 'pos' | 'brinde'
+
+export type BrindePrizeId = 'caneca' | 'chaveiro' | 'adesivo' | 'ecobag' | 'retry'
+
+export interface BrindePrize {
+  id: BrindePrizeId
+  label: string
+  image: string
+  /** Peso relativo no sorteio (maior = mais frequente). */
+  weight: number
+  retry?: boolean
+}
 
 export interface StageContent {
   title: string
@@ -278,6 +289,29 @@ export const CONTACT = {
   urlLabel: 'labcidades.com.br',
   ufesLabel: 'Universidade Federal do Espírito Santo',
   ufesSrc: './logo-ufes.png',
+  brindeCta: 'Tente ganhar um brinde',
+  brindeHint: 'Puxe a alavanca e concorra a um mimo do LabCidades',
+}
+
+/** Máquina de brindes — 3 iguais = prêmio; “retry” = tente outra vez. */
+export const BRINDE = {
+  kicker: 'Brinde LabCidades',
+  spinningHint: 'Girando…',
+  idlePrize: '« PRÊMIO »',
+  winPrefix: 'Você ganhou',
+  retryMessage: 'Tente outra vez',
+  spinCta: 'Girar',
+  homeCta: 'Início',
+  socialLine: 'Siga o LabCidades no Instagram',
+  socialHandle: '@labcidades',
+  socialUrl: 'https://www.instagram.com/labcidades/',
+  prizes: [
+    { id: 'caneca', label: 'Caneca LabCidades', image: './brindes/caneca.svg', weight: 22 },
+    { id: 'chaveiro', label: 'Chaveiro', image: './brindes/chaveiro.svg', weight: 26 },
+    { id: 'adesivo', label: 'Adesivo', image: './brindes/adesivo.svg', weight: 28 },
+    { id: 'ecobag', label: 'Ecobag', image: './brindes/ecobag.svg', weight: 14 },
+    { id: 'retry', label: 'Tente outra vez', image: './brindes/retry.svg', weight: 10, retry: true },
+  ] as BrindePrize[],
 }
 
 export const POS = {

@@ -1,10 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   CONTACT,
   LAB,
   POS,
   SOLUTIONS,
   STAGES,
+  BRINDE,
+  type BrindePrize,
+  type BrindePrizeId,
   type PosTabId,
   type Solution,
   type SolutionId,
@@ -194,9 +197,11 @@ export function Splash({
 export function Contact({
   onHome,
   onFocus,
+  onBrinde,
 }: {
   onHome: () => void
   onFocus?: (focus: CanvasFocus | null) => void
+  onBrinde: () => void
 }) {
   const content = CONTACT
   const qrRef = useRef<HTMLDivElement>(null)
@@ -270,17 +275,268 @@ export function Contact({
         </div>
 
         <div className="contact-footer">
+          <button type="button" className="cta contact-brinde-cta" onPointerUp={onBrinde}>
+            <span>{content.brindeCta}</span>
+          </button>
+          <p className="hint contact-brinde-hint">{content.brindeHint}</p>
           <img
             src={content.ufesSrc}
             alt={content.ufesLabel}
             className="contact-ufes-logo"
             draggable={false}
           />
-          <button type="button" className="cta contact-home-cta" onPointerUp={onHome}>
-            <span>Voltar ao início</span>
+          <button type="button" className="cta-secondary contact-home-cta" onPointerUp={onHome}>
+            Voltar ao início
           </button>
-          <p className="hint">{content.invite}</p>
         </div>
+      </div>
+    </div>
+  )
+}
+
+function pickBrindePrize(prizes: BrindePrize[]): BrindePrize {
+  const total = prizes.reduce((sum, p) => sum + p.weight, 0)
+  let roll = Math.random() * total
+  for (const prize of prizes) {
+    roll -= prize.weight
+    if (roll <= 0) return prize
+  }
+  return prizes[0]
+}
+
+function SlotArrow() {
+  return (
+    <svg className="slot-arrow" viewBox="0 0 96 64" aria-hidden="true">
+      <defs>
+        <linearGradient id="slot-arrow-body" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#fff1a8" />
+          <stop offset="38%" stopColor="#ffd54a" />
+          <stop offset="100%" stopColor="#d8890c" />
+        </linearGradient>
+        <linearGradient id="slot-arrow-shine" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#fff7d2" stopOpacity="0.95" />
+          <stop offset="55%" stopColor="#ffe27a" stopOpacity="0.15" />
+          <stop offset="100%" stopColor="#c46e00" stopOpacity="0.35" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M10 30H54V18L90 36L54 54V42H10Z"
+        fill="rgba(16,0,19,0.38)"
+        transform="translate(3 5)"
+      />
+      <path d="M6 24H52V10L92 32L52 54V40H6Z" fill="url(#slot-arrow-body)" />
+      <path d="M6 24H52V10L92 32L70 32L52 22H6Z" fill="url(#slot-arrow-shine)" />
+      <path
+        d="M6 24H52V10L92 32L52 54V40H6Z"
+        fill="none"
+        stroke="#fff3c2"
+        strokeOpacity="0.45"
+        strokeWidth="1.6"
+      />
+    </svg>
+  )
+}
+
+const CONFETTI_COLORS = ['#c26cff', '#ff8300', '#ffd54a', '#20b2aa', '#e4456a', '#ffb347', '#7ee8e0', '#ffffff']
+
+function SlotConfetti() {
+  const pieces = useMemo(
+    () =>
+      Array.from({ length: 110 }, (_, i) => {
+        const shape = i % 5 === 0 ? 'circle' : i % 5 === 1 ? 'strip' : 'rect'
+        const size = 7 + Math.random() * 9
+        return {
+          id: i,
+          left: Math.random() * 100,
+          delay: Math.random() * 0.85,
+          duration: 2.6 + Math.random() * 2.4,
+          drift: `${(Math.random() - 0.5) * 140}px`,
+          spin: `${(Math.random() > 0.5 ? 1 : -1) * (280 + Math.random() * 620)}deg`,
+          width: shape === 'strip' ? 5 : size,
+          height: shape === 'strip' ? size * 2.1 : size,
+          color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+          shape,
+        }
+      }),
+    [],
+  )
+
+  return (
+    <div className="slot-confetti" aria-hidden="true">
+      {pieces.map((piece) => (
+        <span
+          key={piece.id}
+          className={`slot-confetti-piece is-${piece.shape}`}
+          style={{
+            left: `${piece.left}%`,
+            width: piece.width,
+            height: piece.height,
+            background: piece.color,
+            animationDelay: `${piece.delay}s`,
+            animationDuration: `${piece.duration}s`,
+            ['--drift' as string]: piece.drift,
+            ['--spin' as string]: piece.spin,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+export function Brinde({
+  onHome,
+}: {
+  onHome: () => void
+  onBack: () => void
+}) {
+  const prizes = BRINDE.prizes
+  const drumFaces = Array.from({ length: 3 }, () => prizes).flat()
+  const faceStep = 360 / drumFaces.length
+  const [phase, setPhase] = useState<'idle' | 'spinning' | 'result'>('idle')
+  const [result, setResult] = useState<BrindePrize | null>(null)
+  const [reelAngles, setReelAngles] = useState([0, 0, 0])
+  const [animateReels, setAnimateReels] = useState(false)
+  const timers = useRef<number[]>([])
+  const pendingWinner = useRef<BrindePrize | null>(null)
+
+  const clearTimers = () => {
+    timers.current.forEach((id) => window.clearTimeout(id))
+    timers.current = []
+  }
+
+  useEffect(() => () => clearTimers(), [])
+
+  const prizeIndex = (id: BrindePrizeId) => prizes.findIndex((p) => p.id === id)
+  const busy = phase === 'spinning'
+
+  const spin = () => {
+    if (busy) return
+    clearTimers()
+    const winner = pickBrindePrize(prizes)
+    pendingWinner.current = winner
+    const winIdx = prizeIndex(winner.id)
+    const loops = [4, 6, 8]
+    const targets = loops.map((loop) => -(loop * 360 + winIdx * faceStep))
+
+    setResult(null)
+    setAnimateReels(false)
+    setReelAngles([0, 0, 0])
+    setPhase('spinning')
+
+    timers.current.push(
+      window.setTimeout(() => {
+        setAnimateReels(true)
+        setReelAngles(targets)
+      }, 50),
+    )
+
+    timers.current.push(
+      window.setTimeout(() => {
+        setResult(pendingWinner.current)
+        setPhase('result')
+        setAnimateReels(false)
+      }, 4200),
+    )
+  }
+
+  const prizeLine =
+    phase === 'spinning'
+      ? BRINDE.spinningHint
+      : result
+        ? result.retry
+          ? BRINDE.retryMessage
+          : result.label
+        : 'PRÊMIO'
+
+  return (
+    <div
+      className={`layer enter brinde${phase === 'spinning' ? ' is-spinning' : ''}${
+        phase === 'result' && result && !result.retry ? ' is-win' : ''
+      }`}
+    >
+      {phase === 'result' && result && !result.retry ? <SlotConfetti key={result.id} /> : null}
+      <div className="brinde-cabinet">
+        <div className="slot-body">
+          <div className="slot-premio-stage">
+            <header
+              className={`slot-premio${phase === 'result' && result ? (result.retry ? ' is-retry' : ' is-win') : ''}${
+                phase === 'spinning' ? ' is-spinning' : ''
+              }`}
+              aria-live="polite"
+            >
+              <strong>{prizeLine}</strong>
+            </header>
+          </div>
+
+          <section className="slot-playfield">
+            <div className="slot-playfield-inner">
+              <div className="slot-arrow-wrap" aria-hidden="true">
+                <SlotArrow />
+              </div>
+              <div
+                className="slot-window"
+                style={{ ['--faces' as string]: drumFaces.length }}
+              >
+                {[0, 1, 2].map((reel) => (
+                  <div key={reel} className="slot-reel">
+                    <div className="slot-drum-scene">
+                      <div
+                        className={`slot-drum${animateReels ? ' is-rolling' : ''}`}
+                        style={{
+                          transform: `rotateX(${reelAngles[reel]}deg)`,
+                          transition: animateReels
+                            ? `transform ${2.2 + reel * 0.55}s cubic-bezier(0.08, 0.82, 0.12, 1)`
+                            : 'none',
+                        }}
+                      >
+                        {drumFaces.map((prize, i) => (
+                          <div
+                            key={`${reel}-${prize.id}-${i}`}
+                            className="slot-cell"
+                            style={{
+                              transform: `rotateX(${i * faceStep}deg) translateZ(var(--drum-radius))`,
+                            }}
+                          >
+                            <img src={prize.image} alt="" draggable={false} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="slot-reel-shade" aria-hidden="true" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <div className="slot-deck-stage">
+            <div className="slot-deck">
+              <button type="button" className="slot-round slot-round--home" onPointerUp={onHome}>
+                <span className="slot-round-stem" aria-hidden="true" />
+                <span className="slot-round-cap">Início</span>
+              </button>
+              <div className="slot-deck-mark">
+                <Logo height={96} />
+              </div>
+              <button
+                type="button"
+                className="slot-round slot-round--spin"
+                onPointerUp={spin}
+                disabled={busy}
+              >
+                <span className="slot-round-stem" aria-hidden="true" />
+                <span className="slot-round-cap">{BRINDE.spinCta}</span>
+              </button>
+            </div>
+          </div>
+
+          <footer className="slot-social">
+            <p>
+              {BRINDE.socialLine} <strong>{BRINDE.socialHandle}</strong>
+            </p>
+          </footer>
+        </div>
+        <div className="slot-base" aria-hidden="true" />
       </div>
     </div>
   )
