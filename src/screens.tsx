@@ -1,22 +1,28 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import {
+  CERT,
   CONTACT,
   LAB,
   POS,
+  QUIZ,
   SOLUTIONS,
   STAGES,
   BRINDE,
+  quizResultBand,
+  quizResultTitle,
   type BrindePrize,
   type BrindePrizeId,
-  type PosTabId,
+  type PosProgramTabId,
+  type QuizOption,
   type Solution,
   type SolutionId,
   type StageId,
 } from './data'
+import { CertQr, SiteQr } from './CertQr'
 import { useSwipe } from './hooks'
-import { HomeButton, Logo } from './visuals'
-import type { CanvasFocus } from './CityCanvas'
-import { WORDMARK_LAYOUT } from './wordmarkLayout'
+import SplashDataRain from './SplashDataRain'
+import { SiteWindow } from './SiteWindow'
+import { Logo } from './visuals'
 
 function StageIcon({ type }: { type: 'challenge' | 'solution' | 'impact' }) {
   if (type === 'challenge') {
@@ -122,175 +128,162 @@ function NavIcon({ id }: { id: SolutionId }) {
   )
 }
 
-export function Splash({
-  onExplore,
-  onContact,
-  onPos,
+function CscFrame({
+  children,
+  clear = false,
+  compact = false,
+  className = '',
+  backdrop,
 }: {
-  onExplore: () => void
-  onContact: () => void
-  onPos: () => void
+  children: ReactNode
+  clear?: boolean
+  compact?: boolean
+  className?: string
+  backdrop?: ReactNode
 }) {
+  const frameClass = [
+    'csc-frame',
+    clear ? 'csc-frame--clear' : '',
+    compact ? 'csc-frame--compact' : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
-    <div className="layer enter splash splash--ai" onPointerUp={onExplore}>
-      <div
-        className="splash-brand"
-        aria-hidden="true"
-        style={{
-          bottom: `${WORDMARK_LAYOUT.bottom}vh`,
-        }}
-      >
-        <p
-          className="splash-wordmark"
-          style={{
-            fontSize: `${WORDMARK_LAYOUT.size}vw`,
-            letterSpacing: `${WORDMARK_LAYOUT.letterSpacing}em`,
-          }}
-        >
-          LABCIDADES
-        </p>
-        <p
-          className="splash-tagline"
-          style={{ fontSize: `${WORDMARK_LAYOUT.size * WORDMARK_LAYOUT.tagScale}vw` }}
-        >
-          {LAB.tag}
-        </p>
-      </div>
-      <div className="splash-panel">
-        <div className="splash-actions">
-          <div className="splash-cta-row">
-            <button
-              className="cta"
-              onPointerUp={(e) => {
-                e.stopPropagation()
-                onExplore()
-              }}
-            >
-              <span>{LAB.cta}</span>
-            </button>
-            <button
-              className="cta"
-              onPointerUp={(e) => {
-                e.stopPropagation()
-                onPos()
-              }}
-            >
-              <span>{LAB.posCta}</span>
-            </button>
-            <button
-              className="cta"
-              onPointerUp={(e) => {
-                e.stopPropagation()
-                onContact()
-              }}
-            >
-              <span>{LAB.contactCta}</span>
-            </button>
-          </div>
-          <p className="hint">{LAB.invite}</p>
-        </div>
+    <div className="layer enter csc">
+      <div className="csc-viewport">
+        {backdrop}
+        <div className={frameClass}>{children}</div>
       </div>
     </div>
   )
 }
 
+function SplashBackdrop() {
+  return (
+    <div className="csc-splash-backdrop" aria-hidden="true">
+      <SplashDataRain />
+    </div>
+  )
+}
+
+function CscBar({ onHome }: { onHome: () => void }) {
+  return (
+    <header className="csc-bar">
+      <img
+        className="csc-wordmark-header"
+        src={LAB.wordmarkHeaderSrc}
+        alt="LabCidades - Laboratório de projetos"
+        draggable={false}
+      />
+      <button type="button" className="csc-inicio" onPointerUp={onHome}>
+        Início
+      </button>
+    </header>
+  )
+}
+
+export function Splash({
+  onExplore,
+  onPos,
+  onCert,
+  onQuiz,
+  onAdmin,
+}: {
+  onExplore: () => void
+  onPos: () => void
+  onCert: () => void
+  onQuiz: () => void
+  onAdmin: () => void
+}) {
+  return (
+    <CscFrame clear backdrop={<SplashBackdrop />}>
+      <button
+        type="button"
+        className="csc-quiz-fab"
+        onPointerUp={onQuiz}
+        aria-label="Abrir quiz Cidades Inteligentes"
+      >
+        <span className="csc-quiz-fab__mark" aria-hidden="true">
+          ?
+        </span>
+      </button>
+      <button
+        type="button"
+        className="csc-ufes-btn"
+        onPointerUp={onAdmin}
+        aria-label="Acesso administrativo UFES"
+        title="Painel administrativo"
+      >
+        <img
+          className="csc-ufes"
+          src={LAB.ufesMarkSrc}
+          alt=""
+          draggable={false}
+        />
+      </button>
+      <div className="csc-home-stack">
+        <img
+          className="csc-wordmark"
+          src={LAB.wordmarkSrc}
+          alt="LabCidades - Laboratório de projetos"
+          draggable={false}
+        />
+        <p className="csc-home-lead">{LAB.homeLead}</p>
+        <div className="csc-home-actions">
+          <button type="button" className="csc-home-pill csc-home-pill--pos" onPointerUp={onPos}>
+            <span>{LAB.posCta}</span>
+          </button>
+          <button type="button" className="csc-home-pill csc-home-pill--cert" onPointerUp={onCert}>
+            <span>{LAB.certCta}</span>
+          </button>
+          <button type="button" className="csc-home-pill csc-home-pill--hub" onPointerUp={onExplore}>
+            <span>{LAB.cta}</span>
+          </button>
+        </div>
+      </div>
+    </CscFrame>
+  )
+}
+
 export function Contact({
   onHome,
-  onFocus,
   onBrinde,
 }: {
   onHome: () => void
-  onFocus?: (focus: CanvasFocus | null) => void
   onBrinde: () => void
 }) {
   const content = CONTACT
-  const qrRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = qrRef.current
-    if (!el || !onFocus) return
-
-    const publish = () => {
-      const target = el.querySelector('.contact-qr') as HTMLElement | null
-      const box = (target ?? el).getBoundingClientRect()
-      if (box.width < 8 || box.height < 8) return
-      onFocus({
-        x: Math.round(box.left + box.width / 2),
-        y: Math.round(box.top + box.height / 2),
-        w: Math.round(box.width),
-        h: Math.round(box.height),
-      })
-    }
-
-    publish()
-    const ro = new ResizeObserver(publish)
-    ro.observe(el)
-    window.addEventListener('resize', publish)
-    const img = el.querySelector('img')
-    img?.addEventListener('load', publish)
-    const timer = window.setTimeout(publish, 100)
-
-    return () => {
-      ro.disconnect()
-      window.removeEventListener('resize', publish)
-      img?.removeEventListener('load', publish)
-      window.clearTimeout(timer)
-      onFocus(null)
-    }
-  }, [onFocus])
 
   return (
-    <div className="layer enter contact">
-      <div className="splash-scrim contact-scrim" aria-hidden="true" />
-
-      <div className="topbar">
-        <div className="logo-row">
-          <Logo height={52} />
-          <div>
-            <strong>{LAB.name}</strong>
-            <small>{content.kicker}</small>
-          </div>
-        </div>
-        <HomeButton onPress={onHome} />
+    <CscFrame>
+      <CscBar onHome={onHome} />
+      <h1 className="csc-title">{content.kicker}</h1>
+      <p className="csc-org">{LAB.name}</p>
+      <div className="csc-type">
+        <span className="csc-type-label">SITE</span>
+        <span className="csc-type-value">{content.urlLabel}</span>
       </div>
-
-      <div className="contact-stage">
-        <div className="contact-copy">
-          <div className="kicker">{content.kicker}</div>
-          <h1 className="contact-title">{content.headline}</h1>
-          <p className="contact-line">{content.line}</p>
-        </div>
-
-        <div className="contact-qr-stage" ref={qrRef}>
-          <div className="contact-qr-halo" aria-hidden="true" />
-          <div className="contact-qr-wrap">
-            <img
-              src={content.qrSrc}
-              alt={content.qrLabel}
-              className="contact-qr"
-              draggable={false}
-            />
-          </div>
-          <p className="contact-url">{content.urlLabel}</p>
-        </div>
-
-        <div className="contact-footer">
-          <button type="button" className="cta contact-brinde-cta" onPointerUp={onBrinde}>
-            <span>{content.brindeCta}</span>
-          </button>
-          <p className="hint contact-brinde-hint">{content.brindeHint}</p>
+      <section className="csc-sheet csc-sheet--solo">
+        <h2>{content.headline}</h2>
+        <div className="csc-sheet-body csc-contact-body">
           <img
-            src={content.ufesSrc}
-            alt={content.ufesLabel}
-            className="contact-ufes-logo"
+            src={content.qrSrc}
+            alt={content.qrLabel}
+            className="csc-qr"
             draggable={false}
           />
-          <button type="button" className="cta-secondary contact-home-cta" onPointerUp={onHome}>
-            Voltar ao início
-          </button>
+          <div>
+            <p>{content.line}</p>
+            <button type="button" className="csc-conhecer csc-conhecer--live" onPointerUp={onBrinde}>
+              {content.brindeCta}
+            </button>
+            <p className="csc-contact-hint">{content.brindeHint}</p>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </CscFrame>
   )
 }
 
@@ -543,212 +536,364 @@ export function Brinde({
 }
 
 export function Pos({ onHome }: { onHome: () => void }) {
-  const [tab, setTab] = useState<PosTabId>('sobre')
+  const [programId, setProgramId] = useState<PosProgramTabId>('cidades')
+  const program = POS.programs.find((item) => item.id === programId) ?? POS.programs[0]
+  const leftModules = program.modules.filter((_, index) => index % 2 === 0)
+  const rightModules = program.modules.filter((_, index) => index % 2 === 1)
 
   return (
-    <div className="layer enter pos">
-      <div className="topbar">
-        <div className="logo-row">
-          <Logo height={52} />
-          <div>
-            <strong>{POS.headline}</strong>
-            <small>{POS.kicker}</small>
-          </div>
-        </div>
-        <HomeButton onPress={onHome} />
-      </div>
-
-      <div className="pos-hero">
-        <h1 className="display">{POS.title}</h1>
-        <div className="pos-facts" aria-label="Dados do curso">
-          {POS.facts.map((fact) => (
-            <div key={fact.label} className="pos-fact">
-              <span>{fact.label}</span>
-              <strong>{fact.value}</strong>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="pos-tabs" role="tablist" aria-label="Seções da pós-graduação">
-        {POS.tabs.map((item) => (
+    <CscFrame compact className="csc-pos">
+      <CscBar onHome={onHome} />
+      <h1 className="csc-title csc-pos-title">
+        {POS.pageTitle} - <span className="csc-pos-title-org">{POS.org}</span>
+      </h1>
+      <div className="csc-course-tabs" role="tablist" aria-label="Especializações">
+        {POS.programs.map((item) => (
           <button
             key={item.id}
             type="button"
             role="tab"
-            aria-selected={tab === item.id}
-            className={`pos-tab${tab === item.id ? ' is-active' : ''}`}
-            onPointerUp={() => setTab(item.id)}
+            aria-selected={programId === item.id}
+            className={`csc-course-tab${programId === item.id ? ' is-active' : ''}`}
+            onPointerUp={() => setProgramId(item.id)}
           >
-            {item.label}
+            {item.tabLabel}
           </button>
         ))}
       </div>
+      <div className="csc-type csc-type--facts" aria-label="Dados do curso">
+        {POS.facts.map((fact) => (
+          <div key={fact.label} className="csc-type-fact">
+            <span className="csc-type-label">{fact.label}</span>
+            <span className="csc-type-value">{fact.value}</span>
+          </div>
+        ))}
+      </div>
+      <section className="csc-pos-panel" role="tabpanel">
+        <div className="csc-pos-section">
+          <h2 className="csc-pos-heading">
+            Sobre a especialização em <span className="csc-pos-accent">{program.highlight}</span>
+          </h2>
+          <div className="csc-pos-about">
+            <p className="csc-pos-about-text">{program.about}</p>
+            {(program.coordinator || program.hours) && (
+              <dl className="csc-pos-side-meta">
+                {program.coordinator ? (
+                  <div>
+                    <dt>Coordenador</dt>
+                    <dd>{program.coordinator}</dd>
+                  </div>
+                ) : null}
+                {program.hours ? (
+                  <div>
+                    <dt>Carga horária</dt>
+                    <dd>{program.hours}</dd>
+                  </div>
+                ) : null}
+              </dl>
+            )}
+          </div>
+        </div>
 
-      <div className="pos-panel" role="tabpanel">
-        {tab === 'sobre' && (
-          <div className="pos-section pos-section--sobre">
-            <h2>Sobre o curso</h2>
-            <p className="pos-about">{POS.about}</p>
-            <dl className="pos-meta-list">
-              <div>
-                <dt>Coordenação</dt>
-                <dd>{POS.coordinator}</dd>
+        {program.modules.length > 0 ? (
+          <div className="csc-pos-section">
+            <h2 className="csc-pos-heading">{POS.orgTitle}</h2>
+            {program.modulesLead ? <p className="csc-pos-lead">{program.modulesLead}</p> : null}
+            <div className="csc-pos-modules">
+              <div className="csc-pos-module-col">
+                {leftModules.map((module) => (
+                  <article key={module.id} className="csc-pos-module">
+                    <h3>{module.title}</h3>
+                    <ul>
+                      {module.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
               </div>
-              <div>
-                <dt>Carga horária</dt>
-                <dd>{POS.hours}</dd>
+              <div className="csc-pos-module-col">
+                {rightModules.map((module) => (
+                  <article key={module.id} className="csc-pos-module">
+                    <h3>{module.title}</h3>
+                    <ul>
+                      {module.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
               </div>
-              <div>
-                <dt>Organização</dt>
-                <dd>{POS.modulesCount}</dd>
-              </div>
-            </dl>
-            <div className="pos-offers">
-              {POS.offers.map((offer) => (
-                <div key={offer.year} className="pos-offer">
-                  <strong>Oferta {offer.year}</strong>
-                  <p>{offer.poles}</p>
-                </div>
-              ))}
             </div>
           </div>
-        )}
+        ) : null}
 
-        {tab === 'perfil' && (
-          <div className="pos-section pos-section--perfil">
-            <h2>Perfil do egresso</h2>
-            <p>Ao concluir o curso, espera-se que os profissionais sejam capazes de:</p>
-            <ul className="pos-bullets">
-              {POS.profile.map((item) => (
+        {program.profile.length > 0 ? (
+          <div className="csc-pos-section">
+            <h2 className="csc-pos-heading">{POS.profileTitle}</h2>
+            <p className="csc-pos-lead">{POS.profileLead}</p>
+            <ul className="csc-pos-profile">
+              {program.profile.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
-        )}
+        ) : null}
+      </section>
+    </CscFrame>
+  )
+}
 
-        {tab === 'grade' && (
-          <div className="pos-section pos-section--grade">
-            <h2>Grade curricular</h2>
-            <p>
-              Especialização com {POS.hours}, organizada em módulos interdisciplinares de gestão,
-              planejamento urbano e dados.
-            </p>
-            <div className="pos-modules">
-              {POS.modules.map((module) => (
-                <article key={module.id} className="pos-module">
-                  <h3>{module.title}</h3>
-                  <ul>
-                    {module.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
+export function Quiz({ onHome }: { onHome: () => void }) {
+  const [index, setIndex] = useState(0)
+  const [picked, setPicked] = useState<QuizOption['id'] | null>(null)
+  const [revealed, setRevealed] = useState(false)
+  const [score, setScore] = useState(0)
+  const [done, setDone] = useState(false)
+
+  const total = QUIZ.questions.length
+  const question = QUIZ.questions[index]
+  const isLast = index >= total - 1
+
+  const reset = () => {
+    setIndex(0)
+    setPicked(null)
+    setRevealed(false)
+    setScore(0)
+    setDone(false)
+  }
+
+  const pick = (id: QuizOption['id']) => {
+    if (revealed || done) return
+    setPicked(id)
+    setRevealed(true)
+    if (id === question.correct) setScore((s) => s + 1)
+  }
+
+  const advance = () => {
+    if (!revealed) return
+    if (isLast) {
+      setDone(true)
+      return
+    }
+    setIndex((i) => i + 1)
+    setPicked(null)
+    setRevealed(false)
+  }
+
+  return (
+    <CscFrame className="csc-quiz">
+      <CscBar onHome={onHome} />
+      <header className="csc-quiz-head">
+        <h1 className="csc-quiz-title">{QUIZ.title}</h1>
+        <p className="csc-quiz-sub">{QUIZ.subtitle}</p>
+      </header>
+
+      {!done ? (
+        <section className={`csc-quiz-sheet${revealed ? ' is-revealed' : ''}`}>
+          <div className="csc-quiz-progress">
+            <span>
+              {QUIZ.progressLabel} {index + 1} / {total}
+            </span>
+            <div className="csc-quiz-progress__bar" aria-hidden="true">
+              <i style={{ width: `${((index + (revealed ? 1 : 0)) / total) * 100}%` }} />
+            </div>
+          </div>
+
+          <p className="csc-quiz-prompt">{question.prompt}</p>
+
+          <div className="csc-quiz-options">
+            {question.options.map((opt) => {
+              const isCorrect = opt.id === question.correct
+              const isPicked = opt.id === picked
+              let state = ''
+              if (revealed) {
+                if (isCorrect) state = 'is-correct'
+                else if (isPicked) state = 'is-wrong'
+                else state = 'is-muted'
+              }
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  className={`csc-quiz-option ${state}`}
+                  onPointerUp={() => pick(opt.id)}
+                  disabled={revealed}
+                >
+                  <span className="csc-quiz-option__key">{opt.id}</span>
+                  <span className="csc-quiz-option__text">{opt.text}</span>
+                </button>
+              )
+            })}
+          </div>
+
+          {revealed ? (
+            <div className="csc-quiz-feedback">
+              <p className="csc-quiz-feedback__status">
+                {picked === question.correct ? QUIZ.correctLabel : QUIZ.wrongLabel}
+                {picked !== question.correct ? (
+                  <strong> {question.correct}</strong>
+                ) : null}
+              </p>
+              <p className="csc-quiz-feedback__tip">
+                <span>{QUIZ.tipLabel}</span> {question.tip}
+              </p>
+              <button type="button" className="csc-quiz-next" onPointerUp={advance}>
+                {isLast ? QUIZ.finishCta : QUIZ.nextCta}
+              </button>
+            </div>
+          ) : null}
+        </section>
+      ) : (
+        <section className="csc-quiz-sheet csc-quiz-result">
+          <p className="csc-quiz-result__score">
+            {QUIZ.scoreLabel}: <strong>{score}</strong> / {total}
+          </p>
+          <p className="csc-quiz-result__title">{quizResultTitle(score)}</p>
+          <p className="csc-quiz-result__msg">{quizResultBand(score).blurb}</p>
+          <div className="csc-quiz-result__actions">
+            <button type="button" className="csc-quiz-next" onPointerUp={reset}>
+              {QUIZ.againCta}
+            </button>
+            <button type="button" className="csc-quiz-next csc-quiz-next--ghost" onPointerUp={onHome}>
+              {QUIZ.homeCta}
+            </button>
+          </div>
+        </section>
+      )}
+    </CscFrame>
+  )
+}
+
+export function Cert({ onHome }: { onHome: () => void }) {
+  return (
+    <CscFrame className="csc-cert">
+      <CscBar onHome={onHome} />
+      <div className="csc-cert-body">
+        <header className="csc-cert-head">
+          <div className="csc-cert-head-copy">
+            <p className="csc-cert-kicker">{CERT.org}</p>
+            <h1 className="csc-cert-title">{CERT.title}</h1>
+            <p className="csc-cert-lead">{CERT.lead}</p>
+          </div>
+          <div className="csc-cert-type" aria-label={`${CERT.typeLabel}: ${CERT.typeValue}`}>
+            <span className="csc-cert-type-label">{CERT.typeLabel}</span>
+            <span className="csc-cert-type-value">{CERT.typeValue}</span>
+          </div>
+        </header>
+
+        <section className="csc-cert-layout">
+          <div className="csc-cert-main">
+            <p className="csc-cert-about">{CERT.about}</p>
+            <div className="csc-cert-tracks" aria-label="Trilhas de capacitação">
+              {CERT.tracks.map((track) => (
+                <article key={track.id} className="csc-cert-track">
+                  <h2>{track.title}</h2>
+                  <p>{track.blurb}</p>
                 </article>
               ))}
             </div>
+            <ul className="csc-cert-list">
+              {CERT.highlights.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
-        )}
-      </div>
 
-      <div className="bottombar">
-        <span>Fonte: SEAD / UFES</span>
-        <span>{POS.source}</span>
+          <aside className="csc-cert-qr-panel">
+            <h2>{CERT.qrTitle}</h2>
+            <p>{CERT.qrHint}</p>
+            <div className="csc-cert-qr-stage">
+              <CertQr />
+            </div>
+            <p className="csc-cert-qr-note">Sistema próprio de acompanhamento dos interessados.</p>
+          </aside>
+        </section>
       </div>
-    </div>
+    </CscFrame>
   )
 }
 
 export function Hub({
   onHome,
   onOpen,
-  onContact,
 }: {
   onHome: () => void
   onOpen: (id: SolutionId) => void
-  onContact?: () => void
 }) {
-  const [preview, setPreview] = useState<Solution | null>(null)
-
   return (
-    <div className="layer enter hub">
-      <div className="topbar">
-        <div className="logo-row">
-          <Logo height={52} />
-          <div>
-            <strong>{LAB.full}</strong>
-            <small>{LAB.place}</small>
-          </div>
-        </div>
-        <div className="top-actions">
-          {onContact && (
-            <button type="button" className="home-btn contact-btn" onPointerUp={onContact}>
-              {LAB.contactCta}
-            </button>
-          )}
-          <HomeButton onPress={onHome} />
-        </div>
+    <CscFrame className="csc-hub">
+      <CscBar onHome={onHome} />
+      <h1 className="csc-title csc-title--hub csc-hub-title">{LAB.cta}</h1>
+      <p className="csc-hub-lead">{LAB.solutionsLead}</p>
+      <div className="csc-cards">
+        {SOLUTIONS.map((solution) => {
+          const isBanner = Boolean(solution.cardBg)
+          return (
+            <article
+              key={solution.id}
+              className={`csc-card${isBanner ? ' csc-card--banner' : ''} csc-card--${solution.id}`}
+              onPointerUp={() => onOpen(solution.id)}
+            >
+              {isBanner ? (
+                <>
+                  <img
+                    className="csc-card-bg"
+                    src={solution.cardBg}
+                    alt=""
+                    draggable={false}
+                  />
+                  <div className="csc-card-banner-shade" aria-hidden="true" />
+                  <div className="csc-card-banner-content">
+                    <span className="csc-card-tag">{solution.cardArea}</span>
+                    <div className="csc-card-logo-stage">
+                      {solution.cardLogo ? (
+                        <img
+                          className="csc-card-logo"
+                          src={solution.cardLogo}
+                          alt=""
+                          draggable={false}
+                        />
+                      ) : null}
+                    </div>
+                    <div className="csc-card-banner-bottom">
+                      <div className="csc-card-copy">
+                        <h2>{solution.cardTitle ?? solution.name}</h2>
+                        <p>{solution.cardBlurb ?? solution.tagline}</p>
+                      </div>
+                      <div className="csc-card-foot">
+                        <span className="csc-conhecer">{LAB.conhecerCta}</span>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span className="csc-card-tag">{solution.cardArea}</span>
+                  <div className="csc-card-media-wrap">
+                    <img
+                      className="csc-card-media"
+                      src={solution.image}
+                      alt=""
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="csc-card-body">
+                    <div className="csc-card-copy">
+                      <h2>{solution.cardTitle ?? solution.name}</h2>
+                      <p>{solution.cardBlurb ?? solution.tagline}</p>
+                    </div>
+                    <div className="csc-card-foot">
+                      <span className="csc-conhecer">{LAB.conhecerCta}</span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </article>
+          )
+        })}
       </div>
-
-      <div className="hub-copy">
-        <h1 className="display">O que o LabCidades entrega para as cidades</h1>
-      </div>
-
-      <div className="cards">
-        {SOLUTIONS.map((solution, index) => (
-          <button
-            key={solution.id}
-            className="card"
-            style={
-              {
-                '--accent': solution.accent,
-                '--accent-soft': solution.accentSoft,
-              } as React.CSSProperties
-            }
-            onPointerUp={() => setPreview(solution)}
-          >
-            <div className="card-top">
-              <span className="card-index">0{index + 1}</span>
-              <span className="card-area">{solution.area}</span>
-            </div>
-            <div className="card-visual">
-              <img
-                src={solution.image}
-                alt=""
-                className="card-image"
-                draggable={false}
-              />
-            </div>
-            <h2>{solution.name}</h2>
-            <p className="tagline">{solution.tagline}</p>
-            <div className="explore-more">Ver detalhes</div>
-          </button>
-        ))}
-      </div>
-
-      <div className="bottombar">
-        <span>{LAB.place}</span>
-        {onContact ? (
-          <button type="button" className="bottom-link" onPointerUp={onContact}>
-            {LAB.contactCta}
-          </button>
-        ) : (
-          <span>labcidades.ufes.br</span>
-        )}
-      </div>
-
-      {preview && (
-        <SolutionDetail
-          solution={preview}
-          mode="hub"
-          onClose={() => setPreview(null)}
-          onExplore={() => {
-            const id = preview.id
-            setPreview(null)
-            onOpen(id)
-          }}
-        />
-      )}
-    </div>
+    </CscFrame>
   )
 }
 
@@ -757,20 +902,27 @@ export function Explore({
   stage,
   onStage,
   onHome,
-  onHub,
   onSolution,
 }: {
   solution: Solution
   stage: StageId
   onStage: (stage: StageId) => void
   onHome: () => void
-  onHub: () => void
   onSolution: (id: SolutionId) => void
 }) {
   const [openImage, setOpenImage] = useState(false)
-  const slides = solution.gallery?.length ? solution.gallery : [solution.image]
+  const liveUrl = solution.liveUrl
+  const hasLive = Boolean(liveUrl)
+  const hasDemo = !hasLive && Boolean(solution.demo)
+  const slides = hasLive
+    ? []
+    : hasDemo
+      ? [solution.demo!]
+      : solution.gallery?.length
+        ? solution.gallery
+        : [solution.image]
   const [shotIndex, setShotIndex] = useState(0)
-  const shotSrc = slides[shotIndex % slides.length]
+  const shotSrc = slides.length ? slides[shotIndex % slides.length] : solution.image
   const content = solution.stages[stage]
   const swipe = useSwipe((dir) => {
     const ids = SOLUTIONS.map((s) => s.id)
@@ -784,129 +936,132 @@ export function Explore({
 
   useEffect(() => {
     setShotIndex(0)
+    setOpenImage(false)
   }, [solution.id])
 
   useEffect(() => {
-    if (slides.length < 2) return
+    if (hasLive || hasDemo || slides.length < 2) return
     const timer = window.setInterval(() => {
       setShotIndex((value) => (value + 1) % slides.length)
     }, 3200)
     return () => window.clearInterval(timer)
-  }, [solution.id, slides.length])
+  }, [solution.id, slides.length, hasDemo, hasLive])
+
+  const stageMeta = STAGES.find((item) => item.id === stage)
+  const showResultQr = stage === 'impacto'
 
   return (
-    <div className="layer enter explore">
-      <div className="topbar">
-        <div className="logo-row">
-          <Logo height={48} />
-          <div>
-            <strong>{solution.name}</strong>
-            <small>{solution.area}</small>
+    <CscFrame className="csc-explore">
+      <CscBar onHome={onHome} />
+      <div className="csc-explore-layout" {...swipe}>
+        <h1 className="csc-title csc-explore-title">{solution.name}</h1>
+
+        <div className="csc-course-tabs csc-course-tabs--stages" role="tablist" aria-label="Etapas da solução">
+          {STAGES.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              role="tab"
+              aria-selected={stage === item.id}
+              className={`csc-course-tab${stage === item.id ? ' is-active' : ''}`}
+              onPointerUp={() => onStage(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="csc-type csc-type--facts" aria-label="Dados do projeto">
+          <div className="csc-type-fact">
+            <span className="csc-type-label">Área</span>
+            <span className="csc-type-value">{solution.area}</span>
+          </div>
+          <div className="csc-type-fact">
+            <span className="csc-type-label">Setor</span>
+            <span className="csc-type-value">{solution.cardArea}</span>
+          </div>
+          <div className="csc-type-fact">
+            <span className="csc-type-label">Projeto</span>
+            <span className="csc-type-value">{solution.short}</span>
+          </div>
+          <div className="csc-type-fact">
+            <span className="csc-type-label">Etapa</span>
+            <span className="csc-type-value">{stageMeta?.label ?? ''}</span>
           </div>
         </div>
-        <div className="top-actions">
-          <button className="home-btn" onPointerUp={onHub}>
-            Todos os projetos
-          </button>
-          <HomeButton onPress={onHome} />
-        </div>
-      </div>
 
-      <div className="explore-head" {...swipe}>
-        <div className="kicker">{solution.area}</div>
-        <h1 className="display explore-title">{solution.name}</h1>
-        <p className="purpose">{solution.purpose}</p>
-      </div>
-
-      <div className="stage-nav">
-        {STAGES.map((item) => (
-          <button
-            key={item.id}
-            className={`stage-btn ${stage === item.id ? 'on' : ''}`}
-            style={{ '--accent': solution.accent } as React.CSSProperties}
-            onPointerUp={() => onStage(item.id)}
-          >
-            <span className="stage-icon" aria-hidden="true">
-              <StageIcon type={item.icon} />
-            </span>
-            <span className="stage-label">{item.label}</span>
-          </button>
-        ))}
-      </div>
-
-      <div
-        className="explore-body"
-        style={
-          {
-            '--accent': solution.accent,
-            '--accent-soft': solution.accentSoft,
-          } as React.CSSProperties
-        }
-      >
-        <div className="panel story">
-          <h3>{content.title}</h3>
-          <p className="message">{content.message}</p>
-          <ul className="points">
-            {content.points.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
-        </div>
-        <button
-          type="button"
-          className="panel viz viz-button"
-          onPointerUp={() => setOpenImage(true)}
-          aria-label={`Ampliar imagem de ${solution.name}`}
-        >
-          <div className="solution-shot">
-            <img
-              key={shotSrc}
-              src={shotSrc}
-              alt={`Interface do projeto ${solution.name}`}
-              className="solution-shot-image"
-              draggable={false}
-            />
-            {slides.length > 1 && (
-              <div className="solution-shot-dots" aria-hidden="true">
-                {slides.map((src, i) => (
-                  <span
-                    key={`${src}-${i}`}
-                    className={`solution-shot-dot${i === shotIndex % slides.length ? ' is-active' : ''}`}
-                  />
-                ))}
+        <section className={`csc-explore-panel${hasLive ? ' is-live' : ''}`} role="tabpanel">
+          <div className="csc-explore-section">
+            {content.title ? <h2 className="csc-explore-heading">{content.title}</h2> : null}
+            <div className={`csc-explore-about${hasLive ? ' is-live' : ''}`}>
+              <div className="csc-explore-about-main">
+                <p className="csc-explore-about-text">{content.message}</p>
+                <div className={`csc-explore-about-foot${showResultQr ? ' has-qr' : ''}`}>
+                  <ul className="csc-explore-points">
+                    {content.points.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                  {showResultQr ? (
+                    <SiteQr
+                      className="csc-explore-qr"
+                      url="https://labcidades.ufes.br/"
+                      label="LabCidades"
+                      caption="labcidades.ufes.br"
+                    />
+                  ) : null}
+                </div>
               </div>
-            )}
-            <div className="solution-shot-caption">
-              <strong>{solution.name}</strong>
-              <span className="solution-shot-hint">Toque para ampliar</span>
+              {hasLive && liveUrl ? (
+                <div className="csc-explore-shot is-live">
+                  <SiteWindow
+                    url={liveUrl}
+                    title={solution.short}
+                    onExpand={() => setOpenImage(true)}
+                  />
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  className={`csc-explore-shot${hasDemo ? ' is-demo' : ''}`}
+                  onPointerUp={() => setOpenImage(true)}
+                  aria-label={`Ampliar demonstração de ${solution.name}`}
+                >
+                  <img
+                    key={shotSrc}
+                    src={shotSrc}
+                    alt={`Demonstração do projeto ${solution.name}`}
+                    draggable={false}
+                  />
+                </button>
+              )}
             </div>
           </div>
-        </button>
-      </div>
+        </section>
 
-      <div className="rail">
-        {SOLUTIONS.map((item) => (
-          <button
-            key={item.id}
-            className={`nav-pill ${item.id === solution.id ? 'on' : ''}`}
-            style={{ '--accent': item.accent } as React.CSSProperties}
-            onPointerUp={() => onSolution(item.id)}
-          >
-            <NavIcon id={item.id} />
-            <span>{item.short}</span>
-          </button>
-        ))}
+        <div className="csc-rail" aria-label="Outras soluções">
+          {SOLUTIONS.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={`csc-tab${item.id === solution.id ? ' is-active' : ''}`}
+              onPointerUp={() => onSolution(item.id)}
+            >
+              {item.short}
+            </button>
+          ))}
+        </div>
       </div>
-
       {openImage && (
         <SolutionDetail
           solution={solution}
           mode="explore"
-          imageSrc={shotSrc}
+          imageSrc={hasLive ? undefined : shotSrc}
+          liveUrl={hasLive ? liveUrl : undefined}
           onClose={() => setOpenImage(false)}
         />
       )}
-    </div>
+    </CscFrame>
   )
 }
 
@@ -916,14 +1071,17 @@ function SolutionDetail({
   onClose,
   onExplore,
   imageSrc,
+  liveUrl,
 }: {
   solution: Solution
   mode: 'hub' | 'explore'
   onClose: () => void
   onExplore?: () => void
   imageSrc?: string
+  liveUrl?: string
 }) {
-  const src = imageSrc ?? solution.image
+  const src = imageSrc ?? solution.demo ?? solution.image
+  const site = liveUrl ?? solution.liveUrl
 
   return (
     <div
@@ -936,13 +1094,24 @@ function SolutionDetail({
       }
       onPointerUp={onClose}
     >
-      <div className="detail-fullscreen" onPointerUp={(e) => e.stopPropagation()}>
-        <img
-          className="detail-fullscreen-image"
-          src={src}
-          alt={`Detalhe de ${solution.name}`}
-          draggable={false}
-        />
+      <div
+        className={`detail-fullscreen${site ? ' detail-fullscreen--live' : ''}`}
+        onPointerUp={(e) => e.stopPropagation()}
+      >
+        {site ? (
+          <SiteWindow
+            className="detail-fullscreen-live"
+            url={site}
+            title={solution.short}
+          />
+        ) : (
+          <img
+            className="detail-fullscreen-image"
+            src={src}
+            alt={`Detalhe de ${solution.name}`}
+            draggable={false}
+          />
+        )}
 
         <button type="button" className="detail-close" onPointerUp={onClose}>
           Fechar

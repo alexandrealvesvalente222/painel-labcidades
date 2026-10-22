@@ -94,7 +94,7 @@ export interface CanvasFocus {
   h: number
 }
 
-/** Brand Book 2024 — Pantone 2597 C / 248 C / 151 C / Black 6 C */
+/** Brand Book 2024 - Pantone 2597 C / 248 C / 151 C / Black 6 C */
 const PURPLE = { r: 93, g: 5, b: 140 }
 const MAGENTA = { r: 147, g: 3, b: 159 }
 const WHITE = { r: 255, g: 255, b: 255 }
@@ -346,7 +346,7 @@ export default function CityCanvas({
           spawn(cx + d.x * hw * 0.9, cy + d.y * hh * 0.9, d.x, d.y, vivid ? 0.32 : 0.2)
         }
       } else {
-        // Extra outward bursts — bias horizontal like data leaving a neural head
+        // Extra outward bursts - bias horizontal like data leaving a neural head
         for (let i = 0; i < 36; i++) {
           const side = i % 2 === 0 ? 1 : -1
           const ang = side * (Math.PI * 0.5 + (Math.random() - 0.5) * 1.1)

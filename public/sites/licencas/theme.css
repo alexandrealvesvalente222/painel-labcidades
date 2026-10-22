@@ -1,0 +1,11 @@
+/* Tema Licenças Ambientais — teal LabCidades */
+:root {
+  --purple-dark: #1a7a72;
+  --purple-soft: #e6f7f5;
+  --magenta: #32bcae;
+  --orange: #2a9d8f;
+  --black: #0a1f1d;
+  --shadow-lg: 0 12px 40px rgba(50, 188, 174, 0.16);
+  --filter-silhouette-purple-dark: brightness(0) saturate(100%) invert(62%) sepia(42%) saturate(500%)
+    hue-rotate(127deg) brightness(0.95) contrast(0.95);
+}

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 150" fill="none">
+  <!-- document -->
+  <path d="M28 18H92L112 38V132H28V18Z" fill="#32BCAE"/>
+  <path d="M92 18V38H112L92 18Z" fill="#1B7A4A"/>
+  <rect x="44" y="54" width="52" height="8" rx="2" fill="#fff" opacity="0.95"/>
+  <rect x="44" y="72" width="44" height="8" rx="2" fill="#fff" opacity="0.85"/>
+  <rect x="44" y="90" width="48" height="8" rx="2" fill="#fff" opacity="0.75"/>
+
+  <!-- check badge -->
+  <circle cx="108" cy="108" r="26" fill="#1B7A4A"/>
+  <path d="M96 108L104 116L122 96" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- wordmark -->
+  <text x="150" y="72" fill="#111111" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="36" font-weight="800">MONITOR DE</text>
+  <text x="150" y="120" fill="#32BCAE" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="40" font-weight="800">LICENÇAS</text>
+</svg>

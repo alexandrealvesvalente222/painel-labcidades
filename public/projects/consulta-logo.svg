@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 150" fill="none">
+  <defs>
+    <linearGradient id="consultaTower" x1="70" y1="4" x2="70" y2="118" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3E0565"/>
+      <stop offset="0.55" stop-color="#9A2A7A"/>
+      <stop offset="1" stop-color="#FF8300"/>
+    </linearGradient>
+  </defs>
+
+  <!-- left building -->
+  <path d="M16 118H42V38L28 24H16V118Z" fill="#3E0565"/>
+
+  <!-- center building with clean gradient -->
+  <path d="M48 118H92V28L70 4L48 28V118Z" fill="url(#consultaTower)"/>
+
+  <!-- right building -->
+  <rect x="98" y="42" width="36" height="76" fill="#FF8300"/>
+  <rect x="104" y="50" width="8" height="8" fill="#fff"/>
+  <rect x="116" y="50" width="8" height="8" fill="#fff"/>
+  <rect x="104" y="64" width="8" height="8" fill="#fff"/>
+  <rect x="116" y="64" width="8" height="8" fill="#fff"/>
+  <rect x="104" y="78" width="8" height="8" fill="#fff"/>
+  <rect x="116" y="78" width="8" height="8" fill="#fff"/>
+  <rect x="104" y="92" width="8" height="8" fill="#fff"/>
+  <rect x="116" y="92" width="8" height="8" fill="#fff"/>
+
+  <!-- magnifying glass -->
+  <circle cx="88" cy="108" r="26" fill="none" stroke="#FF8300" stroke-width="10"/>
+  <circle cx="88" cy="108" r="16" fill="#fff"/>
+  <rect x="102" y="120" width="10" height="28" rx="5" transform="rotate(40 102 120)" fill="#FF8300"/>
+
+  <!-- wordmark -->
+  <text x="152" y="72" fill="#111111" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="40" font-weight="800">CONSULTA</text>
+  <text x="152" y="122" fill="#FF8300" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="40" font-weight="800">CIDADES</text>
+</svg>

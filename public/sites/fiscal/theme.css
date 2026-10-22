@@ -1,0 +1,11 @@
+/* Tema Inteligência Fiscal — roxo escuro */
+:root {
+  --purple-dark: #3a0360;
+  --purple-soft: #efe6f7;
+  --magenta: #5d058c;
+  --orange: #93039f;
+  --black: #100013;
+  --shadow-lg: 0 12px 40px rgba(93, 5, 140, 0.16);
+  --filter-silhouette-purple-dark: brightness(0) saturate(100%) invert(12%) sepia(80%) saturate(5000%)
+    hue-rotate(266deg) brightness(0.85) contrast(1.1);
+}

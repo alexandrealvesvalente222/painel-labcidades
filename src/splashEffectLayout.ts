@@ -20,7 +20,7 @@ export const OUTPUT_LAYOUT = {
   rightPad: 0.01,
 }
 
-/** Blur circular na splash — posição em frações da tela (0–1). */
+/** Blur circular na splash - posição em frações da tela (0–1). */
 export const BLUR_LAYOUT = {
   /** Centro horizontal (fração da largura). */
   centerX: 0.235,

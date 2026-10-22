@@ -1,6 +1,6 @@
 export type SolutionId = 'consulta' | 'reurb' | 'fiscal' | 'licencas'
 export type StageId = 'problema' | 'solucao' | 'impacto'
-export type ViewId = 'splash' | 'hub' | 'explore' | 'contact' | 'pos' | 'brinde'
+export type ViewId = 'splash' | 'hub' | 'explore' | 'contact' | 'pos' | 'brinde' | 'cert' | 'quiz'
 
 export type BrindePrizeId = 'caneca' | 'chaveiro' | 'adesivo' | 'ecobag' | 'retry'
 
@@ -32,9 +32,20 @@ export interface Solution {
   name: string
   short: string
   area: string
+  cardArea: string
+  cardTitle?: string
+  cardBlurb?: string
   tagline: string
   purpose: string
   image: string
+  /** GIF / demo animado da interface da solução (explore). */
+  demo?: string
+  /** Site ao vivo embutido em janela estilo navegador (explore). */
+  liveUrl?: string
+  /** Fundo fotográfico do card (layout banner). */
+  cardBg?: string
+  /** Logo sobreposto no card banner. */
+  cardLogo?: string
   gallery?: string[]
   accent: string
   accentSoft: string
@@ -77,27 +88,34 @@ export const SOLUTIONS: Solution[] = [
     name: 'REURB Diagnóstico de Maturidade',
     short: 'Regularização Fundiária',
     area: 'Regularização fundiária',
+    cardArea: 'Assistência Social',
+    cardTitle: 'Em que estágio está a REURB do seu município?',
+    cardBlurb:
+      'Diagnosticamos através de dados e mapeamos a REURB para a gestão priorizar onde agir na regularização fundiária.',
     tagline: 'Diagnóstico da regularização fundiária municipal.',
     purpose:
       'Apoia o município a conhecer o estágio de maturidade da sua REURB, com dashboard, mapa e estudos para planejar e acompanhar a regularização fundiária local.',
-    image: './projects/reurb.png',
+    image: './projects/reurb.jpg',
+    liveUrl: './sites/reurb/index.html',
+    cardBg: './projects/reurb-bg.jpg',
+    cardLogo: './projects/reurb-logo.png',
     gallery: [
-      './projects/reurb/01.png',
-      './projects/reurb/02.png',
-      './projects/reurb/03.png',
-      './projects/reurb/04.png',
-      './projects/reurb/05.png',
-      './projects/reurb/06.png',
-      './projects/reurb/07.png',
-      './projects/reurb/08.png',
-      './projects/reurb/09.png',
+      './projects/reurb/01.jpg',
+      './projects/reurb/02.jpg',
+      './projects/reurb/03.jpg',
+      './projects/reurb/04.jpg',
+      './projects/reurb/05.jpg',
+      './projects/reurb/06.jpg',
+      './projects/reurb/07.jpg',
+      './projects/reurb/08.jpg',
+      './projects/reurb/09.jpg',
     ],
     accent: '#93039f',
     accentSoft: 'rgba(147, 3, 159, 0.16)',
     glow: 'rgba(147, 3, 159, 0.45)',
     stages: {
       problema: {
-        title: 'Sem um retrato claro da REURB no município',
+        title: '',
         message:
           'A regularização avança em ritmos diferentes em cada bairro e núcleo. Sem diagnóstico municipal, a gestão e a população não enxergam prioridades nem resultados.',
         points: [
@@ -107,7 +125,7 @@ export const SOLUTIONS: Solution[] = [
         ],
       },
       solucao: {
-        title: 'Dashboard, mapa e estudos para a gestão municipal',
+        title: '',
         message:
           'O Diagnóstico de Maturidade oferece ferramentas para acompanhar indicadores do município, ver a distribuição no território e consultar estudos que orientam a política local.',
         points: [
@@ -117,7 +135,7 @@ export const SOLUTIONS: Solution[] = [
         ],
       },
       impacto: {
-        title: 'Regularização com evidência e transparência no município',
+        title: '',
         message:
           'As prioridades ficam visíveis no mapa. O diagnóstico é atualizado periodicamente e apoia decisões da gestão municipal com base em dados.',
         points: [
@@ -133,16 +151,24 @@ export const SOLUTIONS: Solution[] = [
     name: 'Consulta Cidades',
     short: 'Integração de Dados',
     area: 'Acesso a dados',
+    cardArea: 'Finanças',
+    cardTitle: 'Qual a qualidade das informações nas suas bases de dados?',
+    cardBlurb:
+      'Reunimos dados e indicadores em uma busca única para a gestão encontrar o que precisa sem caçar em vários sistemas.',
     tagline: 'Um ponto de entrada para encontrar informações da cidade.',
     purpose:
       'Reúne dados municipais em um só lugar. Em vez de abrir vários sistemas, o gestor busca o município, o tema ou o indicador que precisa.',
     image: './projects/consulta.jpg',
+    liveUrl: './sites/consulta/index.html',
+    cardBg: './projects/consulta-bg.jpg',
+    cardLogo: './projects/consulta-logo.png',
     accent: '#ff8300',
     accentSoft: 'rgba(255, 131, 0, 0.16)',
     glow: 'rgba(255, 131, 0, 0.45)',
     stages: {
       problema: {
-        title: 'A informação existe, mas está espalhada',
+        title: '',
+
         message:
           'Cada secretaria guarda seus dados em um sistema diferente. Quem precisa decidir gasta tempo procurando, e a resposta chega tarde.',
         points: [
@@ -152,7 +178,7 @@ export const SOLUTIONS: Solution[] = [
         ],
       },
       solucao: {
-        title: 'Uma busca única sobre o território',
+        title: '',
         message:
           'A Consulta concentra as camadas do portal LabCidades. Com um toque, a gestão encontra o recorte e segue para o painel correspondente.',
         points: [
@@ -162,7 +188,7 @@ export const SOLUTIONS: Solution[] = [
         ],
       },
       impacto: {
-        title: 'Consultar a cidade, não caçar arquivos',
+        title: '',
         message:
           'A informação deixa de ser um depósito espalhado e passa a ser um instrumento rápido de decisão.',
         points: [
@@ -178,16 +204,23 @@ export const SOLUTIONS: Solution[] = [
     name: 'Radar de Inteligência Fiscal',
     short: 'Inteligência Fiscal',
     area: 'Arrecadação',
+    cardArea: 'Finanças',
+    cardTitle: 'Quanto o município deixa de arrecadar no território?',
+    cardBlurb:
+      'Cruzamos cadastro, dívida ativa e potencial de arrecadação no mapa para a gestão priorizar onde recuperar receita com justiça.',
     tagline: 'Cadastro, dívida ativa e potencial de arrecadação no mapa.',
     purpose:
       'Cruza IPTU, cadastro imobiliário e dívida ativa para revelar o que o município ainda não vê, e onde pode arrecadar com mais justiça.',
-    image: './projects/fiscal.png',
+    image: './projects/fiscal.jpg',
+    liveUrl: './sites/fiscal/index.html',
+    cardBg: './projects/fiscal-bg.jpg',
+    cardLogo: './projects/fiscal-logo.png',
     accent: '#5d058c',
     accentSoft: 'rgba(93, 5, 140, 0.18)',
     glow: 'rgba(93, 5, 140, 0.5)',
     stages: {
       problema: {
-        title: 'A cidade fiscal é menor que a cidade real',
+        title: '',
         message:
           'Imóveis fora do cadastro e dívida sem perfil enfraquecem a arrecadação. A cobrança genérica trata todos os contribuintes da mesma forma.',
         points: [
@@ -197,7 +230,7 @@ export const SOLUTIONS: Solution[] = [
         ],
       },
       solucao: {
-        title: 'Leitura territorial da receita municipal',
+        title: '',
         message:
           'A solução organiza o território fiscal: perfil da dívida, leitura do cadastro e priorização de quem pode regularizar.',
         points: [
@@ -207,7 +240,7 @@ export const SOLUTIONS: Solution[] = [
         ],
       },
       impacto: {
-        title: 'Arrecadação mais justa e mais eficiente',
+        title: '',
         message:
           'A prefeitura enxerga o potencial fiscal e pode investir melhor, com transparência e menos desigualdade na cobrança.',
         points: [
@@ -223,16 +256,23 @@ export const SOLUTIONS: Solution[] = [
     name: 'Monitor de Licenças Ambientais',
     short: 'Meio Ambiente',
     area: 'Meio ambiente',
+    cardArea: 'Meio Ambiente',
+    cardTitle: 'Quais licenças ambientais estão válidas no seu território?',
+    cardBlurb:
+      'Acompanhamos validade, prazo e localização das licenças no mapa para a gestão agir antes do vencimento.',
     tagline: 'Validade, prazo e localização das licenças no território.',
     purpose:
       'Em Vargem Alta, o painel mostra no mapa quais licenças estão válidas, quais vão vencer e quais já venceram, para a gestão agir a tempo.',
-    image: './projects/licencas.png',
-    accent: '#ff8300',
-    accentSoft: 'rgba(255, 131, 0, 0.16)',
-    glow: 'rgba(255, 131, 0, 0.45)',
+    image: './projects/licencas.jpg',
+    liveUrl: './sites/licencas/index.html',
+    cardBg: './projects/licencas-bg.jpg',
+    cardLogo: './projects/licencas-logo.png',
+    accent: '#32bcae',
+    accentSoft: 'rgba(50, 188, 174, 0.16)',
+    glow: 'rgba(50, 188, 174, 0.45)',
     stages: {
       problema: {
-        title: 'Prazos se perdem fora do mapa',
+        title: '',
         message:
           'Licenças ficam em pastas e planilhas. O município só descobre o problema quando o prazo já passou ou o risco ambiental já aconteceu.',
         points: [
@@ -242,7 +282,7 @@ export const SOLUTIONS: Solution[] = [
         ],
       },
       solucao: {
-        title: 'Status das licenças no mapa municipal',
+        title: '',
         message:
           'O painel reúne validade, prazo e localização. A gestão vê o que está regular, o que está perto de vencer e o que precisa de ação.',
         points: [
@@ -252,7 +292,7 @@ export const SOLUTIONS: Solution[] = [
         ],
       },
       impacto: {
-        title: 'Fiscalização ambiental no tempo certo',
+        title: '',
         message:
           'A prefeitura antecipa vencimentos e organiza a fiscalização com evidência, em vez de apagar incêndio.',
         points: [
@@ -262,8 +302,7 @@ export const SOLUTIONS: Solution[] = [
         ],
       },
     },
-  }
-
+  },
 ]
 
 export const LAB = {
@@ -272,10 +311,20 @@ export const LAB = {
   place: 'UFES · Vitória · Espírito Santo',
   headline: 'Temos soluções inteligentes para desafios urbanos',
   invite: 'Toque na tela para começar',
-  cta: 'Conheça os nossos projetos',
-  tag: 'projetos inteligentes',
+  cta: 'Soluções para as cidades',
+  tag: 'Laboratório de projetos',
   contactCta: 'Fale conosco',
-  posCta: 'Pós-graduação em Cidades Inteligentes',
+  posCta: 'Pós-Graduações',
+  certCta: 'Cursos de curta duração',
+  homeLead:
+    'O LabCidades é um laboratório de projetos que integra ensino, pesquisa e extensão na produção de conhecimento e no desenvolvimento de soluções aplicadas aos desafios\u00A0das\u00A0cidades.',
+  solutionsLead:
+    'O LabCidades, por meio dos seus projetos, aplica o conhecimento técnico-científico aos desafios das cidades.',
+  wordmarkSrc: './csc/wordmark.svg',
+  wordmarkHeaderSrc: './csc/wordmark-header.svg',
+  ufesMarkSrc: './csc/ufes.svg',
+  cardCoverSrc: './csc/card-cover.png',
+  conhecerCta: 'Conhecer',
 }
 
 export const CONTACT = {
@@ -293,7 +342,7 @@ export const CONTACT = {
   brindeHint: 'Puxe a alavanca e concorra a um mimo do LabCidades',
 }
 
-/** Máquina de brindes — 3 iguais = prêmio; “retry” = tente outra vez. */
+/** Máquina de brindes - 3 iguais = prêmio; “retry” = tente outra vez. */
 export const BRINDE = {
   kicker: 'Brinde LabCidades',
   spinningHint: 'Girando…',
@@ -314,88 +363,361 @@ export const BRINDE = {
   ] as BrindePrize[],
 }
 
-export const POS = {
-  title: 'Cidades Inteligentes',
-  kicker: 'Pós-graduação · UFES · SEAD',
-  headline: 'Pós-graduação em Cidades Inteligentes',
+export const CERT = {
+  title: 'Cursos de curta duração',
+  org: 'LabCidades · UFES',
+  typeLabel: 'MODALIDADE',
+  typeValue: 'Capacitação para a gestão pública',
+  cardTitle: 'Manifeste interesse',
+  lead: 'Trilhas curtas para gestores municipais',
   about:
-    'Desenvolver e efetivar análises sobre Cidades Inteligentes por meio de qualificação pós-graduada de profissionais da Gestão Pública. O curso promove reflexão, produção de conhecimento e práticas para melhorar a gestão das cidades.',
+    'Capacitações práticas em cidades inteligentes, dados e melhoria de serviços urbanos — com acompanhamento da equipe LabCidades.',
+  tracks: [
+    {
+      id: 'cidades',
+      title: 'Cidades Inteligentes',
+      blurb: 'Governança, inovação e transformação digital no município.',
+    },
+    {
+      id: 'dados',
+      title: 'Dados e evidência',
+      blurb: 'Indicadores, dashboards e decisão baseada em informação.',
+    },
+    {
+      id: 'gestao',
+      title: 'Gestão aplicada',
+      blurb: 'Ferramentas e práticas para o dia a dia da prefeitura.',
+    },
+  ],
+  highlights: [
+    'Certificação de Cidades Inteligentes',
+    'Dados, evidência e indicadores para decisão',
+    'Práticas aplicáveis à gestão municipal',
+  ],
+  qrTitle: 'Inscrição de interessados',
+  qrHint: 'Escaneie o QR Code para preencher o formulário. Os dados entram no painel de acompanhamento.',
+  formPath: '#/interesse-certificacao',
+  formTitle: '',
+  formLead:
+    'Preencha seus dados para receber informações sobre as capacitações do LabCidades.',
+  formCta: 'Enviar contato',
+  successTitle: 'Interesse registrado',
+  successMessage: 'Obrigado! Seus dados foram enviados com sucesso.',
+  successContact:
+    'A equipe do LabCidades entrará em contato em breve pelo e-mail ou telefone informados.',
+  backToPanelCta: 'Voltar ao painel',
+  siteCta: 'Site',
+  instagramCta: 'Instagram',
+  siteUrl: 'https://labcidades.com.br/',
+  instagramUrl: 'https://www.instagram.com/labcidades/',
+  adminPath: '#/admin',
+}
+
+export type PosProgramId = 'cidades' | 'esg'
+
+export type PosModule = {
+  id: string
+  title: string
+  items: string[]
+}
+
+export type PosProgram = {
+  id: PosProgramId
+  tabLabel: string
+  highlight: string
+  about: string
+  coordinator?: string
+  hours?: string
+  modulesLead?: string
+  modules: PosModule[]
+  profile: string[]
+}
+
+export const POS = {
+  pageTitle: 'Pós-graduações',
+  org: 'UFES',
   facts: [
-    { label: 'Tipo', value: 'Pós-graduação' },
+    { label: 'Tipo', value: 'Especialização Lato Sensu' },
     { label: 'Duração', value: '18 meses' },
     { label: 'Modalidade', value: 'Semipresencial' },
     { label: 'Reconhecimento', value: 'MEC' },
   ],
-  coordinator: 'Prof. Dr. Everlam Elias Montibeler',
-  hours: '360 horas + TCC',
-  modulesCount: '14 disciplinas em 5 módulos',
-  profile: [
-    'Atuar como agentes multiplicadores nas administrações públicas',
-    'Incentivar projetos de melhoria das cidades e dos serviços públicos',
-    'Fortalecer a gestão pública municipal',
-    'Dominar ferramentas tecnológicas para transformar espaços urbanos em cidades inteligentes',
-  ],
-  modules: [
+  profileTitle: 'Perfil do egresso',
+  profileLead: 'Ao concluir o curso, espera-se que os profissionais sejam capazes de:',
+  orgTitle: 'Organização da especialização',
+  programs: [
     {
-      id: 'm1',
-      title: 'Módulo I — Técnicas de Pesquisa',
-      items: [
-        'Ambiente Virtual de Aprendizagem — AVA (15h)',
-        'Métodos de Pesquisa Aplicado (15h)',
-        'Cidades Inteligentes, Digitais e Sustentáveis (30h)',
+      id: 'cidades',
+      tabLabel: 'Cidades Inteligentes',
+      highlight: 'Cidades Inteligentes',
+      about:
+        'A "Especialização em Cidades Inteligentes" tem como objetivo capacitar profissionais atuantes na área da Gestão Pública e Privada para utilizarem análises de dados em prol de cidades tecnológicas e com mais qualidade de vida.',
+      coordinator: 'Prof. Dr. Everlam Elias Montibeler',
+      hours: '360 horas + TCC',
+      modulesLead: '12 disciplinas reunidas em 04 módulos',
+      modules: [
+        {
+          id: 'm1',
+          title: 'Módulo I - Técnicas de Pesquisa',
+          items: [
+            'Ambiente Virtual de Aprendizagem - AVA (15h)',
+            'Métodos de Pesquisa Aplicado (15h)',
+            'Cidades Inteligentes, Digitais e Sustentáveis (30h)',
+          ],
+        },
+        {
+          id: 'm2',
+          title: 'Módulo II - Cidades Inteligentes',
+          items: [
+            'E-Governo e E-Democracia (30h)',
+            'Certificação de Cidades Inteligentes (45h)',
+            'Mobilidade e Planejamento Urbano (30h)',
+          ],
+        },
+        {
+          id: 'm3',
+          title: 'Módulo III - Big Data',
+          items: [
+            'Banco de Dados (45h)',
+            'Análise de Dados (45h)',
+            'Mineração de Dados (30h)',
+          ],
+        },
+        {
+          id: 'm4',
+          title: 'Módulo IV - Seminários Aplicados',
+          items: [
+            'Seminários I - Políticas Públicas (15h)',
+            'Seminários II - Cidades do Futuro (15h)',
+          ],
+        },
+      ],
+      profile: [
+        'Atuar como agentes multiplicadores nas administrações públicas',
+        'Fortalecer a gestão pública municipal',
+        'Incentivar projetos de melhoria das cidades e dos serviços públicos',
+        'Dominar ferramentas tecnológicas para transformar espaços urbanos em cidades inteligentes',
       ],
     },
     {
-      id: 'm2',
-      title: 'Módulo II — Cidades Inteligentes',
-      items: [
-        'E-Governo e E-Democracia (30h)',
-        'Certificação de Cidades Inteligentes (45h)',
-        'Mobilidade e Planejamento Urbano (30h)',
+      id: 'esg',
+      tabLabel: 'ESG, Sustentabilidade e Descarbonização',
+      highlight: 'ESG, Sustentabilidade e Descarbonização',
+      about:
+        'Este curso foi pensado para profissionais graduados em curso superior que atuem em organizações públicas ou privadas, capacitando-os a integrar práticas ambientais, sociais e de governança à gestão e à descarbonização.',
+      coordinator: 'Prof. Dr. Rodrigo Straessli Pinto Franklin',
+      hours: '360 horas + TCC',
+      modulesLead: '16 disciplinas reunidas em 03 módulos + TCC',
+      modules: [
+        {
+          id: 'm1',
+          title: 'Módulo I - ESG',
+          items: [
+            'Ambiente Virtual de Aprendizagem - AVA (15h)',
+            'Fundamentos de ESG no Contexto Público e Privado (30h)',
+            'Governança, Ética e Responsabilidade Socioambiental (30h)',
+            'Finanças Sustentáveis (15h)',
+            'Economia Circular e Gestão de Resíduos (30h)',
+            'Empreendedorismo Social e Ambiental (15h)',
+            'Oficina de Projetos (5h)',
+          ],
+        },
+        {
+          id: 'm2',
+          title: 'Módulo II - Sustentabilidade',
+          items: [
+            'Sustentabilidade e Inovação (30h)',
+            'Licenciamento e Monitoramento Ambiental (EIA/RIMA/RIU, EVTA) (30h)',
+            'Indicadores de Sustentabilidade pelas Normas Brasileiras (30h)',
+            'Cadeia de Valor Sustentável (15h)',
+            'Políticas Públicas para Sustentabilidade (15h)',
+            'Oficina de Projetos (5h)',
+          ],
+        },
+        {
+          id: 'm3',
+          title: 'Módulo III - Descarbonização',
+          items: [
+            'Mudanças Climáticas e Mercado de Carbono (30h)',
+            'Gestão das Emissões de Produtos e Serviços para a Descarbonização das Cidades e do Transporte (30h)',
+            'Energias Renováveis (30h)',
+            'Oficina de Projetos (5h)',
+          ],
+        },
+        {
+          id: 'm4',
+          title: 'Módulo IV - TCC',
+          items: ['Trabalho de Conclusão de Curso (30h)'],
+        },
+      ],
+      profile: [
+        'Compreender os conceitos de ESG',
+        'Desenvolver competências práticas para implantação dos preceitos ESG',
+        'Desenvolver e aplicar estratégias de descarbonização',
+        'Contribuir para o planejamento e o acompanhamento de projetos de sustentabilidade ambiental',
+        'Colaborar para o planejamento e acompanhamento de projetos socialmente inclusivos',
+        'Contribuir para elaboração de políticas públicas, na melhoria do meio ambiente e na inclusão social',
       ],
     },
-    {
-      id: 'm3',
-      title: 'Módulo III — Big Data',
-      items: [
-        'Banco de Dados (45h)',
-        'Análise de Dados (45h)',
-        'Mineração de Dados (30h)',
-        'IA, IoT e outras tecnologias (45h)',
-      ],
-    },
-    {
-      id: 'm4',
-      title: 'Módulo IV — Seminários Aplicados',
-      items: [
-        'Seminários I — Políticas Públicas (15h)',
-        'Seminários II — Cidades do Futuro (15h)',
-      ],
-    },
-  ],
-  offers: [
-    {
-      year: '2023',
-      poles: 'Alegre, Cachoeiro de Itapemirim, Cariacica, Colatina, São Mateus e Vitória',
-    },
-    {
-      year: '2025',
-      poles: 'Iúna, Linhares, Serra, Vargem Alta e Vila Velha',
-    },
-  ],
-  qrLabel: 'QR Code do curso',
-  qrSrc: './qr-pos.png',
-  qrUrl: 'https://sead.ufes.br/cursos/cidades-inteligentes/',
-  qrHint: 'Aponte a câmera para acessar a página oficial do curso na SEAD/UFES.',
-  ufesLabel: 'Universidade Federal do Espírito Santo',
-  ufesSrc: './logo-ufes.png',
-  source: 'sead.ufes.br/cursos/cidades-inteligentes',
-  tabs: [
-    { id: 'sobre', label: 'Sobre' },
-    { id: 'perfil', label: 'Perfil' },
-    { id: 'grade', label: 'Grade' },
-  ] as const,
+  ] satisfies PosProgram[],
 }
 
-export type PosTabId = (typeof POS.tabs)[number]['id']
+export type PosProgramTabId = PosProgramId
+
+export interface QuizOption {
+  id: 'A' | 'B' | 'C' | 'D'
+  text: string
+}
+
+export interface QuizQuestion {
+  id: string
+  prompt: string
+  options: QuizOption[]
+  correct: QuizOption['id']
+  tip: string
+}
+
+export interface QuizResultBand {
+  min: number
+  max: number
+  title: string
+  blurb: string
+}
+
+/** Quiz “Cidades Inteligentes na prática” (feira / painel). */
+export const QUIZ = {
+  title: 'Quiz · Cidades Inteligentes',
+  subtitle: 'Teste seus conhecimentos e conheça as soluções do LabCidades.',
+  startCta: 'Começar',
+  nextCta: 'Próxima',
+  finishCta: 'Ver resultado',
+  againCta: 'Jogar de novo',
+  homeCta: 'Voltar ao início',
+  tipLabel: 'Você sabia?',
+  correctLabel: 'Resposta correta!',
+  wrongLabel: 'Quase! A resposta certa era:',
+  progressLabel: 'Pergunta',
+  scoreLabel: 'Acertos',
+  questions: [
+    {
+      id: 'pos',
+      prompt:
+        'A Pós-Graduação em Cidades Inteligentes da UFES prepara profissionais para atuar principalmente em quê?',
+      options: [
+        { id: 'A', text: 'Somente na implantação de tecnologias digitais' },
+        { id: 'B', text: 'Apenas na elaboração de projetos urbanos' },
+        {
+          id: 'C',
+          text: 'No planejamento e desenvolvimento de cidades mais inteligentes, sustentáveis e inovadoras, integrando gestão, tecnologia e dados',
+        },
+        { id: 'D', text: 'Exclusivamente na administração de sistemas de informática' },
+      ],
+      correct: 'C',
+      tip: 'Uma cidade inteligente não é definida apenas pela tecnologia. Pessoas, planejamento, sustentabilidade, inovação, governança e uso estratégico de dados também fazem parte dessa transformação.',
+    },
+    {
+      id: 'reurb',
+      prompt:
+        'Como a tecnologia e o geoprocessamento podem contribuir para a Regularização Fundiária Urbana (REURB)?',
+      options: [
+        { id: 'A', text: 'Apenas digitalizando documentos e mapas antigos.' },
+        {
+          id: 'B',
+          text: 'Integrando mapas, imagens, dados cadastrais e informações territoriais para agilizar os processos de regularização fundiária.',
+        },
+        { id: 'C', text: 'Substituindo completamente as análises técnicas e jurídicas.' },
+        { id: 'D', text: 'Realizando somente o levantamento de imóveis por fotografias.' },
+      ],
+      correct: 'B',
+      tip: 'O uso de geotecnologias na REURB permite mapear imóveis, identificar ocupações, organizar informações territoriais e apoiar a gestão dos processos, contribuindo para cidades mais inclusivas, planejadas e inteligentes.',
+    },
+    {
+      id: 'ambiental',
+      prompt: 'Na área AMBIENTAL, qual aplicação representa melhor uma solução para cidades inteligentes?',
+      options: [
+        {
+          id: 'A',
+          text: 'Monitorar indicadores, áreas e condicionantes ambientais com apoio de geotecnologias e dados',
+        },
+        { id: 'B', text: 'Utilizar somente documentos impressos para fiscalização' },
+        { id: 'C', text: 'Realizar análises ambientais apenas quando ocorrer uma denúncia' },
+        { id: 'D', text: 'Evitar integrar informações ambientais a outras bases municipais' },
+      ],
+      correct: 'A',
+      tip: 'Geoprocessamento, imagens, sensores, sistemas de informação e painéis podem apoiar o monitoramento ambiental e a atuação preventiva do poder público.',
+    },
+    {
+      id: 'fiscal',
+      prompt: 'Como uma solução de inteligência FISCAL pode contribuir para a gestão municipal?',
+      options: [
+        { id: 'A', text: 'Apenas emitir boletos de impostos' },
+        { id: 'B', text: 'Substituir integralmente a equipe de fiscalização' },
+        {
+          id: 'C',
+          text: 'Cruzar dados para identificar inconsistências, apoiar a fiscalização e melhorar a gestão das receitas municipais',
+        },
+        { id: 'D', text: 'Aumentar automaticamente os impostos municipais' },
+      ],
+      correct: 'C',
+      tip: 'Inteligência de dados pode ajudar o município a identificar padrões e inconsistências e direcionar melhor suas ações de fiscalização.',
+    },
+    {
+      id: 'comum',
+      prompt:
+        'O que as soluções de OBRAS, AMBIENTAL e FISCAL têm em comum dentro de uma estratégia de Cidade Inteligente?',
+      options: [
+        { id: 'A', text: 'Dependem exclusivamente de inteligência artificial' },
+        {
+          id: 'B',
+          text: 'Utilizam dados, tecnologia e inteligência territorial para apoiar decisões e melhorar a gestão pública',
+        },
+        { id: 'C', text: 'Funcionam sem integração com os órgãos públicos' },
+        { id: 'D', text: 'Servem apenas para digitalizar documentos' },
+      ],
+      correct: 'B',
+      tip: 'Cidade inteligente é aquela que transforma dados em decisões e decisões em melhores serviços para a população.',
+    },
+  ] satisfies QuizQuestion[],
+  results: [
+    {
+      min: 5,
+      max: 5,
+      title: 'Especialista em Cidades Inteligentes',
+      blurb:
+        'Você domina a visão integrada: dados, gestão e território a serviço da população.',
+    },
+    {
+      min: 4,
+      max: 4,
+      title: 'Agente da Transformação Urbana',
+      blurb:
+        'Você já enxerga como tecnologia e planejamento mudam a cidade — continue transformando.',
+    },
+    {
+      min: 2,
+      max: 3,
+      title: 'Explorador da Cidade Inteligente',
+      blurb:
+        'Você está mapeando o caminho. Cada descoberta aproxima gestão e inovação.',
+    },
+    {
+      min: 0,
+      max: 1,
+      title: 'Sua jornada pela Cidade Inteligente está começando!',
+      blurb:
+        'O primeiro passo é o mais importante. Explore as soluções do LabCidades e volte a jogar.',
+    },
+  ] satisfies QuizResultBand[],
+}
+
+export function quizResultBand(score: number): QuizResultBand {
+  return (
+    QUIZ.results.find((r) => score >= r.min && score <= r.max) ??
+    QUIZ.results[QUIZ.results.length - 1]
+  )
+}
+
+export function quizResultTitle(score: number) {
+  return quizResultBand(score).title
+}
 

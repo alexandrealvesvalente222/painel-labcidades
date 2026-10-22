@@ -9,7 +9,7 @@ export const WORDMARK_LAYOUT = {
 
 export type WordmarkLayout = typeof WORDMARK_LAYOUT
 
-/** Faixa inferior reservada para o wordmark — trilhas do cérebro não devem cruzar. */
+/** Faixa inferior reservada para o wordmark - trilhas do cérebro não devem cruzar. */
 export function getWordmarkMaskBounds(width: number, height: number) {
   const bottom = (WORDMARK_LAYOUT.bottom / 100) * height
   const title = (WORDMARK_LAYOUT.size / 100) * width

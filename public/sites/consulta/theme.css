@@ -1,0 +1,11 @@
+/* Tema Consulta Cidades — laranja */
+:root {
+  --purple-dark: #c45f00;
+  --purple-soft: #fff3e8;
+  --magenta: #ff8300;
+  --orange: #ffb347;
+  --black: #1a0f08;
+  --shadow-lg: 0 12px 40px rgba(255, 131, 0, 0.16);
+  --filter-silhouette-purple-dark: brightness(0) saturate(100%) invert(48%) sepia(98%) saturate(1800%)
+    hue-rotate(360deg) brightness(1.02) contrast(1.05);
+}

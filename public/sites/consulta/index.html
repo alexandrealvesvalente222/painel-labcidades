@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Consulta Cidades · Integração de Dados</title>
+    <link rel="icon" type="image/png" href="../shared/img/logo-consulta.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="../shared/styles.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="page-load">
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+    <header class="header">
+        <a href="#inicio" class="logo">
+            <img src="../shared/img/logo-consulta.png" alt="Consulta Cidades" class="logo-icon">
+        </a>
+        <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+        </button>
+        <nav class="nav">
+            <a href="#sobre">SOBRE</a>
+            <a href="#equipe">NOSSA EQUIPE</a>
+            <a href="#sistemas">SISTEMAS</a>
+            <a href="#contato">FALE CONOSCO</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="inicio">
+            <div class="hero-pattern"></div>
+            <div class="hero-content">
+                <div class="hero-visual">
+                    <div class="map-block map-block-1">
+                        <img src="../shared/img/pontos.png" alt="Silhueta do Espírito Santo" class="map-outline">
+                    </div>
+                    <div class="map-block map-block-2">
+                        <img src="../shared/img/pontos.png" alt="Silhueta do Espírito Santo" class="map-outline">
+                    </div>
+                    <div class="map-block map-block-3">
+                        <img src="../shared/img/pontos.png" alt="Silhueta do Espírito Santo" class="map-outline">
+                    </div>
+                    <div class="map-line"></div>
+                </div>
+                <div class="hero-text">
+                    <img src="../shared/img/logo-consulta.png" alt="Consulta Cidades · Integração de Dados" class="hero-logo hero-logo-animate">
+                    <div class="hero-buttons">
+                        <a href="#sistemas" class="btn btn-primary">Busca Integrada</a>
+                        <a href="#sistemas" class="btn btn-primary">Indicadores</a>
+                        <a href="#sistemas" class="btn btn-primary">Painéis Temáticos</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sobre-section reveal" id="sobre">
+            <div class="sobre-hero">
+                <div class="sobre-hero-shapes">
+                    <div class="sobre-shape sobre-shape-1"></div>
+                    <div class="sobre-shape sobre-shape-2"></div>
+                    <div class="sobre-shape sobre-shape-3"></div>
+                </div>
+                <div class="sobre-hero-content">
+                    <img src="../shared/img/logo-consulta.png" alt="Logo" class="sobre-hero-logo">
+                    <h2 class="sobre-hero-title">Sobre a Consulta</h2>
+                    <p class="sobre-hero-subtitle">Um ponto de entrada para encontrar informações da cidade.</p>
+                    <div class="sobre-scroll-indicator">▼</div>
+                </div>
+            </div>
+                        <div class="sobre-content">
+                <div class="sobre-layout">
+                <div class="sobre-row sobre-row-1 reveal reveal-delay-1">
+                    <div class="sobre-text">
+                        <p>A Consulta Cidades reúne bases e indicadores municipais em um único ponto de acesso para a gestão pública.</p>
+                        <p>Em vez de abrir vários sistemas, o gestor busca o município, o tema ou o indicador que precisa — com rapidez e clareza.</p>
+                    </div>
+                    <div class="sobre-image sobre-image-mapa">
+                        <img src="../shared/img/icons/consulta-mapa.svg" alt="Busca e integração de dados" class="map-outline" loading="lazy" decoding="async">
+                    </div>
+                </div>
+                <div class="sobre-row sobre-row-2 reveal reveal-delay-2">
+                    <div class="sobre-image sobre-image-dashboard">
+                        <img src="../shared/img/icons/consulta-painel.svg" alt="Indicadores e painéis" class="map-outline" loading="lazy" decoding="async">
+                    </div>
+                    <div class="sobre-text">
+                        <p>A solução conecta perguntas da gestão às evidências disponíveis no portal LabCidades e em bases integradas.</p>
+                        <p>Dashboards e buscas temáticas ajudam a localizar a informação certa no momento da decisão.</p>
+                    </div>
+                </div>
+                <div class="sobre-row sobre-row-3 reveal reveal-delay-3">
+                    <div class="sobre-text">
+                        <p>Com a Consulta, a informação deixa de ficar espalhada e passa a apoiar decisões urbanas com mais agilidade.</p>
+                        <p>O conteúdo pode ser atualizado conforme novas bases e painéis forem integrados ao ecossistema LabCidades.</p>
+                    </div>
+                    <div class="sobre-image sobre-image-dados">
+                        <img src="../shared/img/icons/consulta-dados.svg" alt="Bases de dados municipais" class="map-outline" loading="lazy" decoding="async">
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="team-section reveal" id="equipe">
+            <div class="team-hero">
+                <div class="team-hero-shapes">
+                    <div class="team-shape team-shape-1"></div>
+                    <div class="team-shape team-shape-2"></div>
+                    <div class="team-shape team-shape-3"></div>
+                </div>
+                <div class="team-hero-content">
+                    <img src="../shared/img/logo-consulta.png" alt="Logo" class="team-hero-logo">
+                    <h2 class="team-hero-title">Equipe do Projeto</h2>
+                    <p class="team-hero-subtitle">Equipe engajada em dados e inteligência territorial.</p>
+                    <div class="team-scroll-indicator">▼</div>
+                </div>
+            </div>
+            <div class="team-content">
+                <p class="team-description">
+                    Equipe dedicada a integrar dados urbanos e tornar a informação municipal acessível para quem decide e para quem pesquisa.
+                </p>
+                <div class="team-grid">
+                    <div class="team-member reveal reveal-delay-1" data-name="Prof. Everlam Elias Montibeler" data-role="Coordenador" data-bio="Coordenador do projeto, é professor de Economia na Universidade Federal do Espírito Santo (UFES) e atua como coordenador do Laboratório Escritório de Dados (LED/CPID) e do Laboratório das Cidades (LabCidades/UFES)." data-photo="../shared/img/Everlam.jpg">
+                        <div class="team-member-photo" tabindex="0" role="button" aria-label="Ver perfil de Prof. Everlam Elias Montibeler">
+                            <img src="../shared/img/Everlam.jpg" alt="Prof. Everlam Elias Montibeler">
+                        </div>
+                        <h3 class="team-member-name">Prof. Everlam Elias Montibeler</h3>
+                        <p class="team-member-role">Coordenador</p>
+                    </div>
+                    <div class="team-member reveal reveal-delay-2" data-name="Alexandre Alves Valente" data-role="Especialista em Cidades Inteligentes e em Inteligência Artificial e Ciência de Dados" data-bio="Especialista em Cidades Inteligentes e em Inteligência Artificial e Ciência de Dados, com atuação em análise de dados, modelagem e automação. Desenvolve dashboards, ferramentas analíticas e soluções apoiadas em IA para o acompanhamento dos indicadores de maturidade da regularização fundiária." data-photo="../shared/img/Alexandre.jpg">
+                        <div class="team-member-photo" tabindex="0" role="button" aria-label="Ver perfil de Alexandre Alves Valente">
+                            <img src="../shared/img/Alexandre.jpg" alt="Alexandre Alves Valente">
+                        </div>
+                        <h3 class="team-member-name">Alexandre Alves Valente</h3>
+                        <p class="team-member-role">Especialista em Cidades Inteligentes e em Inteligência Artificial e Ciência de Dados</p>
+                    </div>
+                    <div class="team-member reveal reveal-delay-3" data-name="Eliani dos Santos" data-role="Especialista em Cidades Inteligentes e em Geoprocessamento" data-bio="Especialista em Cidades Inteligentes e em Geoprocessamento. Responsável pelo mapeamento e análise espacial dos dados do projeto, contribuindo para a visualização geográfica da maturidade nos municípios capixabas." data-photo="../shared/img/Eliani.jpeg">
+                        <div class="team-member-photo" tabindex="0" role="button" aria-label="Ver perfil de Eliani dos Santos">
+                            <img src="../shared/img/Eliani.jpeg" alt="Eliani dos Santos">
+                        </div>
+                        <h3 class="team-member-name">Eliani dos Santos</h3>
+                        <p class="team-member-role">Especialista em Cidades Inteligentes e em Geoprocessamento</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="systems-section reveal" id="sistemas">
+            <div class="systems-hero">
+                <div class="systems-hero-shapes">
+                    <div class="systems-shape systems-shape-1"></div>
+                    <div class="systems-shape systems-shape-2"></div>
+                    <div class="systems-shape systems-shape-3"></div>
+                </div>
+                <div class="systems-hero-content">
+                    <img src="../shared/img/logo-consulta.png" alt="Logo" class="systems-hero-logo">
+                    <h2 class="systems-hero-title">Sistemas e Ferramentas</h2>
+                    <p class="systems-hero-subtitle">Ferramentas para consulta e integração de bases municipais.</p>
+                    <div class="systems-scroll-indicator">▼</div>
+                </div>
+            </div>
+            <div class="systems-content">
+                <div class="cards-grid">
+                    <a href="#contato" class="card reveal reveal-delay-1" id="dashboard">
+                        <div class="card-icon" aria-hidden="true"><i class="fas fa-magnifying-glass"></i></div>
+                        <h3>Busca Integrada</h3>
+                        <p>Encontre município, tema ou indicador em um só lugar</p>
+                    </a>
+                    <a href="#contato" class="card reveal reveal-delay-2" id="mapa-sig">
+                        <div class="card-icon" aria-hidden="true"><i class="fas fa-chart-pie"></i></div>
+                        <h3>Indicadores</h3>
+                        <p>Consulte evidências disponíveis para a gestão</p>
+                    </a>
+                    <a href="#contato" class="card reveal reveal-delay-3" id="estudos-maturidade">
+                        <div class="card-icon" aria-hidden="true"><i class="fas fa-layer-group"></i></div>
+                        <h3>Painéis Temáticos</h3>
+                        <p>Acesse os recortes do portal LabCidades</p>
+                    </a>
+                    <a href="#contato" class="card reveal reveal-delay-4" id="capacitacoes">
+                        <div class="card-icon" aria-hidden="true"><i class="fas fa-book-open"></i></div>
+                        <h3>Guias e Capacitações</h3>
+                        <p>Materiais para uso de dados na gestão pública</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="contato-section reveal" id="contato">
+            <div class="contato-hero">
+                <div class="contato-hero-shapes">
+                    <div class="contato-shape contato-shape-1"></div>
+                    <div class="contato-shape contato-shape-2"></div>
+                    <div class="contato-shape contato-shape-3"></div>
+                </div>
+                <div class="contato-hero-content">
+                    <img src="../shared/img/logo-consulta.png" alt="Logo" class="contato-hero-logo">
+                    <h2 class="contato-hero-title">Fale conosco</h2>
+                    <p class="contato-hero-subtitle">Entre em contato com o LabCidades para mais informações sobre o projeto.</p>
+                    <div class="contato-scroll-indicator">▼</div>
+                </div>
+            </div>
+            <div class="contato-content">
+                <p class="contato-intro">
+                    Para mais informações sobre a Consulta Cidades ou sugestões de integração de dados, preencha o formulário abaixo. Sua mensagem será enviada para o LabCidades.
+                </p>
+                <!-- Substitua contato@labcidades.com.br pelo e-mail real do LabCidades. No primeiro uso, FormSubmit enviará um e-mail de verificação. -->
+                <form class="contato-form" action="https://formsubmit.co/contato@labcidades.com.br" method="POST">
+                    <input type="hidden" name="_subject" value="Contato - Consulta Cidades LabCidades">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="text" name="_honey" style="display:none">
+                    <div class="form-group">
+                        <label for="contato-nome">Nome</label>
+                        <input type="text" id="contato-nome" name="name" required placeholder="Seu nome completo">
+                    </div>
+                    <div class="form-group">
+                        <label for="contato-email">E-mail</label>
+                        <input type="email" id="contato-email" name="email" required placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="contato-assunto">Assunto</label>
+                        <input type="text" id="contato-assunto" name="assunto" placeholder="Assunto da mensagem">
+                    </div>
+                    <div class="form-group">
+                        <label for="contato-mensagem">Mensagem</label>
+                        <textarea id="contato-mensagem" name="message" rows="5" required placeholder="Sua mensagem..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar mensagem</button>
+                </form>
+            </div>
+            <div class="parceiros-wrapper">
+                <div class="parceiros-carousel">
+                    <h3 class="parceiros-title">Nossos Parceiros</h3>
+                    <div class="parceiros-track">
+                        <div class="parceiros-slide">
+                            <img src="../assets/parceiros/parceiro-1.png" alt="Governo do ES — SECTI" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-2.png" alt="CGJ ES — Corregedoria Geral da Justiça" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-3.png" alt="UFES — Universidade Federal do Espírito Santo" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-4.png" alt="LabCidades — projetos inteligentes" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-5.png" alt="Prefeitura Municipal de Ibitirama" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-6.png" alt="Prefeitura Municipal de Irupi" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-7.png" alt="Prefeitura Municipal de Iúna" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-8.png" alt="CPID — Centro de Pesquisa, Inovação e Desenvolvimento do ES" width="160" height="80" loading="lazy" decoding="async">
+                        </div>
+                        <div class="parceiros-slide" aria-hidden="true">
+                            <img src="../assets/parceiros/parceiro-1.png" alt="" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-2.png" alt="" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-3.png" alt="" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-4.png" alt="" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-5.png" alt="" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-6.png" alt="" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-7.png" alt="" width="160" height="80" loading="lazy" decoding="async">
+                            <img src="../assets/parceiros/parceiro-8.png" alt="" width="160" height="80" loading="lazy" decoding="async">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 Consulta Cidades · Integração de Dados</p>
+        <p class="footer-brand">LabCidades</p>
+    </footer>
+
+    <div class="team-member-modal" id="team-member-modal" aria-hidden="true">
+        <div class="team-member-modal-inner">
+            <div class="team-member-modal-photo">
+                <img src="" alt="" id="modal-member-photo">
+            </div>
+            <div class="team-member-modal-content">
+                <h3 class="team-member-modal-name" id="modal-member-name"></h3>
+                <p class="team-member-modal-role" id="modal-member-role"></p>
+                <p class="team-member-modal-bio" id="modal-member-bio"></p>
+                <button type="button" class="btn btn-primary btn-back" id="modal-back-btn">← Voltar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../shared/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+/* Tema REURB — magenta / roxo (paleta original) */
+:root {
+  --purple-dark: #5d058c;
+  --purple-soft: #ebe5f4;
+  --magenta: #93039f;
+  --orange: #ff8300;
+  --black: #100013;
+  --shadow-lg: 0 12px 40px rgba(147, 3, 159, 0.14);
+}

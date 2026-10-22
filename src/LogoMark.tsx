@@ -1,9 +1,9 @@
 import type { CSSProperties } from 'react'
 
-/** Marca vertical LabCidades — logo.png */
+/** Marca vertical LabCidades - logo.png */
 export function LogoMark({
   className,
-  title = 'LabCidades — projetos inteligentes',
+  title = 'LabCidades - projetos inteligentes',
   style,
 }: {
   className?: string

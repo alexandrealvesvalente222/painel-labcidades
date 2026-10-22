@@ -20,7 +20,7 @@ const ORANGE = { r: 255, g: 131, b: 0 }
 const NEON_PURPLE = { r: 200, g: 80, b: 255 }
 const WHITE = { r: 255, g: 255, b: 255 }
 
-/** Linhas horizontais de saída — y é fração da área útil (0–1). */
+/** Linhas horizontais de saída - y é fração da área útil (0–1). */
 const OUTPUT_LANES = [0.1, 0.24, 0.38, 0.52, 0.66, 0.8, 0.9]
 
 function rgba(c: { r: number; g: number; b: number }, a: number) {
@@ -174,7 +174,7 @@ export default function BrainDataCanvas() {
       return Math.hypot(px - (ax + t * dx), py - (ay + t * dy))
     }
 
-    /** Silhueta do cérebro (nós + conexões) — binários não passam por dentro. */
+    /** Silhueta do cérebro (nós + conexões) - binários não passam por dentro. */
     const insideBrainSilhouette = (x: number, y: number, pad: number) => {
       for (let i = 0; i < BRAIN_NODES.length; i++) {
         const p = brainNodeAt(i)
