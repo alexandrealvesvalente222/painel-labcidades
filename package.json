@@ -8,8 +8,9 @@
     "dev:api": "node server/index.mjs",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host",
-    "start": "serve -s dist -l tcp://0.0.0.0:${PORT:-4173}",
-    "start:api": "node server/index.mjs"
+    "start": "SERVE_STATIC=1 node server/index.mjs",
+    "start:api": "node server/index.mjs",
+    "start:static": "serve -s dist -l tcp://0.0.0.0:${PORT:-4173}"
   },
   "dependencies": {
     "cors": "^2.8.6",
