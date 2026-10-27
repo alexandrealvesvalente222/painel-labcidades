@@ -5445,31 +5445,45 @@ button {
   color: rgba(255, 255, 255, 0.72);
 }
 
-/* Formulário público de interesse em certificações */
+/* Formulário público de interesse em certificações
+   (QR no celular: precisa rolar — html/body/#root usam overflow:hidden) */
 .cert-form-page {
-  min-height: 100dvh;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  max-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: clamp(20px, 4vh, 36px) 16px 48px;
+  padding: max(12px, env(safe-area-inset-top)) 14px max(24px, env(safe-area-inset-bottom));
   background:
     radial-gradient(ellipse 70% 40% at 50% 0%, rgba(50, 188, 174, 0.2), transparent 58%),
     linear-gradient(180deg, #5a3f96 0%, #3e0565 55%, #2a0848 100%);
   color: #fff;
   font-family: 'Ufes Sans', system-ui, sans-serif;
   box-sizing: border-box;
+  user-select: text;
+  -webkit-user-select: text;
+  touch-action: pan-y;
 }
 
 .cert-form-shell {
-  width: min(100%, 560px);
+  width: min(100%, 480px);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+  margin: 0 auto;
 }
 
 .cert-form-logo {
   display: block;
-  width: min(100%, 220px);
+  width: min(100%, 160px);
   height: auto;
   margin: 0 auto;
 }
@@ -5477,12 +5491,12 @@ button {
 .cert-form-head {
   text-align: center;
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 
 .cert-form-title {
   margin: 0;
-  font-size: clamp(1.4rem, 4.2vw, 1.75rem);
+  font-size: clamp(1.2rem, 4vw, 1.55rem);
   font-weight: 800;
   line-height: 1.15;
 }
@@ -5490,9 +5504,9 @@ button {
 .cert-form-lead {
   margin: 0 auto;
   max-width: 28em;
-  line-height: 1.4;
+  line-height: 1.35;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 0.98rem;
+  font-size: 0.9rem;
   font-weight: 500;
 }
 
@@ -5500,9 +5514,9 @@ button {
 .cert-form-success {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 22px 20px 24px;
-  border-radius: 20px;
+  gap: 14px;
+  padding: 16px 14px 18px;
+  border-radius: 16px;
   background: rgba(28, 6, 52, 0.72);
   border: 1px solid rgba(50, 188, 174, 0.28);
   box-shadow: 0 16px 36px rgba(16, 0, 19, 0.3);
@@ -5531,17 +5545,17 @@ button {
 
 .cert-form-section {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .cert-form-section + .cert-form-section {
-  padding-top: 16px;
+  padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .cert-form-section h2 {
   margin: 0;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #32bcae;
@@ -5550,12 +5564,12 @@ button {
 
 .cert-field {
   display: grid;
-  gap: 6px;
+  gap: 5px;
   min-width: 0;
 }
 
 .cert-field > span {
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.92);
 }
@@ -5563,12 +5577,32 @@ button {
 .cert-form-row {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 10px;
 }
 
 @media (min-width: 540px) {
   .cert-form-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cert-form-page {
+    padding: max(20px, env(safe-area-inset-top)) 16px max(36px, env(safe-area-inset-bottom));
+  }
+
+  .cert-form-shell {
+    width: min(100%, 560px);
+    gap: 16px;
+  }
+
+  .cert-form-logo {
+    width: min(100%, 200px);
+  }
+
+  .cert-form,
+  .cert-form-success {
+    gap: 18px;
+    padding: 22px 20px 24px;
+    border-radius: 20px;
   }
 }
 
@@ -5578,12 +5612,13 @@ button {
   box-sizing: border-box;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
-  padding: 12px 14px;
+  padding: 10px 12px;
   background: rgba(255, 255, 255, 0.07);
   color: #fff;
   font: inherit;
   font-weight: 500;
-  min-height: 46px;
+  font-size: 16px; /* evita zoom automático no iOS */
+  min-height: 44px;
 }
 
 .cert-form select {
@@ -5621,19 +5656,19 @@ button {
 
 .cert-lgpd-note {
   margin: 0;
-  padding: 12px 14px;
+  padding: 10px 12px;
   border-radius: 12px;
   border: 1px solid rgba(50, 188, 174, 0.35);
   background: rgba(50, 188, 174, 0.1);
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 500;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
 .cert-form-submit {
-  margin-top: 6px;
-  min-height: 48px;
+  margin-top: 4px;
+  min-height: 46px;
   border: 0;
   border-radius: 999px;
   background: #32bcae;
