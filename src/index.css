@@ -2981,6 +2981,12 @@ button {
 }
 
 .csc-frame {
+  --csc-inicio-top: calc(36 * var(--v));
+  --csc-inicio-right: calc(40 * var(--u));
+  --csc-inicio-w: calc(154 * var(--u));
+  --csc-inicio-h: calc(51 * var(--v));
+  --csc-inicio-font: calc(22 * var(--u));
+  --csc-bar-logo-w: calc(280 * var(--u));
   position: absolute;
   left: 50%;
   top: 50%;
@@ -3259,7 +3265,10 @@ button {
 }
 
 .csc-home-stack {
-  --home-type: calc(18 * var(--u));
+  /* Figma home 1920×1080 → artboard 1440 (×0.75) */
+  --home-lead-size: calc(23 * var(--u));
+  --home-pill-size: var(--home-lead-size);
+  --home-type: var(--home-lead-size);
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -3268,7 +3277,7 @@ button {
 .csc-home-actions {
   position: absolute;
   left: calc(160 * var(--u));
-  top: calc(763 * var(--v));
+  top: calc(752 * var(--v));
   width: calc(1139 * var(--u));
   display: flex;
   gap: calc(31 * var(--u));
@@ -3277,8 +3286,8 @@ button {
 
 .csc-ufes-btn {
   position: absolute;
-  left: calc(1269 * var(--u));
-  top: calc(46 * var(--v));
+  left: calc(1223 * var(--u));
+  top: calc(37 * var(--v));
   z-index: 3;
   border: 0;
   padding: 0;
@@ -3289,7 +3298,7 @@ button {
 
 .csc-ufes {
   display: block;
-  width: calc(123.804 * var(--u));
+  width: calc(197 * var(--u));
   height: auto;
   pointer-events: none;
 }
@@ -3344,6 +3353,49 @@ button {
   }
 }
 
+.csc-fs-fab {
+  position: absolute;
+  left: calc(46 * var(--u));
+  top: calc(128 * var(--v));
+  width: calc(72 * var(--u));
+  height: calc(72 * var(--u));
+  border: calc(2.5 * var(--u)) solid #32bcae;
+  border-radius: 50%;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.28), transparent 55%),
+    linear-gradient(145deg, #5a2a8a 0%, #3d1768 55%, #2a0f4a 100%);
+  color: #32bcae;
+  box-shadow:
+    0 calc(10 * var(--v)) calc(28 * var(--u)) rgba(20, 8, 40, 0.45),
+    0 0 calc(18 * var(--u)) rgba(50, 188, 174, 0.35),
+    inset 0 0 calc(12 * var(--u)) rgba(50, 188, 174, 0.12);
+  cursor: pointer;
+  z-index: 4;
+  pointer-events: auto;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.csc-fs-fab:active {
+  transform: scale(0.96);
+}
+
+.csc-fs-fab__mark {
+  width: calc(30 * var(--u));
+  height: calc(30 * var(--u));
+  display: grid;
+  place-items: center;
+  color: #32bcae;
+}
+
+.csc-fs-fab__mark svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .csc-quiz {
   --quiz-teal: #32bcae;
   --quiz-purple: #692f93;
@@ -3367,33 +3419,12 @@ button {
 }
 
 .csc-frame.csc-quiz > .csc-bar {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  width: 100% !important;
-  height: auto !important;
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  pointer-events: auto;
   padding: 0 var(--quiz-pad-x);
   box-sizing: border-box;
 }
 
 .csc-frame.csc-quiz .csc-wordmark-header {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  width: clamp(160px, 28vw, calc(280 * var(--u)));
-  height: auto;
-}
-
-.csc-frame.csc-quiz .csc-inicio {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  margin-left: auto;
+  width: var(--csc-bar-logo-w);
 }
 
 .csc-quiz-head {
@@ -3511,7 +3542,8 @@ button {
 .csc-quiz-option {
   position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: flex-start;
   gap: clamp(10px, 1.2vw, calc(16 * var(--u)));
   width: 100%;
   min-height: 0;
@@ -3555,7 +3587,8 @@ button {
   font-size: var(--quiz-opt);
   font-weight: 600;
   line-height: 1.35;
-  padding-top: 0.1em;
+  padding-top: 0;
+  text-align: left;
   white-space: normal;
   overflow-wrap: anywhere;
   text-wrap: pretty;
@@ -3685,31 +3718,127 @@ button {
 
 .csc-wordmark {
   position: absolute;
-  left: calc(250 * var(--u));
-  top: calc(280 * var(--v));
-  width: calc(900 * var(--u));
+  left: 50%;
+  top: 38%;
+  width: calc(var(--wm-width, 840) * var(--u));
   height: auto;
-  /* Glow segue o contorno do SVG (não um retângulo) */
+  margin: 0;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  /* Halo só no contorno — sem sombra escura tipo vinheta */
   filter:
     drop-shadow(0 0 calc(1.5 * var(--u)) rgba(50, 188, 174, 0.55))
-    drop-shadow(0 0 calc(6 * var(--u)) rgba(50, 188, 174, 0.28))
-    drop-shadow(0 0 calc(16 * var(--u)) rgba(50, 188, 174, 0.14))
-    drop-shadow(0 calc(6 * var(--v)) calc(22 * var(--u)) rgba(20, 8, 40, 0.4));
+    drop-shadow(0 0 calc(10 * var(--u)) rgba(50, 188, 174, 0.28))
+    drop-shadow(0 0 calc(22 * var(--u)) rgba(50, 188, 174, 0.12));
   z-index: 3;
 }
 
-.csc-home-lead {
+/* Modo posicionar logo: abra com ?edit=logo */
+.csc-wm-edit-root {
   position: absolute;
-  left: calc(249 * var(--u));
-  top: calc(648 * var(--v));
-  width: calc(956 * var(--u));
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.csc-wm-edit-root .csc-home-stack {
+  pointer-events: none;
+}
+
+.csc-wm-edit-root .csc-wordmark {
+  left: calc(var(--wm-left, 510) * var(--u));
+  top: calc(var(--wm-top, 280) * var(--v));
+  transform: none;
+  pointer-events: auto;
+  cursor: grab;
+  outline: 1px dashed rgba(50, 188, 174, 0.55);
+  outline-offset: calc(6 * var(--u));
+  touch-action: none;
+  user-select: none;
+}
+
+.csc-wm-edit-root .csc-wordmark:active {
+  cursor: grabbing;
+}
+
+.csc-wm-edit-root .csc-home-actions {
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.csc-wm-hud {
+  position: absolute;
+  left: calc(24 * var(--u));
+  bottom: calc(24 * var(--v));
+  z-index: 20;
+  pointer-events: auto;
+  display: grid;
+  gap: 6px;
+  min-width: 220px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(12, 18, 28, 0.88);
+  border: 1px solid rgba(50, 188, 174, 0.45);
+  color: #e8f7f5;
+  font-size: 13px;
+  line-height: 1.35;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.csc-wm-hud strong {
+  font-size: 14px;
+  color: #32bcae;
+}
+
+.csc-wm-hud p {
   margin: 0;
-  font-size: var(--home-type);
+  opacity: 0.75;
+  font-size: 12px;
+}
+
+.csc-wm-hud__row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.csc-wm-hud__row button {
+  flex: 1;
+  border: 0;
+  border-radius: 6px;
+  padding: 7px 10px;
+  background: #32bcae;
+  color: #0a1218;
   font-weight: 700;
-  line-height: 1.5;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.csc-wm-hud__row button:last-child {
+  background: rgba(255, 255, 255, 0.12);
+  color: #e8f7f5;
+}
+
+.csc-home-lead {
+  /* Faixa entre a base do logo e o topo dos botões — texto no meio (= espaçamento igual) */
+  --home-logo-half-h: calc(var(--wm-width, 840) * 457 / 851 / 2 * var(--u));
+  position: absolute;
+  left: calc(348 * var(--u));
+  top: calc(38% + var(--home-logo-half-h));
+  bottom: calc(100% - 752 * var(--v));
+  width: calc(741 * var(--u));
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--home-lead-size);
+  font-weight: 700;
+  line-height: 1.33;
   text-align: center;
   text-wrap: balance;
   color: #fff;
+  z-index: 2;
+  box-sizing: border-box;
 }
 
 .csc-home-pill {
@@ -3719,13 +3848,13 @@ button {
   align-items: center;
   justify-content: center;
   width: auto;
-  height: calc(86 * var(--v));
+  height: calc(72 * var(--v));
   border-radius: calc(17 * var(--u));
   background: #32bcae;
   color: #fff;
-  font-size: var(--home-type);
+  font-size: var(--home-pill-size);
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.15;
   text-align: center;
   pointer-events: auto;
 }
@@ -3739,41 +3868,76 @@ button {
 
 .csc-home-pill:active,
 .csc-inicio:active,
+.csc-voltar:active,
 .csc-tab:active {
   transform: scale(0.98);
 }
 
+/* Barra + Início: mesma âncora no .csc-frame em todas as páginas */
 .csc-bar {
-  position: absolute;
-  left: 0;
-  top: 0;
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   width: 100%;
-  height: calc(120 * var(--v));
+  min-height: calc(72 * var(--v));
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   pointer-events: none;
+  flex-shrink: 0;
 }
 
 .csc-wordmark-header {
-  position: absolute;
-  left: calc(64 * var(--u));
-  top: calc(36 * var(--v));
-  width: calc(410 * var(--u));
+  position: relative;
+  left: auto;
+  top: auto;
+  width: var(--csc-bar-logo-w);
+  max-width: 55%;
   height: auto;
+  pointer-events: auto;
+  flex-shrink: 0;
+}
+
+.csc-bar-actions {
+  position: absolute;
+  top: var(--csc-inicio-top);
+  right: var(--csc-inicio-right);
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--u));
+  z-index: 40;
   pointer-events: auto;
 }
 
-.csc-inicio {
-  position: absolute;
-  left: calc(1204 * var(--u));
-  top: calc(58 * var(--v));
-  width: calc(154 * var(--u));
-  height: calc(51 * var(--v));
-  border-radius: calc(25.5 * var(--v));
+.csc-inicio,
+.csc-voltar {
+  position: relative;
+  top: auto;
+  right: auto;
+  left: auto;
+  width: var(--csc-inicio-w);
+  height: var(--csc-inicio-h);
+  margin: 0;
+  padding: 0 calc(10 * var(--u));
+  border: 0;
+  border-radius: calc(var(--csc-inicio-h) / 2);
   background: #3e0564;
   color: #fff;
-  font-size: calc(25 * var(--u));
+  font-size: var(--csc-inicio-font);
   font-weight: 700;
-  line-height: calc(23 * var(--u));
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: none;
   pointer-events: auto;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.csc-voltar {
+  background: #3e0564;
 }
 
 .csc-title {
@@ -4277,7 +4441,7 @@ button {
   display: flex;
   flex-direction: column;
   background: #3e0565;
-  border-radius: 0 0 calc(17 * var(--u)) calc(17 * var(--u));
+  border-radius: 0;
   overflow: hidden;
   cursor: pointer;
 }
@@ -4352,7 +4516,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: calc(10 * var(--u));
+  border-radius: calc(8 * var(--u));
   background: #32bcae;
   color: #fff;
   font-size: calc(16 * var(--u));
@@ -4383,28 +4547,11 @@ button {
 }
 
 .csc-frame.csc-cert > .csc-bar {
-  position: relative;
-  left: auto;
-  top: auto;
-  width: 100%;
-  height: calc(110 * var(--v));
-  flex-shrink: 0;
+  min-height: calc(88 * var(--v));
 }
 
 .csc-frame.csc-cert .csc-wordmark-header {
-  position: absolute;
-  left: calc(48 * var(--u));
-  top: 50%;
-  transform: translateY(-50%);
-  width: calc(360 * var(--u));
-}
-
-.csc-frame.csc-cert .csc-inicio {
-  position: absolute;
-  right: calc(48 * var(--u));
-  left: auto;
-  top: 50%;
-  transform: translateY(-50%);
+  width: var(--csc-bar-logo-w);
 }
 
 .csc-cert-body {
@@ -4608,7 +4755,7 @@ button {
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-cert > .csc-bar {
-  height: calc(96 * var(--v));
+  min-height: calc(64 * var(--v));
 }
 
 .app[data-orientation='portrait'] .csc-cert-body {
@@ -4639,7 +4786,12 @@ button {
 }
 
 .app[data-orientation='portrait'] .csc-cert-title {
-  font-size: calc(32 * var(--t));
+  font-size: var(--panel-title-size);
+}
+
+.app[data-orientation='portrait'] .csc-cert-track h2 {
+  font-size: var(--home-lead-size);
+  font-weight: 800;
 }
 
 .app[data-orientation='portrait'] .csc-cert-qr-stage .csc-qr {
@@ -5626,7 +5778,17 @@ button {
    Layout CSC - Retrato
 ========================= */
 
+/* Tipografia / botões = padrão da tela inicial (totem) */
 .app[data-orientation='portrait'] .csc-frame {
+  --home-lead-size: clamp(12px, 3.4vw, calc(22 * var(--u)));
+  --home-pill-size: var(--home-lead-size);
+  --home-type: var(--home-lead-size);
+  --home-pill-h: clamp(44px, 6.8vh, calc(72 * var(--v)));
+  --home-pill-radius: clamp(12px, 2.2vw, calc(18 * var(--u)));
+  --home-pill-pad-y: clamp(8px, 1.2vh, 14px);
+  --home-pill-pad-x: clamp(12px, 3vw, calc(20 * var(--u)));
+  --home-actions-gap: clamp(8px, 1.5vh, calc(16 * var(--v)));
+  --panel-title-size: clamp(18px, 4.6vw, calc(26 * var(--u)));
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -5635,6 +5797,44 @@ button {
   box-sizing: border-box;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.app[data-orientation='portrait'] .csc-frame .csc-course-tab,
+.app[data-orientation='portrait'] .csc-frame .csc-rail .csc-tab,
+.app[data-orientation='portrait'] .csc-frame .csc-tab,
+.app[data-orientation='portrait'] .csc-frame .csc-conhecer,
+.app[data-orientation='portrait'] .csc-frame .csc-quiz-next {
+  min-height: var(--home-pill-h);
+  height: var(--home-pill-h);
+  padding: var(--home-pill-pad-y) var(--home-pill-pad-x);
+  font-size: var(--home-pill-size);
+  font-weight: 700;
+  line-height: 1.2;
+  border-radius: var(--home-pill-radius);
+  box-sizing: border-box;
+}
+
+.app[data-orientation='portrait'] .csc-frame .csc-home-lead,
+.app[data-orientation='portrait'] .csc-frame .csc-explore-about-text,
+.app[data-orientation='portrait'] .csc-frame .csc-explore-points li,
+.app[data-orientation='portrait'] .csc-frame .csc-pos-about-text,
+.app[data-orientation='portrait'] .csc-frame .csc-pos-lead,
+.app[data-orientation='portrait'] .csc-frame .csc-pos-module li,
+.app[data-orientation='portrait'] .csc-frame .csc-hub-lead,
+.app[data-orientation='portrait'] .csc-frame .csc-cert-track p {
+  font-size: var(--home-lead-size);
+  font-weight: 700;
+  line-height: 1.33;
+}
+
+.app[data-orientation='portrait'] .csc-frame .csc-title,
+.app[data-orientation='portrait'] .csc-frame .csc-pos-title,
+.app[data-orientation='portrait'] .csc-frame .csc-explore-title,
+.app[data-orientation='portrait'] .csc-frame .csc-hub-title,
+.app[data-orientation='portrait'] .csc-frame .csc-cert-title,
+.app[data-orientation='portrait'] .csc-frame .csc-quiz-title {
+  font-size: var(--panel-title-size) !important;
+  line-height: 1.2 !important;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-frame--compact,
@@ -5650,7 +5850,23 @@ button {
 }
 
 .app[data-orientation='portrait'] .csc-home-stack {
-  --home-type: calc(22 * var(--u));
+  position: relative !important;
+  inset: auto !important;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1.15fr) auto auto;
+  align-items: center;
+  justify-items: center;
+  gap: clamp(10px, 2vh, calc(28 * var(--v)));
+  padding-top: clamp(72px, 10vh, calc(120 * var(--v)));
+  padding-bottom: clamp(8px, 1.5vh, calc(16 * var(--v)));
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+.app[data-orientation='portrait'] .csc-wm-edit-root {
   position: relative !important;
   inset: auto !important;
   flex: 1 1 auto;
@@ -5658,13 +5874,6 @@ button {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0;
-  padding-top: 0;
-  padding-bottom: calc(8 * var(--v));
-  pointer-events: auto;
-  box-sizing: border-box;
 }
 
 .app[data-orientation='portrait'] .csc-ufes-btn {
@@ -5676,7 +5885,7 @@ button {
 }
 
 .app[data-orientation='portrait'] .csc-ufes {
-  width: calc(92 * var(--u)) !important;
+  width: calc(120 * var(--u)) !important;
   height: auto !important;
 }
 
@@ -5691,24 +5900,54 @@ button {
   font-size: calc(30 * var(--u));
 }
 
+.app[data-orientation='portrait'] .csc-fs-fab {
+  left: calc(28 * var(--u)) !important;
+  top: calc(108 * var(--v)) !important;
+  width: calc(64 * var(--u)) !important;
+  height: calc(64 * var(--u)) !important;
+}
+
+.app[data-orientation='portrait'] .csc-fs-fab__mark {
+  width: calc(26 * var(--u));
+  height: calc(26 * var(--u));
+}
+
 .app[data-orientation='portrait'] .csc-frame.csc-quiz {
   --quiz-pad-x: clamp(14px, 4.2vw, calc(28 * var(--u)));
   --quiz-pad-y: clamp(10px, 1.6vh, calc(18 * var(--v)));
-  --quiz-title: clamp(20px, 5.2vw, calc(28 * var(--t)));
-  --quiz-sub: clamp(13px, 3.4vw, calc(16 * var(--t)));
-  --quiz-prompt: clamp(15px, 4vw, calc(22 * var(--t)));
-  --quiz-opt: clamp(13px, 3.5vw, calc(16 * var(--t)));
-  --quiz-tip: clamp(12px, 3.2vw, calc(15 * var(--t)));
+  --quiz-title: var(--panel-title-size);
+  --quiz-sub: var(--home-lead-size);
+  --quiz-prompt: var(--home-lead-size);
+  --quiz-opt: var(--home-lead-size);
+  --quiz-tip: var(--home-lead-size);
   padding: var(--quiz-pad-y) 0;
 }
 
 .app[data-orientation='portrait'] .csc-quiz-options {
   grid-template-columns: 1fr;
   grid-auto-rows: minmax(0, 1fr);
+  gap: var(--home-actions-gap);
 }
 
 .app[data-orientation='portrait'] .csc-quiz-option {
-  min-height: 0;
+  min-height: var(--home-pill-h);
+  height: auto;
+  border-radius: var(--home-pill-radius);
+  padding: var(--home-pill-pad-y) var(--home-pill-pad-x);
+}
+
+.app[data-orientation='portrait'] .csc-quiz-option__text {
+  font-size: var(--home-lead-size);
+  font-weight: 700;
+  line-height: 1.33;
+}
+
+.app[data-orientation='portrait'] .csc-quiz-next {
+  width: 100%;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .app[data-orientation='portrait'] .csc-quiz-sheet {
@@ -5720,20 +5959,24 @@ button {
 }
 
 .app[data-orientation='portrait'] .csc-wordmark {
-  position: absolute !important;
-  left: 50% !important;
-  top: 36% !important;
-  width: 108% !important;
-  max-width: none;
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: auto !important;
+  max-width: min(92%, calc(560 * var(--u))) !important;
+  max-height: 100%;
   height: auto !important;
   margin: 0 !important;
   display: block;
-  transform: translate(-50%, -50%) scale(1.12);
+  transform: none !important;
+  object-fit: contain;
+  align-self: center;
+  justify-self: center;
+  background: transparent;
   filter:
     drop-shadow(0 0 calc(1.5 * var(--u)) rgba(50, 188, 174, 0.55))
-    drop-shadow(0 0 calc(6 * var(--u)) rgba(50, 188, 174, 0.28))
-    drop-shadow(0 0 calc(16 * var(--u)) rgba(50, 188, 174, 0.14))
-    drop-shadow(0 calc(6 * var(--v)) calc(22 * var(--u)) rgba(20, 8, 40, 0.4));
+    drop-shadow(0 0 calc(10 * var(--u)) rgba(50, 188, 174, 0.28))
+    drop-shadow(0 0 calc(22 * var(--u)) rgba(50, 188, 174, 0.12));
   z-index: 3;
 }
 
@@ -5741,16 +5984,18 @@ button {
   position: relative !important;
   left: auto !important;
   top: auto !important;
+  bottom: auto !important;
   width: 100% !important;
+  max-width: min(100%, calc(640 * var(--u)));
   height: auto !important;
-  margin: 0 auto calc(20 * var(--v)) !important;
+  margin: 0 !important;
   padding: 0;
-  font-size: var(--home-type);
+  display: block !important;
+  font-size: var(--home-lead-size);
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.33;
   text-align: center;
   text-wrap: balance;
-  flex-shrink: 0;
   z-index: 2;
 }
 
@@ -5763,8 +6008,8 @@ button {
   padding-top: 0;
   display: flex;
   flex-direction: column;
-  gap: calc(16 * var(--v));
-  flex-shrink: 0;
+  gap: var(--home-actions-gap);
+  align-self: stretch;
 }
 
 .app[data-orientation='portrait'] .csc-home-pill {
@@ -5776,52 +6021,53 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: calc(96 * var(--v)) !important;
+  height: var(--home-pill-h) !important;
+  min-height: var(--home-pill-h);
   margin: 0 !important;
-  padding: calc(12 * var(--v)) calc(20 * var(--u));
-  font-size: var(--home-type);
-  line-height: 1.25;
-  border-radius: calc(18 * var(--u));
+  padding: var(--home-pill-pad-y) var(--home-pill-pad-x);
+  font-size: var(--home-pill-size);
+  font-weight: 700;
+  line-height: 1.2;
+  border-radius: var(--home-pill-radius);
 }
 
 .app[data-orientation='portrait'] .csc-home-pill--pos {
   margin-top: 0 !important;
 }
 
+.app[data-orientation='portrait'] .csc-frame {
+  --csc-inicio-top: calc(14 * var(--v));
+  --csc-inicio-right: calc(14 * var(--u));
+  --csc-inicio-w: calc(132 * var(--u));
+  --csc-inicio-h: calc(48 * var(--v));
+  --csc-inicio-font: calc(18 * var(--u));
+  --csc-bar-logo-w: calc(240 * var(--u));
+}
+
 .app[data-orientation='portrait'] .csc-bar {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  width: 100% !important;
-  height: auto !important;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: calc(16 * var(--u));
-  flex-shrink: 0;
-  pointer-events: auto;
+  min-height: calc(56 * var(--v));
   margin: 0 !important;
-  padding-right: calc(4 * var(--u));
 }
 
 .app[data-orientation='portrait'] .csc-wordmark-header {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  width: calc(300 * var(--u)) !important;
+  width: var(--csc-bar-logo-w) !important;
+  max-width: 58%;
   height: auto !important;
-  flex-shrink: 0;
 }
 
-.app[data-orientation='portrait'] .csc-inicio {
-  position: relative !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  width: calc(132 * var(--u)) !important;
-  height: calc(48 * var(--v)) !important;
-  font-size: calc(20 * var(--u));
-  flex-shrink: 0;
+.app[data-orientation='portrait'] .csc-bar-actions {
+  top: var(--csc-inicio-top) !important;
+  right: var(--csc-inicio-right) !important;
+  gap: calc(8 * var(--u));
+}
+
+.app[data-orientation='portrait'] .csc-inicio,
+.app[data-orientation='portrait'] .csc-voltar {
+  width: var(--csc-inicio-w) !important;
+  height: var(--csc-inicio-h) !important;
+  font-size: var(--csc-inicio-font) !important;
+  margin: 0 !important;
+  transform: none !important;
 }
 
 .app[data-orientation='portrait'] .csc-explore-layout {
@@ -5930,9 +6176,8 @@ button {
 }
 
 .app[data-orientation='portrait'] .csc-tab {
-  width: calc(154 * var(--u));
-  height: calc(48 * var(--v));
-  font-size: calc(16 * var(--t));
+  width: 100%;
+  max-width: none;
 }
 
 .app[data-orientation='portrait'] .csc-sheet,
@@ -6158,39 +6403,18 @@ button {
 .csc-frame--compact.csc-pos {
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   gap: calc(14 * var(--v));
-  padding: calc(20 * var(--v)) calc(48 * var(--u)) calc(28 * var(--v));
+  padding: calc(18 * var(--v)) calc(44 * var(--u)) calc(22 * var(--v));
   box-sizing: border-box;
 }
 
 .csc-frame--compact.csc-pos .csc-bar {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  width: 100% !important;
-  height: auto !important;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  pointer-events: auto;
+  min-height: calc(72 * var(--v));
 }
 
 .csc-frame--compact.csc-pos .csc-wordmark-header {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  width: calc(240 * var(--u));
-  height: auto;
-}
-
-.csc-frame--compact.csc-pos .csc-inicio {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  margin-left: auto;
+  width: var(--csc-bar-logo-w);
 }
 
 .csc-frame--compact.csc-pos .csc-pos-title {
@@ -6203,6 +6427,7 @@ button {
   font-weight: 800;
   line-height: 1.2 !important;
   white-space: normal !important;
+  flex-shrink: 0;
 }
 
 .csc-pos-title-org {
@@ -6222,14 +6447,14 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(64 * var(--v));
+  min-height: calc(60 * var(--v));
   padding: calc(12 * var(--v)) calc(20 * var(--u));
-  border: 1px solid var(--csc-teal);
-  border-radius: calc(12 * var(--u));
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: calc(14 * var(--u));
   background: transparent;
   color: #fff;
   font-family: inherit;
-  font-size: calc(22 * var(--t));
+  font-size: calc(20 * var(--t));
   font-weight: 800;
   line-height: 1.2;
   text-align: center;
@@ -6239,6 +6464,7 @@ button {
 .csc-course-tab.is-active {
   background: var(--csc-teal);
   border-color: var(--csc-teal);
+  color: #fff;
 }
 
 .csc-frame--compact.csc-pos .csc-type {
@@ -6247,19 +6473,26 @@ button {
   top: auto !important;
   width: 100% !important;
   height: auto !important;
-  min-height: calc(48 * var(--v));
+  min-height: 0;
   margin: 0;
   flex-shrink: 0;
 }
 
+.csc-frame--compact.csc-pos .csc-type {
+  min-height: calc(52 * var(--v));
+  border-top: 1px solid rgba(255, 255, 255, 0.72);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.72);
+}
+
 .csc-frame--compact.csc-pos .csc-type-fact .csc-type-label {
-  font-size: calc(13 * var(--t));
+  font-size: calc(12 * var(--t));
   font-weight: 400;
   text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .csc-frame--compact.csc-pos .csc-type-fact .csc-type-value {
-  font-size: calc(16 * var(--t));
+  font-size: calc(15 * var(--t));
   font-weight: 700;
 }
 
@@ -6268,29 +6501,36 @@ button {
   min-height: 0;
   width: 100%;
   margin: 0;
-  padding: calc(28 * var(--v)) calc(56 * var(--u)) calc(36 * var(--v));
-  border-radius: calc(40 * var(--u));
+  padding: calc(28 * var(--v)) calc(40 * var(--u)) calc(28 * var(--v));
+  border-radius: 0;
   background: var(--csc-deep);
   overflow-x: hidden;
   overflow-y: auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: calc(28 * var(--v));
 }
 
-.csc-pos-section + .csc-pos-section {
-  margin-top: calc(28 * var(--v));
+.csc-pos-section--about {
+  flex: 0 0 auto;
+}
+
+.csc-pos-section--modules {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
   padding-top: calc(28 * var(--v));
   border-top: 1px solid rgba(255, 255, 255, 0.55);
 }
 
 .csc-pos-heading {
   margin: 0 0 calc(14 * var(--v));
-  font-size: calc(28 * var(--t));
+  font-size: calc(26 * var(--t));
   font-weight: 700;
   line-height: 1.25;
   color: #fff;
+  flex-shrink: 0;
 }
 
 .csc-pos-accent {
@@ -6299,14 +6539,14 @@ button {
 
 .csc-pos-about {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.7fr);
-  gap: calc(28 * var(--u));
+  grid-template-columns: minmax(0, 1.75fr) minmax(0, 0.7fr);
+  gap: calc(36 * var(--u));
   align-items: start;
 }
 
 .csc-pos-about-text {
   margin: 0;
-  font-size: calc(18 * var(--t));
+  font-size: calc(17 * var(--t));
   font-weight: 400;
   line-height: 1.45;
   color: #fff;
@@ -6316,108 +6556,124 @@ button {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: calc(18 * var(--v));
+  gap: calc(16 * var(--v));
 }
 
 .csc-pos-side-meta dt {
   margin: 0 0 calc(4 * var(--v));
-  font-size: calc(13 * var(--t));
+  font-size: calc(12 * var(--t));
   font-weight: 400;
   line-height: 1.2;
   text-transform: uppercase;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .csc-pos-side-meta dd {
   margin: 0;
-  font-size: calc(16 * var(--t));
+  font-size: calc(15 * var(--t));
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.3;
   color: #fff;
 }
 
 .csc-pos-lead {
-  margin: 0 0 calc(18 * var(--v));
-  font-size: calc(18 * var(--t));
+  margin: 0 0 calc(16 * var(--v));
+  font-size: calc(16 * var(--t));
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.35;
   color: #fff;
+  flex-shrink: 0;
 }
 
 .csc-pos-modules {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: calc(24 * var(--u)) calc(48 * var(--u));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, auto));
+  grid-auto-flow: column;
+  gap: calc(32 * var(--v)) calc(64 * var(--u));
+  align-items: start;
 }
 
-.csc-pos-module-col {
+.csc-pos-module {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: calc(22 * var(--v));
-  min-width: 0;
+  gap: calc(12 * var(--v));
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
 }
 
 .csc-pos-module h3 {
-  margin: 0 0 calc(8 * var(--v));
-  font-size: calc(18 * var(--t));
-  font-weight: 700;
-  line-height: 1.35;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: calc(17 * var(--t));
+  font-weight: 800;
+  line-height: 1.25;
   color: var(--csc-teal);
 }
 
 .csc-pos-module ul {
   margin: 0;
-  padding: 0 0 0 calc(22 * var(--u));
-  list-style: disc;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: calc(4 * var(--v));
+  gap: calc(10 * var(--v));
 }
 
 .csc-pos-module li {
-  font-size: calc(16 * var(--t));
+  position: relative;
+  padding: 0 0 0 calc(18 * var(--u));
+  border-radius: 0;
+  background: transparent;
+  font-size: calc(15 * var(--t));
   font-weight: 400;
-  line-height: 1.45;
+  line-height: 1.35;
   color: #fff;
 }
 
-.csc-pos-profile {
-  margin: calc(8 * var(--v)) 0 0;
-  padding: 0 0 0 calc(28 * var(--u));
-  list-style: disc;
-  display: flex;
-  flex-direction: column;
-  gap: calc(8 * var(--v));
+.csc-pos-module li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: calc(7 * var(--u));
+  height: calc(7 * var(--u));
+  border-radius: 50%;
+  background: var(--csc-teal);
 }
 
-.csc-pos-profile li {
-  font-size: calc(18 * var(--t));
-  font-weight: 400;
-  line-height: 1.45;
-  color: #fff;
-}
 
 .app[data-orientation='portrait'] .csc-frame--compact.csc-pos {
-  padding: calc(16 * var(--v)) calc(24 * var(--u)) calc(24 * var(--v)) !important;
-  gap: calc(12 * var(--v)) !important;
+  padding: calc(14 * var(--v)) calc(20 * var(--u)) calc(16 * var(--v)) !important;
+  gap: calc(16 * var(--v)) !important;
+  overflow: hidden !important;
+}
+
+.app[data-orientation='portrait'] .csc-frame--compact.csc-pos .csc-wordmark-header {
+  width: var(--csc-bar-logo-w);
 }
 
 .app[data-orientation='portrait'] .csc-course-tabs {
   grid-template-columns: 1fr;
-  gap: calc(12 * var(--v));
+  gap: var(--home-actions-gap);
 }
 
 .app[data-orientation='portrait'] .csc-course-tab {
-  min-height: calc(72 * var(--v));
-  font-size: calc(20 * var(--t));
+  width: 100%;
 }
 
 .app[data-orientation='portrait'] .csc-frame--compact.csc-pos .csc-type--facts {
   display: grid !important;
   grid-template-columns: 1fr 1fr;
-  gap: calc(10 * var(--v)) calc(12 * var(--u));
+  gap: calc(8 * var(--v)) calc(12 * var(--u));
   height: auto !important;
-  padding: calc(10 * var(--v)) 0 !important;
+  min-height: 0 !important;
+  padding: calc(6 * var(--v)) 0 !important;
 }
 
 .app[data-orientation='portrait'] .csc-frame--compact.csc-pos .csc-type-fact {
@@ -6427,9 +6683,26 @@ button {
   white-space: normal !important;
 }
 
+.app[data-orientation='portrait'] .csc-frame--compact.csc-pos .csc-type-fact .csc-type-label {
+  font-size: calc(var(--home-lead-size) * 0.75);
+}
+
+.app[data-orientation='portrait'] .csc-frame--compact.csc-pos .csc-type-fact .csc-type-value {
+  font-size: var(--home-lead-size);
+  font-weight: 700;
+}
+
 .app[data-orientation='portrait'] .csc-pos-panel {
-  padding: calc(20 * var(--v)) calc(20 * var(--u)) calc(24 * var(--v));
-  border-radius: calc(28 * var(--u));
+  padding: calc(20 * var(--v)) calc(16 * var(--u)) calc(24 * var(--v));
+  border-radius: 0;
+  gap: calc(24 * var(--v));
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.app[data-orientation='portrait'] .csc-pos-section--modules {
+  padding-top: calc(20 * var(--v));
+  gap: calc(6 * var(--v));
 }
 
 .app[data-orientation='portrait'] .csc-pos-about {
@@ -6437,17 +6710,60 @@ button {
   gap: calc(16 * var(--v));
 }
 
+.app[data-orientation='portrait'] .csc-pos-side-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(12 * var(--u));
+}
+
 .app[data-orientation='portrait'] .csc-pos-modules {
   grid-template-columns: 1fr;
-  gap: calc(18 * var(--v));
+  grid-template-rows: none;
+  grid-auto-flow: row;
+  gap: calc(36 * var(--v));
+}
+
+.app[data-orientation='portrait'] .csc-pos-module {
+  padding: 0;
+  gap: calc(14 * var(--v));
+}
+
+.app[data-orientation='portrait'] .csc-pos-module h3 {
+  font-size: var(--home-lead-size);
+  font-weight: 800;
+  padding: 0;
+}
+
+.app[data-orientation='portrait'] .csc-pos-module ul {
+  gap: calc(10 * var(--v));
+}
+
+.app[data-orientation='portrait'] .csc-pos-module li {
+  padding: 0 0 0 calc(14 * var(--u));
+  background: transparent;
 }
 
 .app[data-orientation='portrait'] .csc-pos-heading {
-  font-size: calc(24 * var(--t));
+  margin-bottom: calc(14 * var(--v));
+  font-size: var(--home-lead-size);
+  font-weight: 800;
+}
+
+.app[data-orientation='portrait'] .csc-pos-lead {
+  margin-bottom: calc(18 * var(--v));
+}
+
+.app[data-orientation='portrait'] .csc-pos-side-meta dt {
+  font-size: calc(var(--home-lead-size) * 0.75);
+}
+
+.app[data-orientation='portrait'] .csc-pos-side-meta dd {
+  font-size: var(--home-lead-size);
+  font-weight: 700;
 }
 
 .app[data-orientation='portrait'] .csc-frame--compact.csc-pos .csc-pos-title {
-  font-size: calc(28 * var(--t)) !important;
+  margin-top: calc(4 * var(--v)) !important;
 }
 
 /* =========================
@@ -6477,33 +6793,12 @@ button {
 
 .csc-frame.csc-hub > .csc-bar,
 .csc-frame.csc-explore > .csc-bar {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  width: 100% !important;
-  height: auto !important;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  pointer-events: auto;
+  min-height: calc(72 * var(--v));
 }
 
 .csc-frame.csc-hub .csc-wordmark-header,
 .csc-frame.csc-explore .csc-wordmark-header {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  width: calc(240 * var(--u));
-  height: auto;
-}
-
-.csc-frame.csc-hub .csc-inicio,
-.csc-frame.csc-explore .csc-inicio {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  margin-left: auto;
+  width: var(--csc-bar-logo-w);
 }
 
 /* --- Hub --- */
@@ -6545,11 +6840,11 @@ button {
   width: 100%;
   height: calc(628 * var(--v));
   max-height: calc(628 * var(--v));
-  margin-top: calc(12 * var(--v));
+  margin-top: calc(36 * var(--v));
   margin-bottom: auto;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: calc(18 * var(--u));
+  gap: calc(28 * var(--v)) calc(28 * var(--u));
   align-items: stretch;
 }
 
@@ -6562,7 +6857,7 @@ button {
   flex-direction: column;
   overflow: hidden;
   background: #3e0565;
-  border-radius: calc(18 * var(--u));
+  border-radius: 0;
   box-shadow: 0 calc(10 * var(--v)) calc(28 * var(--u)) rgba(20, 8, 40, 0.35);
   cursor: pointer;
 }
@@ -6695,7 +6990,7 @@ button {
   height: calc(44 * var(--v));
   margin: 0;
   padding: 0 calc(16 * var(--u));
-  border-radius: calc(10 * var(--u));
+  border-radius: calc(8 * var(--u));
   background: #32bcae;
   color: #fff;
   font-size: var(--hub-cta);
@@ -6708,156 +7003,168 @@ button {
   box-sizing: border-box;
 }
 
-/* Card banner: foto no topo com fade suave para branco (estilo Pra Elas) */
+/* Card banner (print): imagem | painel (badge + logo + pergunta) */
 .csc-frame.csc-hub .csc-card--banner {
-  background: #ffffff;
+  background: #3e0565;
+  display: flex;
+  flex-direction: column;
 }
 
-.csc-frame.csc-hub .csc-card--banner .csc-card-bg {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: auto;
-  width: 100%;
-  height: 48%;
-  object-fit: cover;
-  object-position: center 30%;
-  display: block;
-  z-index: 0;
-}
-
-.csc-frame.csc-hub .csc-card--banner .csc-card-banner-shade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 56%;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0) 22%,
-    rgba(255, 255, 255, 0.28) 42%,
-    rgba(255, 255, 255, 0.72) 62%,
-    rgba(255, 255, 255, 0.94) 82%,
-    #ffffff 100%
-  );
-}
-
-.csc-frame.csc-hub .csc-card--banner .csc-card-banner-content {
+.csc-frame.csc-hub .csc-card--banner .csc-card-split {
+  --card-white: 34%;
   position: relative;
-  z-index: 2;
+  flex: 1 1 auto;
+  min-height: 0;
   height: 100%;
+  display: grid;
+  grid-template-columns: var(--card-white) 1fr;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+/* Faixa clara: só a metade esquerda do ícone aparece (direita cortada) */
+.csc-frame.csc-hub .csc-card--banner .csc-card-visual {
+  position: relative;
+  z-index: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: #ebe5f4;
+}
+
+.csc-frame.csc-hub .csc-card--banner .csc-card-icon {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 200%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  max-height: 130%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  object-fit: contain;
+  object-position: center;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  background: none;
+  box-shadow: none;
+}
+
+.csc-frame.csc-hub .csc-card--banner .csc-card-panel {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
   min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  justify-content: flex-start;
   gap: 0;
-  padding: 0 0 calc(18 * var(--v));
+  padding: calc(22 * var(--v)) calc(22 * var(--u)) calc(24 * var(--v));
+  background: #3e0565;
   box-sizing: border-box;
 }
 
 .csc-frame.csc-hub .csc-card--banner .csc-card-tag {
-  position: relative;
-  z-index: 3;
-  flex-shrink: 0;
-  align-self: stretch;
-}
-
-.csc-frame.csc-hub .csc-card--banner .csc-card-logo-stage {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: calc(42 * var(--v)) calc(18 * var(--u)) calc(148 * var(--v));
-  pointer-events: none;
-  box-sizing: border-box;
-}
-
-.csc-frame.csc-hub .csc-card--banner .csc-card-logo {
-  display: block;
+  flex: 0 0 auto;
+  align-self: flex-start;
   width: auto;
-  max-width: 82%;
   height: auto;
-  max-height: 36%;
-  margin: 0;
-  object-fit: contain;
-  object-position: center;
-  filter: none;
-}
-
-.csc-frame.csc-hub .csc-card--reurb .csc-card-logo {
-  max-width: 92%;
-  max-height: 46%;
-  width: 88%;
-}
-
-.csc-frame.csc-hub .csc-card--consulta .csc-card-logo,
-.csc-frame.csc-hub .csc-card--fiscal .csc-card-logo,
-.csc-frame.csc-hub .csc-card--licencas .csc-card-logo {
-  max-width: 100%;
-  max-height: 58%;
-  width: 92%;
-}
-
-.csc-frame.csc-hub .csc-card--banner .csc-card-banner-bottom {
-  position: relative;
-  z-index: 3;
-  flex-shrink: 0;
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: calc(12 * var(--v));
-  padding: 0 calc(14 * var(--u));
-  transform: translateY(calc(-22 * var(--v)));
+  min-height: 0;
+  max-height: none;
+  margin: 0 0 calc(18 * var(--v));
+  padding: calc(6 * var(--v)) calc(12 * var(--u));
+  border: 1px solid #ffffff;
+  border-radius: 0;
+  background: #ffffff;
+  color: #3e0565;
+  font-size: calc(12 * var(--t));
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  justify-content: center;
+  text-align: center;
 }
 
 .csc-frame.csc-hub .csc-card--banner .csc-card-copy {
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   width: 100%;
-  margin-top: 0;
-  padding: 0;
-  gap: calc(24 * var(--t));
-  text-align: center;
-  align-items: center;
-}
-
-.csc-frame.csc-hub .csc-card--banner .csc-card-copy h2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-align: center;
-  font-size: calc(26 * var(--t));
-  line-height: 1.18;
-  margin: 0;
-  color: #3e0565;
-}
-
-.csc-frame.csc-hub .csc-card--banner .csc-card-copy p {
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-align: center;
-  max-width: 94%;
-  margin: 0;
-  font-size: calc(15 * var(--t));
-  line-height: 1.35;
-  color: rgba(62, 5, 101, 0.78);
-}
-
-.csc-frame.csc-hub .csc-card--banner .csc-card-foot {
-  flex-shrink: 0;
-  width: 100%;
-  margin-top: 0;
-  padding: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
+  gap: 0;
+  text-align: left;
+}
+
+.csc-frame.csc-hub .csc-card--banner .csc-card-brand-logo,
+.csc-frame.csc-hub .csc-card--banner .csc-card-brand-row {
+  width: 100%;
+  max-width: calc(300 * var(--u));
+  height: calc(72 * var(--v));
+  max-height: calc(72 * var(--v));
+}
+
+.csc-frame.csc-hub .csc-card--banner .csc-card-brand-logo {
+  display: block;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.csc-frame.csc-hub .csc-card--consulta .csc-card-brand-logo {
+  max-width: calc(380 * var(--u));
+  height: calc(104 * var(--v));
+  max-height: calc(104 * var(--v));
+}
+
+.csc-frame.csc-hub .csc-card--banner .csc-card-brand-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: calc(4 * var(--v)) calc(10 * var(--u));
+  box-sizing: border-box;
+}
+
+.csc-frame.csc-hub .csc-card--banner .csc-card-brand {
+  display: block;
+  margin: 0;
+  font-size: calc(30 * var(--t));
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.csc-frame.csc-hub .csc-card--banner .csc-card-brand-sub {
+  display: block;
+  margin: 0;
+  max-width: calc(120 * var(--u));
+  font-size: calc(13 * var(--t));
+  font-weight: 500;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: left;
+}
+
+.csc-frame.csc-hub .csc-card--banner .csc-card-impact {
+  flex: 0 0 auto;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  margin: calc(20 * var(--v)) 0 0;
+  padding: 0;
+  font-size: calc(13 * var(--t));
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.95);
 }
 
 /* --- Explore (layout alinhado às Pós) --- */
@@ -6884,7 +7191,6 @@ button {
 
 .csc-frame.csc-explore .csc-explore-title,
 .csc-frame.csc-explore .csc-course-tabs,
-.csc-frame.csc-explore .csc-type--facts,
 .csc-frame.csc-explore .csc-explore-panel,
 .csc-frame.csc-explore .csc-rail {
   position: relative !important;
@@ -6917,99 +7223,41 @@ button {
   font-size: calc(20 * var(--t));
 }
 
-.csc-frame.csc-explore .csc-type--facts {
-  width: 100% !important;
-  height: auto !important;
-  min-height: calc(52 * var(--v));
-  margin: 0;
-  flex-shrink: 0;
-}
-
-.csc-frame.csc-explore .csc-type-fact .csc-type-label {
-  font-size: calc(14 * var(--t));
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
-.csc-frame.csc-explore .csc-type-fact .csc-type-value {
-  font-size: calc(18 * var(--t));
-  font-weight: 700;
-}
-
+/* Soluções 2.0 — texto / marca + carrossel / texto */
 .csc-frame.csc-explore .csc-explore-panel {
   flex: 1 1 auto;
   min-height: 0;
   width: 100%;
   margin: 0;
-  padding: calc(24 * var(--v)) calc(36 * var(--u)) calc(28 * var(--v));
-  border-radius: calc(32 * var(--u));
-  background: #3e0565;
+  padding: calc(8 * var(--v)) 0;
+  border-radius: 0;
+  background: transparent;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  gap: calc(20 * var(--v));
 }
 
-.csc-frame.csc-explore .csc-explore-section {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: calc(14 * var(--v));
-  overflow: hidden;
-}
-
-.csc-frame.csc-explore .csc-explore-heading {
-  margin: 0;
-  font-size: var(--explore-h2);
-  font-weight: 800;
-  line-height: 1.25;
-  color: #fff;
-  flex-shrink: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.csc-frame.csc-explore .csc-explore-about {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr);
-  gap: calc(24 * var(--u));
-  align-items: stretch;
-}
-
-.csc-frame.csc-explore .csc-explore-about-main {
+.csc-frame.csc-explore .csc-explore-copy {
+  flex: 0 0 auto;
   min-width: 0;
-  min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: calc(12 * var(--v));
-  overflow: hidden;
+  gap: calc(8 * var(--v));
+}
+
+.csc-frame.csc-explore .csc-explore-copy.has-qr {
+  gap: calc(10 * var(--v));
 }
 
 .csc-frame.csc-explore .csc-explore-about-text {
   margin: 0;
-  font-size: var(--explore-body);
+  font-size: calc(16 * var(--t));
   font-weight: 400;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.9);
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.csc-frame.csc-explore .csc-explore-about-foot {
-  display: flex;
-  align-items: flex-end;
-  gap: calc(14 * var(--u));
-  min-height: 0;
-}
-
-.csc-frame.csc-explore .csc-explore-about-foot.has-qr {
-  justify-content: space-between;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.92);
+  display: block;
+  overflow: visible;
 }
 
 .csc-frame.csc-explore .csc-explore-points {
@@ -7018,24 +7266,22 @@ button {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: calc(8 * var(--v));
-  overflow: hidden;
-  flex: 1 1 auto;
+  gap: calc(4 * var(--v));
   min-width: 0;
 }
 
 .csc-frame.csc-explore .csc-explore-qr {
-  margin-left: auto;
+  align-self: flex-end;
 }
 
 .csc-frame.csc-explore .csc-explore-points li {
   position: relative;
-  padding-left: calc(18 * var(--u));
-  font-size: var(--explore-body);
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.88);
+  padding-left: calc(16 * var(--u));
+  font-size: calc(15 * var(--t));
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.9);
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -7044,86 +7290,130 @@ button {
   content: '';
   position: absolute;
   left: 0;
-  top: 0.55em;
-  width: calc(8 * var(--u));
-  height: calc(8 * var(--u));
+  top: 0.45em;
+  width: calc(7 * var(--u));
+  height: calc(7 * var(--u));
   border-radius: 50%;
   background: #32bcae;
 }
 
-.csc-frame.csc-explore .csc-explore-shot {
-  min-width: 0;
-  min-height: 0;
-  height: 100%;
-  border: 0;
-  padding: 0;
-  border-radius: calc(20 * var(--u));
-  overflow: hidden;
-  background: #2a0840;
-  cursor: pointer;
-  box-shadow: 0 calc(8 * var(--v)) calc(24 * var(--u)) rgba(16, 0, 19, 0.35);
-}
-
-.csc-frame.csc-explore .csc-explore-shot img {
+.csc-frame.csc-explore .csc-explore-rule {
+  flex-shrink: 0;
+  height: 1px;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
+  background: rgba(255, 255, 255, 0.55);
 }
 
-.csc-frame.csc-explore .csc-explore-shot.is-demo img {
-  object-fit: contain;
-  object-position: center;
-  background: #1a0a2e;
-}
-
-.csc-frame.csc-explore .csc-explore-panel.is-live {
-  padding: calc(16 * var(--v)) calc(24 * var(--u)) calc(18 * var(--v));
-}
-
-.csc-frame.csc-explore .csc-explore-about.is-live {
-  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.7fr);
-  gap: calc(18 * var(--u));
-  align-items: stretch;
-}
-
-.csc-frame.csc-explore .csc-explore-about.is-live .csc-explore-about-main {
-  justify-content: center;
-}
-
-.csc-frame.csc-explore .csc-explore-shot.is-live .site-window {
-  min-height: 100%;
-}
-
-.csc-frame.csc-explore .csc-explore-about.is-live .csc-explore-about-text {
-  -webkit-line-clamp: 4;
-  font-size: calc(17 * var(--t));
-}
-
-.csc-frame.csc-explore .csc-explore-about.is-live .csc-explore-points li {
-  -webkit-line-clamp: 2;
-  font-size: calc(16 * var(--t));
-}
-
-.csc-frame.csc-explore .csc-explore-shot.is-live {
-  cursor: default;
+.csc-frame.csc-explore .csc-explore-showcase {
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
+  gap: calc(18 * var(--v));
+  overflow: hidden;
+}
+
+.csc-frame.csc-explore .csc-explore-brand {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: calc(10 * var(--u));
+  flex-shrink: 0;
+  margin-bottom: calc(4 * var(--v));
+}
+
+.csc-frame.csc-explore .csc-explore-brand.has-logo {
+  display: block;
+  margin-bottom: calc(8 * var(--v));
+}
+
+.csc-frame.csc-explore .csc-explore-brand-logo {
+  display: block;
+  width: min(100%, calc(520 * var(--u)));
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.csc-frame.csc-explore .csc-explore-brand strong {
+  font-size: calc(34 * var(--t));
+  font-weight: 800;
+  line-height: 1.05;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+
+.csc-frame.csc-explore .csc-explore-brand span {
+  font-size: calc(20 * var(--t));
+  font-weight: 500;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.csc-explore-carousel {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: calc(320 * var(--v));
+  width: 100%;
+  overflow: hidden;
+  background: var(--csc-bg, #5f489d);
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.csc-explore-carousel.is-dragging {
+  cursor: grabbing;
+}
+
+.csc-explore-carousel.is-empty {
+  cursor: default;
+}
+
+.csc-explore-carousel__track {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  will-change: transform;
+}
+
+.csc-explore-carousel__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+}
+
+.csc-explore-carousel__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+  pointer-events: none;
   background: transparent;
-  box-shadow: none;
-  border-radius: calc(10 * var(--u));
-  min-height: calc(360 * var(--v));
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-about.is-live {
-  grid-template-columns: 1fr;
-  grid-template-rows: minmax(0, 0.7fr) minmax(0, 1.3fr);
+.csc-explore-carousel__dots {
+  position: absolute;
+  left: 50%;
+  bottom: calc(10 * var(--v));
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  pointer-events: none;
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-shot.is-live {
-  order: -1;
-  min-height: calc(280 * var(--v));
+.csc-explore-carousel__dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 0 1px rgba(16, 0, 19, 0.25);
+}
+
+.csc-explore-carousel__dots span.is-active {
+  background: #32bcae;
 }
 
 .site-window {
@@ -7284,23 +7574,27 @@ button.site-window__btn {
   overflow: hidden !important;
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-hub > .csc-bar {
-  transform: scale(0.88);
-  transform-origin: left center;
-  margin-bottom: calc(-4 * var(--v));
+.app[data-orientation='portrait'] .csc-frame.csc-hub > .csc-bar,
+.app[data-orientation='portrait'] .csc-frame.csc-explore > .csc-bar,
+.app[data-orientation='portrait'] .csc-frame--compact.csc-pos > .csc-bar,
+.app[data-orientation='portrait'] .csc-frame.csc-quiz > .csc-bar {
+  min-height: calc(56 * var(--v));
+  transform: none;
+  margin-bottom: 0;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-hub-title {
-  font-size: var(--hub-title) !important;
-  line-height: 1.1 !important;
+  font-size: var(--panel-title-size) !important;
+  line-height: 1.2 !important;
   margin: 0 !important;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-hub-lead {
   width: 100% !important;
   max-width: none;
-  font-size: var(--hub-lead) !important;
-  line-height: 1.25 !important;
+  font-size: var(--home-lead-size) !important;
+  font-weight: 700;
+  line-height: 1.33 !important;
   margin: 0 !important;
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -7313,8 +7607,8 @@ button.site-window__btn {
   justify-content: center;
   justify-items: stretch;
   grid-template-rows: repeat(4, minmax(0, 1fr));
-  gap: calc(8 * var(--v));
-  margin-top: calc(4 * var(--v));
+  gap: calc(16 * var(--v));
+  margin-top: calc(20 * var(--v));
   margin-bottom: 0;
   flex: 1 1 auto;
   width: 100%;
@@ -7342,71 +7636,66 @@ button.site-window__btn {
   padding: 0 calc(8 * var(--u));
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-bg {
-  height: 52%;
-  object-position: center 25%;
+.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-split {
+  --card-white: 32%;
+  grid-template-columns: var(--card-white) 1fr;
+  min-height: 0;
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-banner-shade {
-  height: 62%;
+.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-visual {
+  min-height: calc(88 * var(--v));
+  overflow: hidden;
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-logo-stage {
-  padding: calc(18 * var(--v)) calc(12 * var(--u)) calc(58 * var(--v));
-  align-items: center;
+.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-panel {
+  gap: 0;
+  padding: calc(12 * var(--v)) calc(12 * var(--u)) calc(12 * var(--v));
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-logo {
-  max-width: 88%;
-  max-height: 46%;
-}
-
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--reurb .csc-card-logo {
-  max-width: 92%;
-  max-height: 50%;
-  width: 90%;
-}
-
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--consulta .csc-card-logo,
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--fiscal .csc-card-logo,
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--licencas .csc-card-logo {
-  max-width: 96%;
-  max-height: 52%;
-  width: 94%;
+.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-tag {
+  align-self: flex-start;
+  margin-bottom: calc(8 * var(--v));
+  padding: calc(3 * var(--v)) calc(8 * var(--u));
+  font-size: clamp(9px, 2.3vw, calc(11 * var(--u)));
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-copy {
-  gap: calc(3 * var(--v));
+  gap: 0;
+  align-items: flex-start;
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-copy h2 {
-  font-size: calc(14 * var(--t));
-  line-height: 1.12;
-  -webkit-line-clamp: 2;
+.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand-logo,
+.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand-row {
+  width: 100%;
+  max-width: calc(240 * var(--u));
+  height: calc(52 * var(--v));
+  max-height: calc(52 * var(--v));
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-copy p {
-  font-size: calc(11 * var(--t));
-  line-height: 1.25;
-  max-width: 100%;
-  -webkit-line-clamp: 2;
+.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand-logo {
+  object-position: left center;
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-banner-bottom {
-  transform: none;
-  gap: calc(3 * var(--v));
-  padding: 0 calc(8 * var(--u)) calc(4 * var(--v));
+.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--consulta .csc-card-brand-logo {
+  max-width: calc(310 * var(--u));
+  height: calc(74 * var(--v));
+  max-height: calc(74 * var(--v));
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-banner-content {
-  padding: 0 0 calc(4 * var(--v));
+.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand {
+  font-size: clamp(16px, 4.2vw, calc(22 * var(--u)));
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-conhecer {
-  height: calc(26 * var(--v));
-  width: calc(112 * var(--u));
-  font-size: calc(11 * var(--t));
-  border-radius: calc(8 * var(--u));
+.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand-sub {
+  font-size: clamp(9px, 2.4vw, calc(11 * var(--u)));
+}
+
+.app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-impact {
+  margin-top: calc(10 * var(--v));
+  font-size: clamp(10px, 2.6vw, calc(12 * var(--u)));
+  font-weight: 400;
+  line-height: 1.3;
+  text-align: center;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card-media-wrap {
@@ -7426,119 +7715,164 @@ button.site-window__btn {
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card:not(.csc-card--banner) h2 {
   -webkit-line-clamp: 2;
-  font-size: var(--hub-card-title);
+  font-size: var(--home-lead-size);
+  font-weight: 800;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card:not(.csc-card--banner) p {
   -webkit-line-clamp: 2;
-  font-size: var(--hub-card-body);
+  font-size: var(--home-lead-size);
+  font-weight: 700;
+  line-height: 1.33;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-conhecer {
-  width: calc(112 * var(--u));
-  height: calc(26 * var(--v));
-  font-size: var(--hub-cta);
-  border-radius: calc(8 * var(--u));
+  width: min(100%, calc(280 * var(--u)));
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: auto;
 }
 
+/* Totem — Soluções 2.0 (forma do print: abas em linha, card, botões empilhados) */
 .app[data-orientation='portrait'] .csc-frame.csc-explore {
-  --explore-title: calc(32 * var(--t));
-  --explore-h2: calc(26 * var(--t));
-  --explore-body: calc(19 * var(--t));
-  --explore-gap: calc(8 * var(--v));
+  --explore-title: clamp(22px, 5.2vw, calc(30 * var(--u)));
+  --explore-h2: var(--home-lead-size);
+  --explore-body: clamp(12px, 3.1vw, calc(16 * var(--u)));
+  --explore-gap: calc(12 * var(--v));
+  padding: calc(10 * var(--v)) calc(18 * var(--u)) calc(14 * var(--v)) !important;
+}
+
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-title {
+  font-size: var(--explore-title) !important;
+  font-weight: 800;
+  margin: calc(4 * var(--v)) 0 0 !important;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-course-tabs--stages {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: calc(8 * var(--u));
+  gap: calc(10 * var(--u));
+  margin-top: 0;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-course-tabs--stages .csc-course-tab {
-  min-height: calc(46 * var(--v));
-  font-size: calc(15 * var(--t));
+  width: 100%;
+  min-height: clamp(40px, 5.6vh, calc(56 * var(--v)));
+  height: clamp(40px, 5.6vh, calc(56 * var(--v)));
   padding: calc(6 * var(--v)) calc(6 * var(--u));
+  font-size: clamp(13px, 3.4vw, calc(18 * var(--u)));
+  font-weight: 700;
   line-height: 1.15;
+  border-radius: clamp(12px, 2.2vw, calc(18 * var(--u)));
+  border: 1.5px solid var(--csc-teal);
+  background: transparent;
+  color: #fff;
 }
 
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-type--facts {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: calc(6 * var(--v)) calc(12 * var(--u));
-  min-height: 0;
-}
-
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-type-fact {
-  padding: 0;
-}
-
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-type-fact + .csc-type-fact {
-  border-left: 0;
-  padding-left: 0;
-}
-
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-type-fact .csc-type-label {
-  font-size: calc(13 * var(--t));
-}
-
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-type-fact .csc-type-value {
-  font-size: calc(17 * var(--t));
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-course-tabs--stages .csc-course-tab.is-active {
+  background: var(--csc-teal);
+  border-color: var(--csc-teal);
+  color: #fff;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-panel {
-  padding: calc(12 * var(--v)) calc(14 * var(--u)) calc(12 * var(--v));
-  border-radius: calc(22 * var(--u));
-  min-height: 0;
-}
-
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-section {
-  gap: calc(8 * var(--v));
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-heading {
-  flex-shrink: 0;
-  -webkit-line-clamp: 2;
-}
-
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-about {
-  display: flex;
-  flex-direction: column;
-  grid-template-columns: none;
-  grid-template-rows: none;
-  gap: calc(8 * var(--v));
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-shot {
-  order: -1;
-  flex: 1 1 0;
-  width: 100%;
-  height: auto;
-  min-height: calc(180 * var(--v));
-  max-height: none;
-  border-radius: calc(14 * var(--u));
-}
-
-.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-about-main {
-  flex: 0 0 auto;
-  gap: calc(6 * var(--v));
+  gap: calc(14 * var(--v));
+  padding: calc(4 * var(--v)) 0 0;
+  border-radius: 0;
+  background: transparent;
   overflow: hidden;
 }
 
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-copy {
+  gap: calc(6 * var(--v));
+  flex: 0 0 auto;
+}
+
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-about-text {
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: unset;
+  display: block;
+  overflow: visible;
   font-size: var(--explore-body);
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-points {
-  gap: calc(5 * var(--v));
+  gap: calc(4 * var(--v));
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-points li {
   -webkit-line-clamp: 2;
   font-size: var(--explore-body);
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-rule {
+  margin: calc(2 * var(--v)) 0;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-rule--rail {
+  flex-shrink: 0;
+  margin: calc(6 * var(--v)) 0 calc(10 * var(--v));
+}
+
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-showcase {
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: calc(12 * var(--v));
+  justify-content: flex-start;
+}
+
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-brand.has-logo {
+  margin-bottom: 0;
+}
+
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-brand-logo {
+  width: min(78%, calc(380 * var(--u)));
+}
+
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-brand strong {
+  font-size: clamp(22px, 5.8vw, calc(32 * var(--t)));
+  font-weight: 800;
+}
+
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-brand span {
+  font-size: clamp(13px, 3.4vw, calc(17 * var(--t)));
+  font-weight: 500;
+}
+
+/* Card da preview: topo reto, base arredondada */
+.app[data-orientation='portrait'] .csc-explore-carousel {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: calc(240 * var(--v));
+  max-height: min(42dvh, calc(480 * var(--v)));
+  aspect-ratio: 16 / 10;
+  height: auto;
+  background: #fff;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.app[data-orientation='portrait'] .csc-explore-carousel__slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.app[data-orientation='portrait'] .csc-explore-carousel__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  background: #fff;
+}
+
+.app[data-orientation='portrait'] .csc-explore-carousel__dots {
+  bottom: calc(10 * var(--v));
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-about-foot.has-qr {
@@ -7551,11 +7885,20 @@ button.site-window__btn {
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-rail {
-  grid-template-columns: 1fr 1fr;
-  gap: calc(8 * var(--u));
+  grid-template-columns: 1fr;
+  gap: calc(12 * var(--v));
+  margin-top: 0;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-rail .csc-tab {
-  height: calc(42 * var(--v));
-  font-size: calc(14 * var(--t));
+  width: 100%;
+  border: 1.5px solid var(--csc-teal);
+  background: transparent;
+  color: #fff;
+}
+
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-rail .csc-tab.is-active {
+  background: var(--csc-teal);
+  border-color: var(--csc-teal);
+  color: #fff;
 }

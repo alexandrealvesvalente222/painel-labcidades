@@ -78,6 +78,10 @@ export default function App() {
           stage={stage}
           onStage={setStage}
           onHome={goHome}
+          onBack={() => {
+            setStage('problema')
+            setView('hub')
+          }}
           onSolution={(id) => {
             setSolutionId(id)
             setStage('problema')

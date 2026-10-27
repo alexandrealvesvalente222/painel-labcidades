@@ -31,6 +31,14 @@ export interface Solution {
   id: SolutionId
   name: string
   short: string
+  /** Rótulo curto na barra inferior (Soluções 2.0). */
+  railLabel: string
+  /** Marca grande no painel de explore. */
+  brandTitle: string
+  /** Subtítulo sob a marca no painel. */
+  brandSubtitle: string
+  /** Logo da marca acima do carrossel (quando houver). */
+  brandLogo?: string
   area: string
   cardArea: string
   cardTitle?: string
@@ -46,6 +54,8 @@ export interface Solution {
   cardBg?: string
   /** Logo sobreposto no card banner. */
   cardLogo?: string
+  /** Ícone vetorial no painel esquerdo do card. */
+  cardIcon?: string
   gallery?: string[]
   accent: string
   accentSoft: string
@@ -54,9 +64,9 @@ export interface Solution {
 }
 
 export const STAGES: { id: StageId; label: string; step: string; icon: 'challenge' | 'solution' | 'impact' }[] = [
-  { id: 'problema', label: 'O desafio', step: '01', icon: 'challenge' },
-  { id: 'solucao', label: 'A solução', step: '02', icon: 'solution' },
-  { id: 'impacto', label: 'O resultado', step: '03', icon: 'impact' },
+  { id: 'problema', label: 'Problema', step: '01', icon: 'challenge' },
+  { id: 'solucao', label: 'Solução', step: '02', icon: 'solution' },
+  { id: 'impacto', label: 'Resultado', step: '03', icon: 'impact' },
 ]
 
 export const CITIES: CityNode[] = [
@@ -87,6 +97,10 @@ export const SOLUTIONS: Solution[] = [
     id: 'reurb',
     name: 'REURB Diagnóstico de Maturidade',
     short: 'Regularização Fundiária',
+    railLabel: 'REURB',
+    brandTitle: 'REURB',
+    brandSubtitle: 'Diagnóstico de maturidade',
+    brandLogo: './projects/reurb-brand.png',
     area: 'Regularização fundiária',
     cardArea: 'Assistência Social',
     cardTitle: 'Em que estágio está a REURB do seu município?',
@@ -99,8 +113,9 @@ export const SOLUTIONS: Solution[] = [
     liveUrl: './sites/reurb/index.html',
     cardBg: './projects/reurb-bg.jpg',
     cardLogo: './projects/reurb-logo.png',
+    cardIcon: './projects/icons/reurb.svg',
     gallery: [
-      './projects/reurb/01.jpg',
+      './projects/reurb/01-test.jpeg',
       './projects/reurb/02.jpg',
       './projects/reurb/03.jpg',
       './projects/reurb/04.jpg',
@@ -148,20 +163,25 @@ export const SOLUTIONS: Solution[] = [
   },
 {
     id: 'consulta',
-    name: 'Consulta Cidades',
-    short: 'Integração de Dados',
-    area: 'Acesso a dados',
+    name: 'Integra Fiscal',
+    short: 'Inteligência cadastral',
+    railLabel: 'Integra Fiscal',
+    brandTitle: 'integra FISCAL',
+    brandSubtitle: 'Inteligência cadastral para a gestão fiscal',
+    brandLogo: './projects/consulta-brand.png',
+    area: 'Gestão fiscal',
     cardArea: 'Finanças',
     cardTitle: 'Qual a qualidade das informações nas suas bases de dados?',
     cardBlurb:
       'Reunimos dados e indicadores em uma busca única para a gestão encontrar o que precisa sem caçar em vários sistemas.',
-    tagline: 'Um ponto de entrada para encontrar informações da cidade.',
+    tagline: 'Inteligência cadastral para a gestão fiscal.',
     purpose:
       'Reúne dados municipais em um só lugar. Em vez de abrir vários sistemas, o gestor busca o município, o tema ou o indicador que precisa.',
     image: './projects/consulta.jpg',
     liveUrl: './sites/consulta/index.html',
     cardBg: './projects/consulta-bg.jpg',
     cardLogo: './projects/consulta-logo.png',
+    cardIcon: './projects/icons/integra-fiscal.svg',
     accent: '#ff8300',
     accentSoft: 'rgba(255, 131, 0, 0.16)',
     glow: 'rgba(255, 131, 0, 0.45)',
@@ -180,7 +200,7 @@ export const SOLUTIONS: Solution[] = [
       solucao: {
         title: '',
         message:
-          'A Consulta concentra as camadas do portal LabCidades. Com um toque, a gestão encontra o recorte e segue para o painel correspondente.',
+          'O Integra Fiscal concentra as camadas do portal LabCidades. Com um toque, a gestão encontra o recorte e segue para o painel correspondente.',
         points: [
           'Busca por município, tema ou indicador',
           'Conecta a pergunta à evidência disponível',
@@ -203,6 +223,9 @@ export const SOLUTIONS: Solution[] = [
     id: 'fiscal',
     name: 'Radar de Inteligência Fiscal',
     short: 'Inteligência Fiscal',
+    railLabel: 'Radar Fiscal',
+    brandTitle: 'Radar Fiscal',
+    brandSubtitle: 'Radar de inteligência fiscal',
     area: 'Arrecadação',
     cardArea: 'Finanças',
     cardTitle: 'Quanto o município deixa de arrecadar no território?',
@@ -215,6 +238,7 @@ export const SOLUTIONS: Solution[] = [
     liveUrl: './sites/fiscal/index.html',
     cardBg: './projects/fiscal-bg.jpg',
     cardLogo: './projects/fiscal-logo.png',
+    cardIcon: './projects/icons/radar-fiscal.svg',
     accent: '#5d058c',
     accentSoft: 'rgba(93, 5, 140, 0.18)',
     glow: 'rgba(93, 5, 140, 0.5)',
@@ -255,6 +279,9 @@ export const SOLUTIONS: Solution[] = [
     id: 'licencas',
     name: 'Monitor de Licenças Ambientais',
     short: 'Meio Ambiente',
+    railLabel: 'Radar Ambiental',
+    brandTitle: 'Radar Ambiental',
+    brandSubtitle: 'Monitor de licenças ambientais',
     area: 'Meio ambiente',
     cardArea: 'Meio Ambiente',
     cardTitle: 'Quais licenças ambientais estão válidas no seu território?',
@@ -267,6 +294,7 @@ export const SOLUTIONS: Solution[] = [
     liveUrl: './sites/licencas/index.html',
     cardBg: './projects/licencas-bg.jpg',
     cardLogo: './projects/licencas-logo.png',
+    cardIcon: './projects/icons/radar-ambiental.svg',
     accent: '#32bcae',
     accentSoft: 'rgba(50, 188, 174, 0.16)',
     glow: 'rgba(50, 188, 174, 0.45)',
@@ -312,6 +340,7 @@ export const LAB = {
   headline: 'Temos soluções inteligentes para desafios urbanos',
   invite: 'Toque na tela para começar',
   cta: 'Soluções para as cidades',
+  exploreTitle: 'Solução para as cidades',
   tag: 'Laboratório de projetos',
   contactCta: 'Fale conosco',
   posCta: 'Pós-Graduações',
@@ -320,7 +349,7 @@ export const LAB = {
     'O LabCidades é um laboratório de projetos que integra ensino, pesquisa e extensão na produção de conhecimento e no desenvolvimento de soluções aplicadas aos desafios\u00A0das\u00A0cidades.',
   solutionsLead:
     'O LabCidades, por meio dos seus projetos, aplica o conhecimento técnico-científico aos desafios das cidades.',
-  wordmarkSrc: './csc/wordmark.svg',
+  wordmarkSrc: './csc/marca-vertical.png',
   wordmarkHeaderSrc: './csc/wordmark-header.svg',
   ufesMarkSrc: './csc/ufes.svg',
   cardCoverSrc: './csc/card-cover.png',
@@ -430,7 +459,6 @@ export type PosProgram = {
   hours?: string
   modulesLead?: string
   modules: PosModule[]
-  profile: string[]
 }
 
 export const POS = {
@@ -442,8 +470,6 @@ export const POS = {
     { label: 'Modalidade', value: 'Semipresencial' },
     { label: 'Reconhecimento', value: 'MEC' },
   ],
-  profileTitle: 'Perfil do egresso',
-  profileLead: 'Ao concluir o curso, espera-se que os profissionais sejam capazes de:',
   orgTitle: 'Organização da especialização',
   programs: [
     {
@@ -491,12 +517,6 @@ export const POS = {
             'Seminários II - Cidades do Futuro (15h)',
           ],
         },
-      ],
-      profile: [
-        'Atuar como agentes multiplicadores nas administrações públicas',
-        'Fortalecer a gestão pública municipal',
-        'Incentivar projetos de melhoria das cidades e dos serviços públicos',
-        'Dominar ferramentas tecnológicas para transformar espaços urbanos em cidades inteligentes',
       ],
     },
     {
@@ -549,14 +569,6 @@ export const POS = {
           title: 'Módulo IV - TCC',
           items: ['Trabalho de Conclusão de Curso (30h)'],
         },
-      ],
-      profile: [
-        'Compreender os conceitos de ESG',
-        'Desenvolver competências práticas para implantação dos preceitos ESG',
-        'Desenvolver e aplicar estratégias de descarbonização',
-        'Contribuir para o planejamento e o acompanhamento de projetos de sustentabilidade ambiental',
-        'Colaborar para o planejamento e acompanhamento de projetos socialmente inclusivos',
-        'Contribuir para elaboração de políticas públicas, na melhoria do meio ambiente e na inclusão social',
       ],
     },
   ] satisfies PosProgram[],

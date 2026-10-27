@@ -18,9 +18,11 @@ import {
   type SolutionId,
   type StageId,
 } from './data'
-import { CertQr, SiteQr } from './CertQr'
+import { CertQr } from './CertQr'
 import { useSwipe } from './hooks'
 import SplashDataRain from './SplashDataRain'
+import { ExploreCarousel } from './ExploreCarousel'
+import { HomeWordmarkEdit } from './HomeWordmarkEdit'
 import { SiteWindow } from './SiteWindow'
 import { Logo } from './visuals'
 
@@ -168,7 +170,7 @@ function SplashBackdrop() {
   )
 }
 
-function CscBar({ onHome }: { onHome: () => void }) {
+function CscBar({ onHome, onBack }: { onHome: () => void; onBack?: () => void }) {
   return (
     <header className="csc-bar">
       <img
@@ -177,11 +179,37 @@ function CscBar({ onHome }: { onHome: () => void }) {
         alt="LabCidades - Laboratório de projetos"
         draggable={false}
       />
-      <button type="button" className="csc-inicio" onPointerUp={onHome}>
-        Início
-      </button>
+      <div className="csc-bar-actions">
+        {onBack ? (
+          <button type="button" className="csc-voltar" onPointerUp={onBack}>
+            Voltar
+          </button>
+        ) : null}
+        <button type="button" className="csc-inicio" onPointerUp={onHome}>
+          Início
+        </button>
+      </div>
     </header>
   )
+}
+
+function toggleDocumentFullscreen() {
+  const root = document.documentElement
+  const anyDoc = document as Document & {
+    webkitFullscreenElement?: Element | null
+    webkitExitFullscreen?: () => Promise<void> | void
+  }
+  const anyRoot = root as HTMLElement & {
+    webkitRequestFullscreen?: () => Promise<void> | void
+  }
+  const active = document.fullscreenElement || anyDoc.webkitFullscreenElement
+  if (active) {
+    if (document.exitFullscreen) void document.exitFullscreen()
+    else anyDoc.webkitExitFullscreen?.()
+    return
+  }
+  if (root.requestFullscreen) void root.requestFullscreen()
+  else anyRoot.webkitRequestFullscreen?.()
 }
 
 export function Splash({
@@ -197,6 +225,25 @@ export function Splash({
   onQuiz: () => void
   onAdmin: () => void
 }) {
+  const [isFullscreen, setIsFullscreen] = useState(() =>
+    typeof document !== 'undefined'
+      ? Boolean(document.fullscreenElement || (document as Document & { webkitFullscreenElement?: Element | null }).webkitFullscreenElement)
+      : false,
+  )
+
+  useEffect(() => {
+    const sync = () => {
+      const anyDoc = document as Document & { webkitFullscreenElement?: Element | null }
+      setIsFullscreen(Boolean(document.fullscreenElement || anyDoc.webkitFullscreenElement))
+    }
+    document.addEventListener('fullscreenchange', sync)
+    document.addEventListener('webkitfullscreenchange', sync as EventListener)
+    return () => {
+      document.removeEventListener('fullscreenchange', sync)
+      document.removeEventListener('webkitfullscreenchange', sync as EventListener)
+    }
+  }, [])
+
   return (
     <CscFrame clear backdrop={<SplashBackdrop />}>
       <button
@@ -207,6 +254,37 @@ export function Splash({
       >
         <span className="csc-quiz-fab__mark" aria-hidden="true">
           ?
+        </span>
+      </button>
+      <button
+        type="button"
+        className="csc-fs-fab"
+        onPointerUp={toggleDocumentFullscreen}
+        aria-label={isFullscreen ? 'Sair da tela cheia' : 'Tela cheia'}
+        title={isFullscreen ? 'Sair da tela cheia (F11)' : 'Tela cheia (F11)'}
+      >
+        <span className="csc-fs-fab__mark" aria-hidden="true">
+          {isFullscreen ? (
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M8 3v5H3M16 3v5h5M8 21v-5H3M16 21v-5h5"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M3 8V3h5M21 8V3h-5M3 16v5h5M21 16v5h-5"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
         </span>
       </button>
       <button
@@ -223,26 +301,28 @@ export function Splash({
           draggable={false}
         />
       </button>
-      <div className="csc-home-stack">
-        <img
-          className="csc-wordmark"
-          src={LAB.wordmarkSrc}
-          alt="LabCidades - Laboratório de projetos"
-          draggable={false}
-        />
-        <p className="csc-home-lead">{LAB.homeLead}</p>
-        <div className="csc-home-actions">
-          <button type="button" className="csc-home-pill csc-home-pill--pos" onPointerUp={onPos}>
-            <span>{LAB.posCta}</span>
-          </button>
-          <button type="button" className="csc-home-pill csc-home-pill--cert" onPointerUp={onCert}>
-            <span>{LAB.certCta}</span>
-          </button>
-          <button type="button" className="csc-home-pill csc-home-pill--hub" onPointerUp={onExplore}>
-            <span>{LAB.cta}</span>
-          </button>
+      <HomeWordmarkEdit>
+        <div className="csc-home-stack">
+          <img
+            className="csc-wordmark"
+            src={LAB.wordmarkSrc}
+            alt="LabCidades - Laboratório de projetos"
+            draggable={false}
+          />
+          <p className="csc-home-lead">{LAB.homeLead}</p>
+          <div className="csc-home-actions">
+            <button type="button" className="csc-home-pill csc-home-pill--pos" onPointerUp={onPos}>
+              <span>{LAB.posCta}</span>
+            </button>
+            <button type="button" className="csc-home-pill csc-home-pill--cert" onPointerUp={onCert}>
+              <span>{LAB.certCta}</span>
+            </button>
+            <button type="button" className="csc-home-pill csc-home-pill--hub" onPointerUp={onExplore}>
+              <span>{LAB.cta}</span>
+            </button>
+          </div>
         </div>
-      </div>
+      </HomeWordmarkEdit>
     </CscFrame>
   )
 }
@@ -538,8 +618,6 @@ export function Brinde({
 export function Pos({ onHome }: { onHome: () => void }) {
   const [programId, setProgramId] = useState<PosProgramTabId>('cidades')
   const program = POS.programs.find((item) => item.id === programId) ?? POS.programs[0]
-  const leftModules = program.modules.filter((_, index) => index % 2 === 0)
-  const rightModules = program.modules.filter((_, index) => index % 2 === 1)
 
   return (
     <CscFrame compact className="csc-pos">
@@ -570,7 +648,7 @@ export function Pos({ onHome }: { onHome: () => void }) {
         ))}
       </div>
       <section className="csc-pos-panel" role="tabpanel">
-        <div className="csc-pos-section">
+        <div className="csc-pos-section csc-pos-section--about">
           <h2 className="csc-pos-heading">
             Sobre a especialização em <span className="csc-pos-accent">{program.highlight}</span>
           </h2>
@@ -596,47 +674,21 @@ export function Pos({ onHome }: { onHome: () => void }) {
         </div>
 
         {program.modules.length > 0 ? (
-          <div className="csc-pos-section">
+          <div className="csc-pos-section csc-pos-section--modules">
             <h2 className="csc-pos-heading">{POS.orgTitle}</h2>
             {program.modulesLead ? <p className="csc-pos-lead">{program.modulesLead}</p> : null}
             <div className="csc-pos-modules">
-              <div className="csc-pos-module-col">
-                {leftModules.map((module) => (
-                  <article key={module.id} className="csc-pos-module">
-                    <h3>{module.title}</h3>
-                    <ul>
-                      {module.items.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </article>
-                ))}
-              </div>
-              <div className="csc-pos-module-col">
-                {rightModules.map((module) => (
-                  <article key={module.id} className="csc-pos-module">
-                    <h3>{module.title}</h3>
-                    <ul>
-                      {module.items.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        {program.profile.length > 0 ? (
-          <div className="csc-pos-section">
-            <h2 className="csc-pos-heading">{POS.profileTitle}</h2>
-            <p className="csc-pos-lead">{POS.profileLead}</p>
-            <ul className="csc-pos-profile">
-              {program.profile.map((item) => (
-                <li key={item}>{item}</li>
+              {program.modules.map((module) => (
+                <article key={module.id} className="csc-pos-module">
+                  <h3>{module.title}</h3>
+                  <ul>
+                    {module.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </article>
               ))}
-            </ul>
+            </div>
           </div>
         ) : null}
       </section>
@@ -825,7 +877,6 @@ export function Hub({
     <CscFrame className="csc-hub">
       <CscBar onHome={onHome} />
       <h1 className="csc-title csc-title--hub csc-hub-title">{LAB.cta}</h1>
-      <p className="csc-hub-lead">{LAB.solutionsLead}</p>
       <div className="csc-cards">
         {SOLUTIONS.map((solution) => {
           const isBanner = Boolean(solution.cardBg)
@@ -836,37 +887,37 @@ export function Hub({
               onPointerUp={() => onOpen(solution.id)}
             >
               {isBanner ? (
-                <>
-                  <img
-                    className="csc-card-bg"
-                    src={solution.cardBg}
-                    alt=""
-                    draggable={false}
-                  />
-                  <div className="csc-card-banner-shade" aria-hidden="true" />
-                  <div className="csc-card-banner-content">
+                <div className="csc-card-split">
+                  <div className="csc-card-visual" aria-hidden="true">
+                    <img
+                      className="csc-card-icon"
+                      src={solution.cardIcon ?? solution.cardLogo ?? solution.image}
+                      alt=""
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="csc-card-panel">
                     <span className="csc-card-tag">{solution.cardArea}</span>
-                    <div className="csc-card-logo-stage">
-                      {solution.cardLogo ? (
+                    <div className="csc-card-copy">
+                      {solution.brandLogo ? (
                         <img
-                          className="csc-card-logo"
-                          src={solution.cardLogo}
-                          alt=""
+                          className="csc-card-brand-logo"
+                          src={solution.brandLogo}
+                          alt={`${solution.brandTitle} ${solution.brandSubtitle}`}
                           draggable={false}
                         />
-                      ) : null}
+                      ) : (
+                        <div className="csc-card-brand-row">
+                          <strong className="csc-card-brand">{solution.brandTitle}</strong>
+                          <span className="csc-card-brand-sub">{solution.brandSubtitle}</span>
+                        </div>
+                      )}
                     </div>
-                    <div className="csc-card-banner-bottom">
-                      <div className="csc-card-copy">
-                        <h2>{solution.cardTitle ?? solution.name}</h2>
-                        <p>{solution.cardBlurb ?? solution.tagline}</p>
-                      </div>
-                      <div className="csc-card-foot">
-                        <span className="csc-conhecer">{LAB.conhecerCta}</span>
-                      </div>
-                    </div>
+                    {solution.cardTitle ? (
+                      <p className="csc-card-impact">{solution.cardTitle}</p>
+                    ) : null}
                   </div>
-                </>
+                </div>
               ) : (
                 <>
                   <span className="csc-card-tag">{solution.cardArea}</span>
@@ -902,27 +953,21 @@ export function Explore({
   stage,
   onStage,
   onHome,
+  onBack,
   onSolution,
 }: {
   solution: Solution
   stage: StageId
   onStage: (stage: StageId) => void
   onHome: () => void
+  onBack: () => void
   onSolution: (id: SolutionId) => void
 }) {
-  const [openImage, setOpenImage] = useState(false)
-  const liveUrl = solution.liveUrl
-  const hasLive = Boolean(liveUrl)
-  const hasDemo = !hasLive && Boolean(solution.demo)
-  const slides = hasLive
-    ? []
-    : hasDemo
-      ? [solution.demo!]
-      : solution.gallery?.length
-        ? solution.gallery
-        : [solution.image]
-  const [shotIndex, setShotIndex] = useState(0)
-  const shotSrc = slides.length ? slides[shotIndex % slides.length] : solution.image
+  const slides = useMemo(() => {
+    if (solution.gallery?.length) return solution.gallery
+    if (solution.demo) return [solution.demo]
+    return [solution.image]
+  }, [solution.demo, solution.gallery, solution.image])
   const content = solution.stages[stage]
   const swipe = useSwipe((dir) => {
     const ids = SOLUTIONS.map((s) => s.id)
@@ -934,27 +979,11 @@ export function Explore({
     onSolution(next)
   })
 
-  useEffect(() => {
-    setShotIndex(0)
-    setOpenImage(false)
-  }, [solution.id])
-
-  useEffect(() => {
-    if (hasLive || hasDemo || slides.length < 2) return
-    const timer = window.setInterval(() => {
-      setShotIndex((value) => (value + 1) % slides.length)
-    }, 3200)
-    return () => window.clearInterval(timer)
-  }, [solution.id, slides.length, hasDemo, hasLive])
-
-  const stageMeta = STAGES.find((item) => item.id === stage)
-  const showResultQr = stage === 'impacto'
-
   return (
     <CscFrame className="csc-explore">
-      <CscBar onHome={onHome} />
+      <CscBar onHome={onHome} onBack={onBack} />
       <div className="csc-explore-layout" {...swipe}>
-        <h1 className="csc-title csc-explore-title">{solution.name}</h1>
+        <h1 className="csc-title csc-explore-title">{LAB.exploreTitle}</h1>
 
         <div className="csc-course-tabs csc-course-tabs--stages" role="tablist" aria-label="Etapas da solução">
           {STAGES.map((item) => (
@@ -971,73 +1000,37 @@ export function Explore({
           ))}
         </div>
 
-        <div className="csc-type csc-type--facts" aria-label="Dados do projeto">
-          <div className="csc-type-fact">
-            <span className="csc-type-label">Área</span>
-            <span className="csc-type-value">{solution.area}</span>
+        <section className="csc-explore-panel" role="tabpanel">
+          <div className="csc-explore-copy">
+            <p className="csc-explore-about-text">{content.message}</p>
+            <ul className="csc-explore-points">
+              {content.points.map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
           </div>
-          <div className="csc-type-fact">
-            <span className="csc-type-label">Setor</span>
-            <span className="csc-type-value">{solution.cardArea}</span>
-          </div>
-          <div className="csc-type-fact">
-            <span className="csc-type-label">Projeto</span>
-            <span className="csc-type-value">{solution.short}</span>
-          </div>
-          <div className="csc-type-fact">
-            <span className="csc-type-label">Etapa</span>
-            <span className="csc-type-value">{stageMeta?.label ?? ''}</span>
-          </div>
-        </div>
-
-        <section className={`csc-explore-panel${hasLive ? ' is-live' : ''}`} role="tabpanel">
-          <div className="csc-explore-section">
-            {content.title ? <h2 className="csc-explore-heading">{content.title}</h2> : null}
-            <div className={`csc-explore-about${hasLive ? ' is-live' : ''}`}>
-              <div className="csc-explore-about-main">
-                <p className="csc-explore-about-text">{content.message}</p>
-                <div className={`csc-explore-about-foot${showResultQr ? ' has-qr' : ''}`}>
-                  <ul className="csc-explore-points">
-                    {content.points.map((point) => (
-                      <li key={point}>{point}</li>
-                    ))}
-                  </ul>
-                  {showResultQr ? (
-                    <SiteQr
-                      className="csc-explore-qr"
-                      url="https://labcidades.ufes.br/"
-                      label="LabCidades"
-                      caption="labcidades.ufes.br"
-                    />
-                  ) : null}
-                </div>
-              </div>
-              {hasLive && liveUrl ? (
-                <div className="csc-explore-shot is-live">
-                  <SiteWindow
-                    url={liveUrl}
-                    title={solution.short}
-                    onExpand={() => setOpenImage(true)}
-                  />
-                </div>
+          <div className="csc-explore-rule" aria-hidden="true" />
+          <div className="csc-explore-showcase">
+            <div className={`csc-explore-brand${solution.brandLogo ? ' has-logo' : ''}`}>
+              {solution.brandLogo ? (
+                <img
+                  className="csc-explore-brand-logo"
+                  src={solution.brandLogo}
+                  alt={`${solution.brandTitle} ${solution.brandSubtitle}`}
+                  draggable={false}
+                />
               ) : (
-                <button
-                  type="button"
-                  className={`csc-explore-shot${hasDemo ? ' is-demo' : ''}`}
-                  onPointerUp={() => setOpenImage(true)}
-                  aria-label={`Ampliar demonstração de ${solution.name}`}
-                >
-                  <img
-                    key={shotSrc}
-                    src={shotSrc}
-                    alt={`Demonstração do projeto ${solution.name}`}
-                    draggable={false}
-                  />
-                </button>
+                <>
+                  <strong>{solution.brandTitle}</strong>
+                  <span>{solution.brandSubtitle}</span>
+                </>
               )}
             </div>
+            <ExploreCarousel images={slides} alt={`Imagens de ${solution.name}`} />
           </div>
         </section>
+
+        <div className="csc-explore-rule csc-explore-rule--rail" aria-hidden="true" />
 
         <div className="csc-rail" aria-label="Outras soluções">
           {SOLUTIONS.map((item) => (
@@ -1047,20 +1040,11 @@ export function Explore({
               className={`csc-tab${item.id === solution.id ? ' is-active' : ''}`}
               onPointerUp={() => onSolution(item.id)}
             >
-              {item.short}
+              {item.railLabel}
             </button>
           ))}
         </div>
       </div>
-      {openImage && (
-        <SolutionDetail
-          solution={solution}
-          mode="explore"
-          imageSrc={hasLive ? undefined : shotSrc}
-          liveUrl={hasLive ? liveUrl : undefined}
-          onClose={() => setOpenImage(false)}
-        />
-      )}
     </CscFrame>
   )
 }
