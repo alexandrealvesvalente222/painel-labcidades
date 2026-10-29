@@ -1017,7 +1017,9 @@ export function Explore({
                 </>
               )}
             </div>
-            <ExploreCarousel images={slides} alt={`Imagens de ${solution.name}`} />
+            <div className="csc-explore-carousel-slot">
+              <ExploreCarousel images={slides} alt={`Imagens de ${solution.name}`} />
+            </div>
           </div>
         </section>
 

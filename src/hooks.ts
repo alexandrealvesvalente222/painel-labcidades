@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   cscArtboard,
   detectOrientation,
+  getCscAxes,
   getCscScale,
   getTypeScale,
   getUiScale,
@@ -14,18 +15,22 @@ function applyScales(orientation?: Orientation) {
   const mode = orientation ?? detectOrientation(width, height)
   const board = cscArtboard(mode)
   const next = getUiScale(width, height)
+  const { u, v } = getCscAxes(width, height, mode)
   const step = getCscScale(width, height, mode)
   const typeStep = getTypeScale(width, height, mode)
   const root = document.documentElement
   root.dataset.orientation = mode
   root.style.setProperty('--ui-scale', String(next))
+  /* --csc-u / --csc-v independentes: layout preenche a janela ao redimensionar */
+  root.style.setProperty('--csc-u', `${u}px`)
+  root.style.setProperty('--csc-v', `${v}px`)
   root.style.setProperty('--csc-s', `${step}px`)
-  root.style.setProperty('--csc-u', `${step}px`)
-  root.style.setProperty('--csc-v', `${step}px`)
   root.style.setProperty('--csc-t', `${typeStep}px`)
   root.style.setProperty('--csc-scale', String(step))
   root.style.setProperty('--csc-board-w', String(board.w))
   root.style.setProperty('--csc-board-h', String(board.h))
+  root.style.setProperty('--csc-vw', `${width}px`)
+  root.style.setProperty('--csc-vh', `${height}px`)
   return { scale: next, orientation: mode }
 }
 
@@ -38,12 +43,17 @@ export function useUiScale() {
     const update = () => setScale(applyScales().scale)
     update()
     window.addEventListener('resize', update)
+    window.addEventListener('orientationchange', update)
     window.visualViewport?.addEventListener('resize', update)
     window.visualViewport?.addEventListener('scroll', update)
+    const mq = window.matchMedia('(orientation: portrait)')
+    mq.addEventListener?.('change', update)
     return () => {
       window.removeEventListener('resize', update)
+      window.removeEventListener('orientationchange', update)
       window.visualViewport?.removeEventListener('resize', update)
       window.visualViewport?.removeEventListener('scroll', update)
+      mq.removeEventListener?.('change', update)
     }
   }, [])
 

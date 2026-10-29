@@ -86,7 +86,13 @@ export function ExploreCarousel({ images, alt }: Props) {
       >
         {slides.map((src, i) => (
           <div key={src} className="csc-explore-carousel__slide">
-            <img src={src} alt={i === index ? alt : ''} draggable={false} />
+            <img
+              src={src}
+              alt={i === index ? alt : ''}
+              draggable={false}
+              decoding="async"
+              sizes="(max-width: 768px) 100vw, min(100vw, 1024px)"
+            />
           </div>
         ))}
       </div>

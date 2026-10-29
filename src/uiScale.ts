@@ -16,22 +16,29 @@ export function getUiScale(width: number, height: number) {
   return Math.max(0.4, Math.min(1.35, fit))
 }
 
-/** Escala do artboard CSC conforme orientação. */
+/** Escala uniforme (contain) — útil para ícones/círculos. */
 export function getCscScale(width: number, height: number, orientation: Orientation = 'landscape') {
   const board = cscArtboard(orientation)
   return Math.min(width / board.w, height / board.h)
 }
 
+/** Eixos fluidos: preenche a tela ao redimensionar (stretch do artboard). */
+export function getCscAxes(width: number, height: number, orientation: Orientation = 'landscape') {
+  const board = cscArtboard(orientation)
+  const minAxis = 0.35
+  return {
+    u: Math.max(minAxis, width / board.w),
+    v: Math.max(minAxis, height / board.h),
+  }
+}
+
 /**
- * Escala tipográfica alinhada ao layout.
- * No retrato, --t acompanha --u/--v (artboard 768×1280) para o texto
- * não ficar minúsculo dentro de botões e blocos grandes.
+ * Escala tipográfica alinhada ao menor eixo — evita texto distorcido
+ * quando a janela alonga só em uma direção.
  */
 export function getTypeScale(width: number, height: number, orientation: Orientation = 'landscape') {
-  if (orientation === 'portrait') {
-    return Math.max(0.45, getCscScale(width, height, orientation))
-  }
-  return Math.max(0.45, Math.min(width / CSC_LANDSCAPE.w, height / CSC_LANDSCAPE.h))
+  const { u, v } = getCscAxes(width, height, orientation)
+  return Math.max(0.45, Math.min(u, v))
 }
 
 export function viewportSize() {

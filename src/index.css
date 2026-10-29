@@ -31,9 +31,21 @@
   --ui-scale: 1;
   --csc-board-w: 1440;
   --csc-board-h: 1024;
-  --csc-s: min(100vw / var(--csc-board-w), 100dvh / var(--csc-board-h));
-  --csc-u: var(--csc-s);
-  --csc-v: var(--csc-s);
+  /* Fallback fluido antes do JS: eixos independentes = tela sempre preenchida */
+  --csc-u: calc(100vw / var(--csc-board-w));
+  --csc-v: calc(100dvh / var(--csc-board-h));
+  --csc-s: min(var(--csc-u), var(--csc-v));
+  --csc-t: var(--csc-s);
+  --csc-vw: 100vw;
+  --csc-vh: 100dvh;
+}
+
+html[data-orientation='portrait'] {
+  --csc-board-w: 768;
+  --csc-board-h: 1280;
+  --csc-u: calc(100vw / var(--csc-board-w));
+  --csc-v: calc(100dvh / var(--csc-board-h));
+  --csc-s: min(var(--csc-u), var(--csc-v));
   --csc-t: var(--csc-s);
 }
 
@@ -2976,6 +2988,8 @@ button {
 .csc-viewport {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   background: #5f489d;
 }
@@ -2992,13 +3006,17 @@ button {
   /* Espaço padrão logo (barra) → título da página */
   --csc-logo-title-gap: calc(69 * var(--v));
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: calc(var(--csc-board-w) * var(--csc-s));
-  height: calc(var(--csc-board-h) * var(--csc-s));
-  transform: translate(-50%, -50%);
+  inset: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  transform: none;
   overflow: hidden;
   background: #5f489d;
+  box-sizing: border-box;
 }
 
 .csc-frame--clear {
@@ -7213,6 +7231,8 @@ button {
   display: block;
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   margin: 0;
   padding: calc(18 * var(--u));
   border: 0;
@@ -7231,8 +7251,9 @@ button {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   align-items: stretch;
-  gap: calc(6 * var(--v));
-  padding: calc(18 * var(--v)) calc(20 * var(--u)) calc(14 * var(--v)) calc(16 * var(--u));
+  gap: calc(8 * var(--v));
+  /* Espaçamento interno das bordas do quadro roxo */
+  padding: calc(22 * var(--v)) calc(24 * var(--u)) calc(18 * var(--v)) calc(20 * var(--u));
   background: #3e0565;
   box-sizing: border-box;
   overflow: hidden;
@@ -7274,27 +7295,29 @@ button {
   overflow: hidden;
 }
 
-/* Logos das soluções: 352×111 (Figma); Integra / Conecta / Radar = 2× */
+/* Logos das soluções: 352×111 (Figma); Integra / Conecta / Radar maiores — sempre cabem no painel */
 .csc-frame.csc-hub .csc-card--banner .csc-card-brand-logo {
   display: block;
-  width: calc(352 * var(--u));
-  height: calc(111 * var(--v));
-  max-width: 100%;
-  max-height: 100%;
+  width: min(100%, calc(352 * var(--u)));
+  height: auto;
+  max-height: min(100%, calc(111 * var(--v)));
+  aspect-ratio: 352 / 111;
   object-fit: contain;
   object-position: left center;
   margin-inline: 0;
 }
 
 .csc-frame.csc-hub .csc-card--consulta.csc-card--banner .csc-card-brand-logo {
-  width: calc(528 * var(--u));
-  height: calc(166.5 * var(--v));
+  width: min(100%, calc(528 * var(--u)));
+  max-height: min(100%, calc(166.5 * var(--v)));
+  aspect-ratio: 352 / 111;
 }
 
 .csc-frame.csc-hub .csc-card--fiscal.csc-card--banner .csc-card-brand-logo,
 .csc-frame.csc-hub .csc-card--licencas.csc-card--banner .csc-card-brand-logo {
-  width: calc(704 * var(--u));
-  height: calc(222 * var(--v));
+  width: min(100%, calc(704 * var(--u)));
+  max-height: min(100%, calc(222 * var(--v)));
+  aspect-ratio: 352 / 111;
 }
 
 .csc-frame.csc-hub .csc-card--banner .csc-card-brand-row {
@@ -7502,6 +7525,18 @@ button {
   overflow: hidden;
 }
 
+.csc-frame.csc-explore .csc-explore-carousel-slot {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  container-type: size;
+  container-name: explore-carousel-slot;
+  overflow: hidden;
+}
+
 .csc-frame.csc-explore .csc-explore-brand {
   display: flex;
   flex-wrap: wrap;
@@ -7539,20 +7574,24 @@ button {
   color: rgba(255, 255, 255, 0.88);
 }
 
+/* Proporção das capturas (1024×489); encaixa no slot sem cortar */
 .csc-explore-carousel {
+  --carousel-ar: 1024 / 489;
   position: relative;
-  flex: 0 0 auto;
-  width: min(100%, calc(923 * var(--u)));
-  aspect-ratio: 923 / 441;
+  flex: 0 1 auto;
+  width: min(100%, calc(1024 * var(--u)), calc(100cqh * 1024 / 489));
+  max-width: 100%;
+  aspect-ratio: var(--carousel-ar);
   height: auto;
   min-height: 0;
-  max-height: none;
+  max-height: 100%;
   margin-inline: auto;
   overflow: hidden;
   background: #fff;
   touch-action: none;
   cursor: grab;
   user-select: none;
+  box-sizing: border-box;
 }
 
 .csc-explore-carousel.is-dragging {
@@ -7561,6 +7600,8 @@ button {
 
 .csc-explore-carousel.is-empty {
   cursor: default;
+  flex: 0 0 auto;
+  min-height: calc(120 * var(--v));
 }
 
 .csc-explore-carousel__track {
@@ -7888,8 +7929,8 @@ button.site-window__btn {
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-panel {
-  gap: calc(2 * var(--v));
-  padding: calc(12 * var(--v)) calc(14 * var(--u)) calc(10 * var(--v)) calc(12 * var(--u));
+  gap: calc(4 * var(--v));
+  padding: calc(16 * var(--v)) calc(16 * var(--u)) calc(12 * var(--v)) calc(14 * var(--u));
   grid-template-rows: auto minmax(0, 1fr) auto;
   height: 100%;
   min-height: 0;
@@ -7913,25 +7954,23 @@ button.site-window__btn {
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand-logo {
-  width: calc(352 * var(--u));
-  height: calc(111 * var(--v));
-  max-width: 100%;
+  width: min(100%, calc(352 * var(--u)));
+  height: auto;
   max-height: min(100%, calc(72 * var(--v)));
+  aspect-ratio: 352 / 111;
   object-fit: contain;
   object-position: left center;
   margin-inline: 0;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--consulta.csc-card--banner .csc-card-brand-logo {
-  width: calc(528 * var(--u));
-  height: calc(166.5 * var(--v));
+  width: min(100%, calc(528 * var(--u)));
   max-height: min(100%, calc(108 * var(--v)));
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--fiscal.csc-card--banner .csc-card-brand-logo,
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--licencas.csc-card--banner .csc-card-brand-logo {
-  width: calc(704 * var(--u));
-  height: calc(222 * var(--v));
+  width: min(100%, calc(704 * var(--u)));
   max-height: min(100%, calc(144 * var(--v)));
 }
 
@@ -8117,14 +8156,21 @@ button.site-window__btn {
   font-weight: 500;
 }
 
-/* Card da preview: 923×441 (mesma proporção; --u/--v não misturados) */
+.app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-carousel-slot {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  container-type: size;
+}
+
 .app[data-orientation='portrait'] .csc-explore-carousel {
-  flex: 0 0 auto;
-  width: min(100%, calc(923 * var(--u)));
-  aspect-ratio: 923 / 441;
+  flex: 0 1 auto;
+  width: min(100%, calc(1024 * var(--u)), calc(100cqh * 1024 / 489));
+  max-width: 100%;
+  aspect-ratio: 1024 / 489;
   height: auto;
   min-height: 0;
-  max-height: none;
+  max-height: 100%;
   margin-inline: auto;
   background: #fff;
   border-radius: 0;
