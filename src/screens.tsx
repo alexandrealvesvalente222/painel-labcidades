@@ -639,58 +639,49 @@ export function Pos({ onHome }: { onHome: () => void }) {
           </button>
         ))}
       </div>
-      <div className="csc-type csc-type--facts" aria-label="Dados do curso">
-        {POS.facts.map((fact) => (
-          <div key={fact.label} className="csc-type-fact">
-            <span className="csc-type-label">{fact.label}</span>
-            <span className="csc-type-value">{fact.value}</span>
-          </div>
-        ))}
-      </div>
       <section className="csc-pos-panel" role="tabpanel">
-        <div className="csc-pos-section csc-pos-section--about">
-          <h2 className="csc-pos-heading">
-            Sobre a especialização em <span className="csc-pos-accent">{program.highlight}</span>
-          </h2>
-          <div className="csc-pos-about">
-            <p className="csc-pos-about-text">{program.about}</p>
-            {(program.coordinator || program.hours) && (
-              <dl className="csc-pos-side-meta">
-                {program.coordinator ? (
-                  <div>
-                    <dt>Coordenador</dt>
-                    <dd>{program.coordinator}</dd>
-                  </div>
-                ) : null}
-                {program.hours ? (
-                  <div>
-                    <dt>Carga horária</dt>
-                    <dd>{program.hours}</dd>
-                  </div>
-                ) : null}
-              </dl>
-            )}
+        <header className="csc-pos-card-head">
+          <h2 className="csc-pos-course-name">{program.highlight}</h2>
+          <p className="csc-pos-degree">{program.degree}</p>
+        </header>
+
+        <div className="csc-pos-section csc-pos-section--objective">
+          <h3 className="csc-pos-label">{POS.objectiveLabel}</h3>
+          <p className="csc-pos-about-text">{program.objective}</p>
+        </div>
+
+        <div className="csc-pos-facts" aria-label="Dados do curso">
+          <div className="csc-pos-fact">
+            <span className="csc-pos-fact-label">Duração</span>
+            <span className="csc-pos-fact-value">{program.duration}</span>
+          </div>
+          <div className="csc-pos-fact">
+            <span className="csc-pos-fact-label">Modalidade</span>
+            <span className="csc-pos-fact-value">{program.modality}</span>
+          </div>
+          <div className="csc-pos-fact">
+            <span className="csc-pos-fact-label">Carga horária</span>
+            <span className="csc-pos-fact-value">{program.hours}</span>
           </div>
         </div>
 
-        {program.modules.length > 0 ? (
-          <div className="csc-pos-section csc-pos-section--modules">
-            <h2 className="csc-pos-heading">{POS.orgTitle}</h2>
-            {program.modulesLead ? <p className="csc-pos-lead">{program.modulesLead}</p> : null}
-            <div className="csc-pos-modules">
-              {program.modules.map((module) => (
-                <article key={module.id} className="csc-pos-module">
-                  <h3>{module.title}</h3>
-                  <ul>
-                    {module.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
+        <div className="csc-pos-section csc-pos-section--modules">
+          <h3 className="csc-pos-label">{POS.orgTitle}</h3>
+          <p className="csc-pos-lead">{program.modulesLead}</p>
+          <div className="csc-pos-stack-gap" aria-hidden="true" />
+          <div className="csc-pos-modules">
+            {program.modules.map((module) => (
+              <article key={module.id} className="csc-pos-module">
+                <h4>{module.title}</h4>
+                <ul>
+                  {module.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
           </div>
-        ) : null}
+        </div>
       </section>
     </CscFrame>
   )
@@ -890,8 +881,8 @@ export function Hub({
                 <div className="csc-card-split">
                   <div className="csc-card-visual" aria-hidden="true">
                     <img
-                      className="csc-card-icon"
-                      src={solution.cardIcon ?? solution.cardLogo ?? solution.image}
+                      className="csc-card-cover"
+                      src={solution.cardBg ?? solution.image}
                       alt=""
                       draggable={false}
                     />

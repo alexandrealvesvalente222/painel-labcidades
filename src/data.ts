@@ -102,7 +102,7 @@ export const SOLUTIONS: Solution[] = [
     brandSubtitle: 'Diagnóstico de maturidade',
     brandLogo: './projects/reurb-brand.png',
     area: 'Regularização fundiária',
-    cardArea: 'Assistência Social',
+    cardArea: 'Habitação',
     cardTitle: 'Em que estágio está a REURB do seu município?',
     cardBlurb:
       'Diagnosticamos através de dados e mapeamos a REURB para a gestão priorizar onde agir na regularização fundiária.',
@@ -111,10 +111,11 @@ export const SOLUTIONS: Solution[] = [
       'Apoia o município a conhecer o estágio de maturidade da sua REURB, com dashboard, mapa e estudos para planejar e acompanhar a regularização fundiária local.',
     image: './projects/reurb.jpg',
     liveUrl: './sites/reurb/index.html',
-    cardBg: './projects/reurb-bg.jpg',
+    cardBg: './projects/reurb-icon.png',
     cardLogo: './projects/reurb-logo.png',
     cardIcon: './projects/icons/reurb.svg',
     gallery: [
+      './projects/reurb/sistema-home-full.png',
       './projects/reurb/01-test.jpeg',
       './projects/reurb/02.jpg',
       './projects/reurb/03.jpg',
@@ -179,7 +180,7 @@ export const SOLUTIONS: Solution[] = [
       'Reúne dados municipais em um só lugar. Em vez de abrir vários sistemas, o gestor busca o município, o tema ou o indicador que precisa.',
     image: './projects/consulta.jpg',
     liveUrl: './sites/consulta/index.html',
-    cardBg: './projects/consulta-bg.jpg',
+    cardBg: './projects/consulta-icon.png',
     cardLogo: './projects/consulta-logo.png',
     cardIcon: './projects/icons/integra-fiscal.svg',
     accent: '#ff8300',
@@ -221,22 +222,23 @@ export const SOLUTIONS: Solution[] = [
   },
 {
     id: 'fiscal',
-    name: 'Radar de Inteligência Fiscal',
-    short: 'Inteligência Fiscal',
-    railLabel: 'Radar Fiscal',
-    brandTitle: 'Radar Fiscal',
-    brandSubtitle: 'Radar de inteligência fiscal',
+    name: 'Conecta Consulta',
+    short: 'Consulta integrada',
+    railLabel: 'Conecta Consulta',
+    brandTitle: 'conecta CONSULTA',
+    brandSubtitle: 'Consulta integrada de dados municipais',
+    brandLogo: './projects/conecta-consulta-brand.png',
     area: 'Arrecadação',
     cardArea: 'Finanças',
     cardTitle: 'Quanto o município deixa de arrecadar no território?',
     cardBlurb:
       'Cruzamos cadastro, dívida ativa e potencial de arrecadação no mapa para a gestão priorizar onde recuperar receita com justiça.',
-    tagline: 'Cadastro, dívida ativa e potencial de arrecadação no mapa.',
+    tagline: 'Consulta integrada de dados municipais.',
     purpose:
       'Cruza IPTU, cadastro imobiliário e dívida ativa para revelar o que o município ainda não vê, e onde pode arrecadar com mais justiça.',
     image: './projects/fiscal.jpg',
     liveUrl: './sites/fiscal/index.html',
-    cardBg: './projects/fiscal-bg.jpg',
+    cardBg: './projects/fiscal-icon.png',
     cardLogo: './projects/fiscal-logo.png',
     cardIcon: './projects/icons/radar-fiscal.svg',
     accent: '#5d058c',
@@ -280,8 +282,9 @@ export const SOLUTIONS: Solution[] = [
     name: 'Monitor de Licenças Ambientais',
     short: 'Meio Ambiente',
     railLabel: 'Radar Ambiental',
-    brandTitle: 'Radar Ambiental',
-    brandSubtitle: 'Monitor de licenças ambientais',
+    brandTitle: 'radar AMBIENTAL',
+    brandSubtitle: 'Monitoramento de licenças ambientais',
+    brandLogo: './projects/radar-ambiental-brand.png',
     area: 'Meio ambiente',
     cardArea: 'Meio Ambiente',
     cardTitle: 'Quais licenças ambientais estão válidas no seu território?',
@@ -292,7 +295,7 @@ export const SOLUTIONS: Solution[] = [
       'Em Vargem Alta, o painel mostra no mapa quais licenças estão válidas, quais vão vencer e quais já venceram, para a gestão agir a tempo.',
     image: './projects/licencas.jpg',
     liveUrl: './sites/licencas/index.html',
-    cardBg: './projects/licencas-bg.jpg',
+    cardBg: './projects/licencas-icon.png',
     cardLogo: './projects/licencas-logo.png',
     cardIcon: './projects/icons/radar-ambiental.svg',
     accent: '#32bcae',
@@ -340,7 +343,7 @@ export const LAB = {
   headline: 'Temos soluções inteligentes para desafios urbanos',
   invite: 'Toque na tela para começar',
   cta: 'Soluções para as cidades',
-  exploreTitle: 'Solução para as cidades',
+  exploreTitle: 'Soluções para as cidades',
   tag: 'Laboratório de projetos',
   contactCta: 'Fale conosco',
   posCta: 'Pós-Graduações',
@@ -454,46 +457,47 @@ export type PosProgram = {
   id: PosProgramId
   tabLabel: string
   highlight: string
-  about: string
-  coordinator?: string
-  hours?: string
-  modulesLead?: string
+  /** Subtítulo sob o nome do curso no card. */
+  degree: string
+  /** Texto do bloco Objetivo. */
+  objective: string
+  duration: string
+  modality: string
+  hours: string
+  modulesLead: string
   modules: PosModule[]
 }
 
 export const POS = {
   pageTitle: 'Pós-graduações',
   org: 'UFES',
-  facts: [
-    { label: 'Tipo', value: 'Especialização Lato Sensu' },
-    { label: 'Duração', value: '18 meses' },
-    { label: 'Modalidade', value: 'Semipresencial' },
-    { label: 'Reconhecimento', value: 'MEC' },
-  ],
-  orgTitle: 'Organização da especialização',
+  objectiveLabel: 'Objetivo',
+  orgTitle: 'Organização da disciplina',
   programs: [
     {
       id: 'cidades',
       tabLabel: 'Cidades Inteligentes',
       highlight: 'Cidades Inteligentes',
-      about:
-        'A "Especialização em Cidades Inteligentes" tem como objetivo capacitar profissionais atuantes na área da Gestão Pública e Privada para utilizarem análises de dados em prol de cidades tecnológicas e com mais qualidade de vida.',
-      coordinator: 'Prof. Dr. Everlam Elias Montibeler',
+      degree: 'Especialização Lato Sensu',
+      objective:
+        'Capacitar profissionais que atuam na Gestão Pública e Privada para utilizarem análises de dados para solucionar os desafios das cidades.',
+      duration: '18 meses',
+      modality: 'Semipresencial',
       hours: '360 horas + TCC',
-      modulesLead: '12 disciplinas reunidas em 04 módulos',
+      modulesLead: '12 disciplinas reunidas em 04 módulos + TCC',
       modules: [
         {
           id: 'm1',
-          title: 'Módulo I - Técnicas de Pesquisa',
+          title: 'Módulo I — Técnicas de Pesquisa',
           items: [
-            'Ambiente Virtual de Aprendizagem - AVA (15h)',
+            'Ambiente Virtual de Aprendizagem — AVA (15h)',
             'Métodos de Pesquisa Aplicado (15h)',
             'Cidades Inteligentes, Digitais e Sustentáveis (30h)',
           ],
         },
         {
           id: 'm2',
-          title: 'Módulo II - Cidades Inteligentes',
+          title: 'Módulo II — Cidades Inteligentes',
           items: [
             'E-Governo e E-Democracia (30h)',
             'Certificação de Cidades Inteligentes (45h)',
@@ -502,19 +506,20 @@ export const POS = {
         },
         {
           id: 'm3',
-          title: 'Módulo III - Big Data',
+          title: 'Módulo III — Big Data',
           items: [
             'Banco de Dados (45h)',
             'Análise de Dados (45h)',
             'Mineração de Dados (30h)',
+            'Inteligência artificial, IoT e outras tecnologias (45h)',
           ],
         },
         {
           id: 'm4',
-          title: 'Módulo IV - Seminários Aplicados',
+          title: 'Módulo IV — Seminários Aplicados',
           items: [
-            'Seminários I - Políticas Públicas (15h)',
-            'Seminários II - Cidades do Futuro (15h)',
+            'Seminários I — Políticas Públicas (15h)',
+            'Seminários II — Cidades do Futuro (15h)',
           ],
         },
       ],
@@ -523,17 +528,19 @@ export const POS = {
       id: 'esg',
       tabLabel: 'ESG, Sustentabilidade e Descarbonização',
       highlight: 'ESG, Sustentabilidade e Descarbonização',
-      about:
-        'Este curso foi pensado para profissionais graduados em curso superior que atuem em organizações públicas ou privadas, capacitando-os a integrar práticas ambientais, sociais e de governança à gestão e à descarbonização.',
-      coordinator: 'Prof. Dr. Rodrigo Straessli Pinto Franklin',
+      degree: 'Especialização Lato Sensu',
+      objective:
+        'Capacitar profissionais que atuam na Gestão Pública e Privada para aplicar ações de ESG (Ambiental, Social e Governança) como princípios estratégicos em sua gestão organizacional.',
+      duration: '18 meses',
+      modality: 'Semipresencial',
       hours: '360 horas + TCC',
-      modulesLead: '16 disciplinas reunidas em 03 módulos + TCC',
+      modulesLead: '18 disciplinas reunidas em 03 módulos + TCC',
       modules: [
         {
           id: 'm1',
-          title: 'Módulo I - ESG',
+          title: 'Módulo I — ESG',
           items: [
-            'Ambiente Virtual de Aprendizagem - AVA (15h)',
+            'Ambiente Virtual de Aprendizagem — AVA (15h)',
             'Fundamentos de ESG no Contexto Público e Privado (30h)',
             'Governança, Ética e Responsabilidade Socioambiental (30h)',
             'Finanças Sustentáveis (15h)',
@@ -544,7 +551,7 @@ export const POS = {
         },
         {
           id: 'm2',
-          title: 'Módulo II - Sustentabilidade',
+          title: 'Módulo II — Sustentabilidade',
           items: [
             'Sustentabilidade e Inovação (30h)',
             'Licenciamento e Monitoramento Ambiental (EIA/RIMA/RIU, EVTA) (30h)',
@@ -556,7 +563,7 @@ export const POS = {
         },
         {
           id: 'm3',
-          title: 'Módulo III - Descarbonização',
+          title: 'Módulo III — Descarbonização',
           items: [
             'Mudanças Climáticas e Mercado de Carbono (30h)',
             'Gestão das Emissões de Produtos e Serviços para a Descarbonização das Cidades e do Transporte (30h)',
@@ -566,7 +573,7 @@ export const POS = {
         },
         {
           id: 'm4',
-          title: 'Módulo IV - TCC',
+          title: 'Módulo IV — TCC',
           items: ['Trabalho de Conclusão de Curso (30h)'],
         },
       ],
