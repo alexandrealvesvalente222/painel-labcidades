@@ -21,7 +21,7 @@ function applyScales(orientation?: Orientation) {
   const root = document.documentElement
   root.dataset.orientation = mode
   root.style.setProperty('--ui-scale', String(next))
-  /* --csc-u / --csc-v independentes: layout preenche a janela ao redimensionar */
+  /* Paisagem: u≈v (contain). Retrato: eixos independentes (stretch). */
   root.style.setProperty('--csc-u', `${u}px`)
   root.style.setProperty('--csc-v', `${v}px`)
   root.style.setProperty('--csc-s', `${step}px`)

@@ -22,10 +22,18 @@ export function getCscScale(width: number, height: number, orientation: Orientat
   return Math.min(width / board.w, height / board.h)
 }
 
-/** Eixos fluidos: preenche a tela ao redimensionar (stretch do artboard). */
+/**
+ * Eixos do artboard.
+ * Paisagem: escala uniforme (contain) — layout absoluto do Figma.
+ * Retrato: eixos independentes (stretch) — totem preenche a tela.
+ */
 export function getCscAxes(width: number, height: number, orientation: Orientation = 'landscape') {
   const board = cscArtboard(orientation)
   const minAxis = 0.35
+  if (orientation === 'landscape') {
+    const s = Math.max(minAxis, Math.min(width / board.w, height / board.h))
+    return { u: s, v: s }
+  }
   return {
     u: Math.max(minAxis, width / board.w),
     v: Math.max(minAxis, height / board.h),

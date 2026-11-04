@@ -3,7 +3,13 @@ import cors from 'cors'
 import express from 'express'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { getDbPath, getInteresseStats, insertInteresse, listInteresses } from './db.mjs'
+import {
+  clearInteresses,
+  getDbPath,
+  getInteresseStats,
+  insertInteresse,
+  listInteresses,
+} from './db.mjs'
 import { loginAdmin, logoutAdmin, requireAdmin, getTokenFromReq } from './auth.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -130,6 +136,19 @@ app.get('/api/certificacao/stats', requireAdmin, (_req, res) => {
     res.status(500).json({ ok: false, errors: ['Falha ao carregar indicadores.'] })
   }
 })
+
+function handleClearInteresses(_req, res) {
+  try {
+    const result = clearInteresses()
+    res.json({ ok: true, ...result })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ ok: false, errors: ['Falha ao limpar o banco de dados.'] })
+  }
+}
+
+app.delete('/api/certificacao/interesses', requireAdmin, handleClearInteresses)
+app.post('/api/certificacao/interesses/clear', requireAdmin, handleClearInteresses)
 
 if (process.env.SERVE_STATIC === '1') {
   const dist = join(root, 'dist')

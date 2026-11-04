@@ -165,6 +165,16 @@ function CscFrame({
 function SplashBackdrop() {
   return (
     <div className="csc-splash-backdrop" aria-hidden="true">
+      <video
+        className="csc-splash-video"
+        src="./csc/splash-loop.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+      />
+      {/* Fallback discreto se o vídeo não carregar; em retrato o loop do vídeo manda */}
       <SplashDataRain />
     </div>
   )

@@ -80,6 +80,8 @@ export default function CertAdmin() {
   const [stats, setStats] = useState<Stats | null>(null)
   const [loading, setLoading] = useState(false)
   const [loadError, setLoadError] = useState('')
+  const [clearing, setClearing] = useState(false)
+  const [confirmClear, setConfirmClear] = useState(false)
 
   const municipiosFiltro = useMemo(
     () => (estado ? municipiosDoEstado(estado) : []),
@@ -226,6 +228,43 @@ export default function CertAdmin() {
     if (token) void loadData(token, empty)
   }
 
+  async function clearDatabase() {
+    if (!token || clearing) return
+    if (!confirmClear) {
+      setConfirmClear(true)
+      setLoadError('')
+      return
+    }
+
+    setClearing(true)
+    setLoadError('')
+    try {
+      const res = await fetch('/api/certificacao/interesses/clear', {
+        method: 'POST',
+        headers: authHeaders(token),
+      })
+      const payload = (await res.json()) as { ok?: boolean; errors?: string[]; before?: number }
+      if (res.status === 401) {
+        localStorage.removeItem(TOKEN_KEY)
+        setToken('')
+        setConfirmClear(false)
+        setLoadError('Sessão expirada. Faça login novamente.')
+        return
+      }
+      if (!res.ok || !payload.ok) {
+        setLoadError(payload.errors?.[0] ?? 'Não foi possível limpar o banco.')
+        return
+      }
+      setConfirmClear(false)
+      setItems([])
+      await loadData(token)
+    } catch {
+      setLoadError('Sem conexão com a API. Verifique se o servidor está no ar.')
+    } finally {
+      setClearing(false)
+    }
+  }
+
   function exportCsv() {
     const header = ['Nome', 'Estado', 'Município', 'Cargo', 'E-mail', 'Telefone', 'LGPD', 'Data']
     const lines = items.map((row) =>
@@ -323,6 +362,28 @@ export default function CertAdmin() {
             <button type="button" className="admin-btn admin-btn--ghost" onClick={exportCsv} disabled={!items.length}>
               Exportar CSV
             </button>
+            <button
+              type="button"
+              className="admin-btn admin-btn--danger"
+              onClick={() => void clearDatabase()}
+              disabled={clearing}
+            >
+              {clearing
+                ? 'Limpando…'
+                : confirmClear
+                  ? 'Confirmar limpeza'
+                  : 'Limpar banco'}
+            </button>
+            {confirmClear ? (
+              <button
+                type="button"
+                className="admin-btn admin-btn--ghost"
+                onClick={() => setConfirmClear(false)}
+                disabled={clearing}
+              >
+                Cancelar
+              </button>
+            ) : null}
             <button type="button" className="admin-btn admin-btn--ghost" onClick={openPanel}>
               Totem
             </button>
@@ -331,6 +392,13 @@ export default function CertAdmin() {
             </button>
           </div>
         </header>
+
+        {confirmClear ? (
+          <p className="admin-warn" role="alert">
+            Isso apaga todos os {(stats?.total ?? items.length) || 0} interessados permanentemente.
+            Clique em <strong>Confirmar limpeza</strong> para continuar.
+          </p>
+        ) : null}
 
         <section className="admin-cards" aria-label="Indicadores">
           <article className="admin-card">

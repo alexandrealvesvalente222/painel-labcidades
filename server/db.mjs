@@ -195,6 +195,22 @@ export function getInteresseStats() {
   }
 }
 
+export function clearInteresses() {
+  const before = Number(
+    db.prepare('SELECT COUNT(*) AS n FROM certificacao_interesses').get().n,
+  )
+  db.exec('DELETE FROM certificacao_interesses')
+  try {
+    db.exec("DELETE FROM sqlite_sequence WHERE name = 'certificacao_interesses'")
+  } catch {
+    /* sqlite_sequence may not exist */
+  }
+  const after = Number(
+    db.prepare('SELECT COUNT(*) AS n FROM certificacao_interesses').get().n,
+  )
+  return { before, after }
+}
+
 export function getDbPath() {
   return dbPath
 }

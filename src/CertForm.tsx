@@ -26,12 +26,6 @@ const empty: FormState = {
   telefone: '',
 }
 
-function openPanel() {
-  const url = new URL(window.location.href)
-  url.hash = ''
-  window.location.href = url.toString()
-}
-
 function onlyPhoneDigits(value: string) {
   return value.replace(/\D/g, '').slice(0, 11)
 }
@@ -134,9 +128,6 @@ export default function CertForm() {
             <p className="cert-form-success-lead">{CERT.successMessage}</p>
             <p className="cert-form-success-note">{CERT.successContact}</p>
             <div className="cert-form-actions">
-              <button type="button" className="cert-form-submit" onClick={openPanel}>
-                {CERT.backToPanelCta}
-              </button>
               <div className="cert-form-success-links">
                 <a
                   className="cert-form-link"

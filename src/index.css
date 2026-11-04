@@ -31,10 +31,10 @@
   --ui-scale: 1;
   --csc-board-w: 1440;
   --csc-board-h: 1024;
-  /* Fallback fluido antes do JS: eixos independentes = tela sempre preenchida */
-  --csc-u: calc(100vw / var(--csc-board-w));
-  --csc-v: calc(100dvh / var(--csc-board-h));
-  --csc-s: min(var(--csc-u), var(--csc-v));
+  /* Fallback paisagem: contain uniforme (artboard Figma) */
+  --csc-s: min(calc(100vw / var(--csc-board-w)), calc(100dvh / var(--csc-board-h)));
+  --csc-u: var(--csc-s);
+  --csc-v: var(--csc-s);
   --csc-t: var(--csc-s);
   --csc-vw: 100vw;
   --csc-vh: 100dvh;
@@ -43,6 +43,7 @@
 html[data-orientation='portrait'] {
   --csc-board-w: 768;
   --csc-board-h: 1280;
+  /* Retrato/totem: eixos independentes (stretch) */
   --csc-u: calc(100vw / var(--csc-board-w));
   --csc-v: calc(100dvh / var(--csc-board-h));
   --csc-s: min(var(--csc-u), var(--csc-v));
@@ -3010,6 +3011,25 @@ button {
   /* Espaço padrão logo (barra) → título da página */
   --csc-logo-title-gap: calc(69 * var(--v));
   position: absolute;
+  overflow: hidden;
+  background: #5f489d;
+  box-sizing: border-box;
+}
+
+/* Paisagem: artboard Figma centralizado (contain) */
+.app[data-orientation='landscape'] .csc-frame {
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--csc-board-w) * var(--csc-s));
+  height: calc(var(--csc-board-h) * var(--csc-s));
+  max-width: none;
+  max-height: none;
+  transform: translate(-50%, -50%);
+}
+
+/* Retrato/totem: preenche a tela (stretch) */
+.app[data-orientation='portrait'] .csc-frame {
   inset: 0;
   left: 0;
   top: 0;
@@ -3018,9 +3038,6 @@ button {
   max-width: 100%;
   max-height: 100%;
   transform: none;
-  overflow: hidden;
-  background: #5f489d;
-  box-sizing: border-box;
 }
 
 /* Padrão: respiro nas bordas em todas as telas CSC (home/splash fica de fora) */
@@ -3074,6 +3091,15 @@ button {
   --pos-hours: calc(12 * var(--t));
   --pos-icon: calc(36 * var(--t));
   --pos-gap: calc(14 * var(--v));
+}
+
+.app[data-orientation='landscape'] .csc-frame.csc-quiz {
+  --quiz-pad-x: clamp(16px, 3.4vw, calc(48 * var(--u)));
+  --quiz-pad-y: clamp(12px, 2.2vh, calc(28 * var(--v)));
+}
+
+.app[data-orientation='landscape'] .csc-cert-body {
+  padding: 0 calc(20 * var(--u)) calc(20 * var(--v));
 }
 
 .app[data-orientation='portrait'] .csc-frame--compact {
@@ -3287,7 +3313,19 @@ button {
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: #5f489d;
+  background: #3d2a6b;
+}
+
+.csc-splash-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .csc-splash-rain {
@@ -3297,8 +3335,13 @@ button {
   height: 100%;
   display: block;
   pointer-events: none;
-  z-index: 1;
-  opacity: 0.95;
+  z-index: 0;
+  opacity: 0.35;
+}
+
+/* Com o vídeo do mockup, a chuva binária some no retrato */
+.app[data-orientation='portrait'] .csc-splash-rain {
+  display: none;
 }
 
 .csc-home-stack {
@@ -4928,6 +4971,28 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.28);
 }
 
+.admin-btn--danger {
+  background: transparent;
+  color: #ffb4b4;
+  border: 1px solid rgba(255, 120, 120, 0.45);
+}
+
+.admin-btn--danger:hover:not(:disabled) {
+  background: rgba(180, 40, 40, 0.28);
+  border-color: rgba(255, 140, 140, 0.7);
+}
+
+.admin-warn {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 180, 120, 0.45);
+  background: rgba(120, 60, 20, 0.35);
+  color: #ffd8b0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
 .admin-error {
   margin: 0;
   color: #ffb4b4;
@@ -5711,6 +5776,12 @@ button {
   font: inherit;
   font-weight: 800;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-sizing: border-box;
+  padding: 0 18px;
 }
 
 .cert-form-submit:disabled {
@@ -5756,11 +5827,6 @@ button {
   gap: 12px;
   width: 100%;
   margin-top: 10px;
-}
-
-.cert-form-success .cert-form-submit {
-  margin-top: 0;
-  width: 100%;
 }
 
 .cert-form-success-links {
@@ -5942,9 +6008,11 @@ button {
 }
 
 .app[data-orientation='portrait'] .csc-frame--clear {
-  padding: calc(32 * var(--v)) calc(40 * var(--u)) calc(48 * var(--v)) !important;
+  /* Mesmo respiro das demais telas (guias laterais do mockup) */
+  padding: calc(24 * var(--v)) var(--csc-page-pad-x) calc(28 * var(--v)) !important;
   gap: 0 !important;
   justify-content: stretch;
+  overflow: hidden !important;
 }
 
 .app[data-orientation='portrait'] .csc-home-stack {
@@ -5952,16 +6020,24 @@ button {
   inset: auto !important;
   flex: 1 1 auto;
   width: 100%;
+  max-width: 100%;
   min-height: 0;
   display: grid !important;
   grid-template-rows: minmax(0, 1.15fr) auto auto;
-  align-items: center;
+  align-items: end;
   justify-items: center;
-  gap: clamp(10px, 2vh, calc(28 * var(--v)));
-  padding-top: clamp(72px, 10vh, calc(120 * var(--v)));
-  padding-bottom: clamp(8px, 1.5vh, calc(16 * var(--v)));
+  gap: clamp(14px, 2.4vh, calc(24 * var(--v)));
+  padding: calc(72 * var(--v)) 0 calc(10 * var(--v));
   pointer-events: auto;
   box-sizing: border-box;
+}
+
+/* Reserva a faixa do logo animado (vídeo) sem empurrar botões para fora */
+.app[data-orientation='portrait'] .csc-home-stack::before {
+  content: '';
+  grid-row: 1;
+  width: 100%;
+  min-height: 0;
 }
 
 .app[data-orientation='portrait'] .csc-wm-edit-root {
@@ -5977,37 +6053,38 @@ button {
 .app[data-orientation='portrait'] .csc-ufes-btn {
   position: absolute !important;
   left: auto !important;
-  right: calc(40 * var(--u)) !important;
-  top: calc(28 * var(--v)) !important;
+  right: var(--csc-page-pad-x) !important;
+  top: calc(20 * var(--v)) !important;
   z-index: 3;
+  opacity: 0.85;
 }
 
 .app[data-orientation='portrait'] .csc-ufes {
-  width: calc(120 * var(--u)) !important;
+  width: calc(88 * var(--u)) !important;
   height: auto !important;
 }
 
 .app[data-orientation='portrait'] .csc-quiz-fab {
-  left: calc(28 * var(--u)) !important;
-  top: calc(28 * var(--v)) !important;
-  width: calc(64 * var(--u)) !important;
-  height: calc(64 * var(--u)) !important;
+  left: var(--csc-page-pad-x) !important;
+  top: calc(20 * var(--v)) !important;
+  width: calc(56 * var(--u)) !important;
+  height: calc(56 * var(--u)) !important;
 }
 
 .app[data-orientation='portrait'] .csc-quiz-fab__mark {
-  font-size: calc(30 * var(--u));
+  font-size: calc(28 * var(--u));
 }
 
 .app[data-orientation='portrait'] .csc-fs-fab {
-  left: calc(28 * var(--u)) !important;
-  top: calc(108 * var(--v)) !important;
-  width: calc(64 * var(--u)) !important;
-  height: calc(64 * var(--u)) !important;
+  left: var(--csc-page-pad-x) !important;
+  top: calc(88 * var(--v)) !important;
+  width: calc(56 * var(--u)) !important;
+  height: calc(56 * var(--u)) !important;
 }
 
 .app[data-orientation='portrait'] .csc-fs-fab__mark {
-  width: calc(26 * var(--u));
-  height: calc(26 * var(--u));
+  width: calc(24 * var(--u));
+  height: calc(24 * var(--u));
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-quiz {
@@ -6056,26 +6133,23 @@ button {
   -webkit-line-clamp: 3;
 }
 
-.app[data-orientation='portrait'] .csc-wordmark {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  width: auto !important;
-  max-width: min(92%, calc(560 * var(--u))) !important;
-  max-height: 100%;
-  height: auto !important;
-  margin: 0 !important;
+/* Logo animado vem no vídeo (retrato/totem) — evita duplicar */
+.app[data-view='splash'] .csc-wordmark {
+  display: none !important;
+}
+
+/* Paisagem: vídeo é vertical (totem) — usa marca estática + chuva de dados */
+.app[data-orientation='landscape'][data-view='splash'] .csc-wordmark {
+  display: block !important;
+}
+
+.app[data-orientation='landscape'] .csc-splash-video {
+  display: none;
+}
+
+.app[data-orientation='landscape'] .csc-splash-rain {
   display: block;
-  transform: none !important;
-  object-fit: contain;
-  align-self: center;
-  justify-self: center;
-  background: transparent;
-  filter:
-    drop-shadow(0 0 calc(1.5 * var(--u)) rgba(50, 188, 174, 0.55))
-    drop-shadow(0 0 calc(10 * var(--u)) rgba(50, 188, 174, 0.28))
-    drop-shadow(0 0 calc(22 * var(--u)) rgba(50, 188, 174, 0.12));
-  z-index: 3;
+  opacity: 0.4;
 }
 
 .app[data-orientation='portrait'] .csc-home-lead {
@@ -6083,17 +6157,20 @@ button {
   left: auto !important;
   top: auto !important;
   bottom: auto !important;
+  grid-row: 2;
   width: 100% !important;
-  max-width: min(100%, calc(640 * var(--u)));
+  max-width: 100%;
   height: auto !important;
   margin: 0 !important;
   padding: 0;
   display: block !important;
-  font-size: var(--home-lead-size);
+  font-size: clamp(14px, 3.9vw, calc(22 * var(--u)));
   font-weight: 700;
-  line-height: 1.33;
+  line-height: 1.35;
   text-align: center;
   text-wrap: balance;
+  color: #fff;
+  text-shadow: 0 2px 16px rgba(16, 0, 40, 0.75);
   z-index: 2;
 }
 
@@ -6101,13 +6178,15 @@ button {
   position: relative !important;
   left: auto !important;
   top: auto !important;
+  grid-row: 3;
   width: 100% !important;
   margin-top: 0;
   padding-top: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--home-actions-gap);
+  gap: clamp(12px, 1.8vh, calc(18 * var(--v)));
   align-self: stretch;
+  justify-self: stretch;
 }
 
 .app[data-orientation='portrait'] .csc-home-pill {
@@ -6119,8 +6198,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: var(--home-pill-h) !important;
-  min-height: var(--home-pill-h);
+  height: clamp(52px, 7vh, calc(72 * var(--v))) !important;
+  min-height: clamp(52px, 7vh, calc(72 * var(--v)));
   margin: 0 !important;
   padding: var(--home-pill-pad-y) var(--home-pill-pad-x);
   font-size: var(--home-pill-size);
@@ -7053,6 +7132,48 @@ button {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: calc(76 * var(--v)) calc(76 * var(--u));
   align-items: stretch;
+}
+
+/* Paisagem: cards usam melhor a área e não cortam o 4º card */
+.app[data-orientation='landscape'] .csc-frame.csc-hub,
+.app[data-orientation='landscape'] .csc-frame.csc-explore {
+  --csc-page-pad-x: calc(44 * var(--u));
+  --csc-page-pad-y: calc(18 * var(--v));
+  --csc-page-pad-bottom: calc(22 * var(--v));
+}
+
+.app[data-orientation='landscape'] .csc-frame.csc-hub .csc-cards {
+  flex: 0 1 auto;
+  width: 100%;
+  height: calc(420 * var(--v));
+  max-height: calc(480 * var(--v));
+  min-height: calc(310 * var(--v));
+  margin-top: calc(28 * var(--v));
+  margin-bottom: auto;
+  gap: calc(24 * var(--v)) calc(28 * var(--u));
+  align-items: stretch;
+}
+
+.app[data-orientation='landscape'] .csc-frame.csc-hub .csc-card {
+  height: 100%;
+  max-height: none;
+  min-height: 0;
+}
+
+.app[data-orientation='landscape'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand-logo {
+  width: min(100%, calc(352 * var(--u)));
+  max-height: min(100%, calc(111 * var(--v)));
+}
+
+.app[data-orientation='landscape'] .csc-frame.csc-hub .csc-card--consulta.csc-card--banner .csc-card-brand-logo {
+  width: min(100%, calc(528 * var(--u)));
+  max-height: min(100%, calc(140 * var(--v)));
+}
+
+.app[data-orientation='landscape'] .csc-frame.csc-hub .csc-card--fiscal.csc-card--banner .csc-card-brand-logo,
+.app[data-orientation='landscape'] .csc-frame.csc-hub .csc-card--licencas.csc-card--banner .csc-card-brand-logo {
+  width: min(100%, calc(704 * var(--u)));
+  max-height: min(100%, calc(140 * var(--v)));
 }
 
 .csc-frame.csc-hub .csc-card {
