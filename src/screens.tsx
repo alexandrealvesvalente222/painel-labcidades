@@ -877,7 +877,7 @@ export function Hub({
   return (
     <CscFrame className="csc-hub">
       <CscBar onHome={onHome} />
-      <h1 className="csc-title csc-title--hub csc-hub-title">{LAB.cta}</h1>
+      <h1 className="csc-title csc-title--hub csc-hub-title">{LAB.hubTitle}</h1>
       <div className="csc-cards">
         {SOLUTIONS.map((solution) => {
           const isBanner = Boolean(solution.cardBg)

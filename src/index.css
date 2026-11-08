@@ -5914,17 +5914,18 @@ button {
    Layout CSC - Retrato
 ========================= */
 
-/* Tipografia / botões = padrão da tela inicial (totem) */
+/* Tipografia / botões = Figma Tela inicial 187:2 (1080×1920) */
 .app[data-orientation='portrait'] .csc-frame {
-  --home-lead-size: clamp(12px, 3.4vw, calc(22 * var(--u)));
-  --home-pill-size: var(--home-lead-size);
+  --home-lead-size: clamp(16px, 3.9vw, calc(30 * var(--t)));
+  --home-pill-size: clamp(18px, 4.2vw, calc(32 * var(--t)));
   --home-type: var(--home-lead-size);
-  --home-pill-h: clamp(44px, 6.8vh, calc(72 * var(--v)));
-  --home-pill-radius: clamp(12px, 2.2vw, calc(18 * var(--u)));
+  --home-pill-h: clamp(52px, 7.2vh, calc(73 * var(--v)));
+  --home-pill-w: min(100%, calc(451 * var(--u)));
+  --home-pill-radius: clamp(12px, 2.2vw, calc(17 * var(--u)));
   --home-pill-pad-y: clamp(8px, 1.2vh, 14px);
   --home-pill-pad-x: clamp(12px, 3vw, calc(20 * var(--u)));
-  --home-actions-gap: clamp(8px, 1.5vh, calc(16 * var(--v)));
-  --panel-title-size: clamp(18px, 4.6vw, calc(26 * var(--u)));
+  --home-actions-gap: clamp(14px, 2.2vh, calc(25 * var(--v)));
+  --panel-title-size: clamp(22px, 5.2vw, calc(40 * var(--t)));
   --csc-page-pad-x: calc(28 * var(--u));
   --csc-page-pad-y: calc(16 * var(--v));
   --csc-page-pad-bottom: calc(20 * var(--v));
@@ -5975,20 +5976,21 @@ button {
 
 .app[data-orientation='portrait'] .csc-frame.csc-pos .csc-pos-label {
   font-size: calc(25 * var(--t));
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.25;
+  color: var(--csc-teal);
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-pos .csc-pos-about-text {
-  font-size: calc(18 * var(--t));
+  font-size: calc(19 * var(--t));
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-pos .csc-pos-lead {
-  font-size: calc(18 * var(--t));
-  font-weight: 600;
-  line-height: 1.35;
+  font-size: calc(25 * var(--t));
+  font-weight: 400;
+  line-height: 1.45;
 }
 
 .app[data-orientation='portrait'] .csc-frame .csc-title,
@@ -6023,10 +6025,10 @@ button {
   max-width: 100%;
   min-height: 0;
   display: grid !important;
-  grid-template-rows: minmax(0, 1.15fr) auto auto;
+  grid-template-rows: minmax(0, 1.05fr) auto auto;
   align-items: end;
   justify-items: center;
-  gap: clamp(14px, 2.4vh, calc(24 * var(--v)));
+  gap: clamp(18px, 3vh, calc(36 * var(--v)));
   padding: calc(72 * var(--v)) 0 calc(10 * var(--v));
   pointer-events: auto;
   box-sizing: border-box;
@@ -6056,11 +6058,12 @@ button {
   right: var(--csc-page-pad-x) !important;
   top: calc(20 * var(--v)) !important;
   z-index: 3;
-  opacity: 0.85;
+  opacity: 1;
 }
 
+/* Figma 192:2 — marca UFES 201×176 no artboard 1080 */
 .app[data-orientation='portrait'] .csc-ufes {
-  width: calc(88 * var(--u)) !important;
+  width: calc(143 * var(--u)) !important;
   height: auto !important;
 }
 
@@ -6158,15 +6161,15 @@ button {
   top: auto !important;
   bottom: auto !important;
   grid-row: 2;
-  width: 100% !important;
+  width: min(100%, calc(525 * var(--u))) !important;
   max-width: 100%;
   height: auto !important;
   margin: 0 !important;
   padding: 0;
   display: block !important;
-  font-size: clamp(14px, 3.9vw, calc(22 * var(--u)));
+  font-size: var(--home-lead-size);
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.33;
   text-align: center;
   text-wrap: balance;
   color: #fff;
@@ -6180,31 +6183,33 @@ button {
   top: auto !important;
   grid-row: 3;
   width: 100% !important;
-  margin-top: 0;
+  margin-top: clamp(10px, 1.6vh, calc(18 * var(--v)));
   padding-top: 0;
   display: flex;
   flex-direction: column;
-  gap: clamp(12px, 1.8vh, calc(18 * var(--v)));
+  gap: var(--home-actions-gap);
   align-self: stretch;
   justify-self: stretch;
+  align-items: center;
 }
 
 .app[data-orientation='portrait'] .csc-home-pill {
   position: relative !important;
   left: auto !important;
   top: auto !important;
-  width: 100% !important;
+  width: var(--home-pill-w) !important;
+  max-width: 100%;
   flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: clamp(52px, 7vh, calc(72 * var(--v))) !important;
-  min-height: clamp(52px, 7vh, calc(72 * var(--v)));
+  height: var(--home-pill-h) !important;
+  min-height: var(--home-pill-h);
   margin: 0 !important;
   padding: var(--home-pill-pad-y) var(--home-pill-pad-x);
   font-size: var(--home-pill-size);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.15;
   border-radius: var(--home-pill-radius);
 }
 
@@ -6685,9 +6690,9 @@ button {
 
 .csc-pos-course-name {
   margin: 0;
-  font-size: calc(40 * var(--t));
-  font-weight: 800;
-  line-height: 1.2;
+  font-size: calc(38 * var(--t));
+  font-weight: 700;
+  line-height: 1.15;
   color: var(--csc-teal);
 }
 
@@ -6888,7 +6893,9 @@ button {
 }
 
 .app[data-orientation='portrait'] .csc-frame--compact.csc-pos .csc-pos-title {
-  font-size: calc(40 * var(--t)) !important;
+  /* Figma 35px ExtraBold + UFES Regular */
+  font-size: calc(35 * var(--t)) !important;
+  font-weight: 800;
   margin-top: 0 !important;
   flex-shrink: 0;
   line-height: 1.2 !important;
@@ -6896,25 +6903,27 @@ button {
 
 .app[data-orientation='portrait'] .csc-frame--compact.csc-pos .csc-course-tabs {
   grid-template-columns: 1fr 1fr;
-  gap: calc(12 * var(--u));
+  gap: calc(28 * var(--u));
   margin-top: calc(42 * var(--v));
   flex-shrink: 0;
 }
 
 .app[data-orientation='portrait'] .csc-frame--compact.csc-pos .csc-course-tab {
   width: 100%;
-  min-height: calc(52 * var(--v));
+  min-height: calc(57 * var(--v));
   height: auto;
-  font-size: calc(18 * var(--t));
-  padding: calc(10 * var(--v)) calc(10 * var(--u));
+  font-size: calc(22 * var(--t));
+  font-weight: 800;
+  padding: calc(10 * var(--v)) calc(12 * var(--u));
   border-radius: calc(12 * var(--u));
+  border-color: var(--csc-teal);
 }
 
 .app[data-orientation='portrait'] .csc-frame--compact.csc-pos .csc-pos-panel {
-  margin-top: calc(59 * var(--v));
-  padding: calc(24 * var(--v)) calc(20 * var(--u)) calc(28 * var(--v));
+  margin-top: calc(48 * var(--v));
+  padding: calc(28 * var(--v)) calc(28 * var(--u)) calc(32 * var(--v));
   border-radius: 0;
-  gap: calc(69 * var(--v)) !important;
+  gap: calc(48 * var(--v)) !important;
   flex: 1 1 0;
   min-height: 0;
   overflow-x: hidden !important;
@@ -6950,9 +6959,11 @@ button {
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-pos .csc-pos-course-name {
-  font-size: calc(40 * var(--t));
-  font-weight: 800;
-  line-height: 1.2;
+  /* Figma: nome da pós 38px Bold teal */
+  font-size: calc(38 * var(--t));
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--csc-teal);
 }
 
 .app[data-orientation='portrait'] .csc-pos-degree {
@@ -6971,31 +6982,48 @@ button {
 
 .app[data-orientation='portrait'] .csc-pos-label {
   font-size: calc(25 * var(--t));
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.3;
+  color: var(--csc-teal);
 }
 
 .app[data-orientation='portrait'] .csc-pos-about-text {
-  font-size: calc(18 * var(--t));
+  font-size: calc(19 * var(--t));
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.45;
   overflow: visible;
   display: block;
   -webkit-line-clamp: unset;
 }
 
-.app[data-orientation='portrait'] .csc-pos-lead,
+.app[data-orientation='portrait'] .csc-pos-lead {
+  font-size: calc(25 * var(--t));
+  font-weight: 400;
+  line-height: 1.45;
+}
+
 .app[data-orientation='portrait'] .csc-pos-fact-label,
-.app[data-orientation='portrait'] .csc-pos-fact-value,
-.app[data-orientation='portrait'] .csc-pos-module h4,
-.app[data-orientation='portrait'] .csc-pos-module li {
-  font-size: calc(18 * var(--t));
-  font-weight: 600;
+.app[data-orientation='portrait'] .csc-pos-fact-value {
+  font-size: calc(16 * var(--t));
+  font-weight: 400;
   line-height: 1.35;
 }
 
-.app[data-orientation='portrait'] .csc-pos-fact-label {
+.app[data-orientation='portrait'] .csc-pos-fact-value {
+  font-weight: 700;
+}
+
+.app[data-orientation='portrait'] .csc-pos-module h4 {
+  font-size: calc(23 * var(--t));
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--csc-teal);
+}
+
+.app[data-orientation='portrait'] .csc-pos-module li {
+  font-size: calc(23 * var(--t));
   font-weight: 400;
+  line-height: 1.4;
 }
 
 .app[data-orientation='portrait'] .csc-pos-facts {
@@ -7161,19 +7189,19 @@ button {
 }
 
 .app[data-orientation='landscape'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand-logo {
-  width: min(100%, calc(352 * var(--u)));
-  max-height: min(100%, calc(111 * var(--v)));
+  width: min(100%, calc(280 * var(--u)));
+  max-height: min(100%, calc(130 * var(--v)));
 }
 
 .app[data-orientation='landscape'] .csc-frame.csc-hub .csc-card--consulta.csc-card--banner .csc-card-brand-logo {
-  width: min(100%, calc(528 * var(--u)));
-  max-height: min(100%, calc(140 * var(--v)));
+  width: min(100%, calc(240 * var(--u)));
+  max-height: min(100%, calc(160 * var(--v)));
 }
 
 .app[data-orientation='landscape'] .csc-frame.csc-hub .csc-card--fiscal.csc-card--banner .csc-card-brand-logo,
 .app[data-orientation='landscape'] .csc-frame.csc-hub .csc-card--licencas.csc-card--banner .csc-card-brand-logo {
-  width: min(100%, calc(704 * var(--u)));
-  max-height: min(100%, calc(140 * var(--v)));
+  width: min(100%, calc(300 * var(--u)));
+  max-height: min(100%, calc(150 * var(--v)));
 }
 
 .csc-frame.csc-hub .csc-card {
@@ -7438,27 +7466,29 @@ button {
   overflow: hidden;
 }
 
-/* Logos: cabem só na faixa do meio — não invadem tag nem pergunta */
+/* Logos SVG verdes — grandes na faixa do meio */
 .csc-frame.csc-hub .csc-card--banner .csc-card-brand-logo {
   display: block;
-  width: auto;
+  width: min(100%, calc(280 * var(--u)));
   max-width: 100%;
   height: auto;
-  max-height: min(100%, calc(64 * var(--v)));
-  aspect-ratio: 352 / 111;
+  max-height: min(100%, calc(120 * var(--v)));
+  aspect-ratio: auto;
   object-fit: contain;
-  object-position: left center;
-  margin-inline: 0;
+  object-position: center;
+  margin-inline: auto;
   flex-shrink: 1;
 }
 
 .csc-frame.csc-hub .csc-card--consulta.csc-card--banner .csc-card-brand-logo {
-  max-height: min(100%, calc(80 * var(--v)));
+  width: min(100%, calc(240 * var(--u)));
+  max-height: min(100%, calc(150 * var(--v)));
 }
 
 .csc-frame.csc-hub .csc-card--fiscal.csc-card--banner .csc-card-brand-logo,
 .csc-frame.csc-hub .csc-card--licencas.csc-card--banner .csc-card-brand-logo {
-  max-height: min(100%, calc(88 * var(--v)));
+  width: min(100%, calc(300 * var(--u)));
+  max-height: min(100%, calc(140 * var(--v)));
 }
 
 .csc-frame.csc-hub .csc-card--banner .csc-card-brand-row {
@@ -7481,7 +7511,7 @@ button {
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: 0.01em;
-  color: #fff;
+  color: var(--csc-teal);
 }
 
 .csc-frame.csc-hub .csc-card--banner .csc-card-brand-sub {
@@ -7491,7 +7521,7 @@ button {
   font-size: calc(14 * var(--t));
   font-weight: 500;
   line-height: 1.25;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--csc-teal);
   text-align: left;
 }
 
@@ -7515,11 +7545,11 @@ button {
   max-height: calc(56 * var(--v));
   margin: 0;
   padding: 0;
-  font-size: calc(14 * var(--t));
-  font-weight: 500;
-  line-height: 1.25;
+  font-size: calc(15 * var(--t));
+  font-weight: 700;
+  line-height: 1.2;
   text-align: center;
-  color: var(--csc-teal);
+  color: #fff;
   overflow: hidden;
   overflow-wrap: anywhere;
 }
@@ -7699,7 +7729,8 @@ button {
 
 .csc-frame.csc-explore .csc-explore-brand-logo {
   display: block;
-  width: min(100%, calc(520 * var(--u)));
+  width: min(100%, calc(280 * var(--u)));
+  max-height: calc(96 * var(--v));
   height: auto;
   object-fit: contain;
   object-position: left center;
@@ -7988,9 +8019,11 @@ button.site-window__btn {
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-hub-title {
   font-size: var(--panel-title-size) !important;
+  font-weight: 800 !important;
   line-height: 1.15 !important;
   margin: 0 !important;
   text-align: left !important;
+  color: var(--csc-teal) !important;
   flex-shrink: 0;
 }
 
@@ -8008,13 +8041,13 @@ button.site-window__btn {
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-cards {
-  /* Preenche o restante da tela; largura limitada às margens do frame */
+  /* Figma 101:168 — ~68px entre cards no artboard 1920 */
   grid-template-columns: minmax(0, 1fr);
   justify-content: stretch;
   justify-items: stretch;
   grid-template-rows: repeat(4, minmax(0, 1fr));
-  gap: min(calc(48 * var(--v)), 2.2dvh);
-  margin-top: min(calc(36 * var(--v)), 2.8dvh);
+  gap: min(calc(45 * var(--v)), 2.6dvh);
+  margin-top: min(calc(48 * var(--v)), 3.2dvh);
   margin-bottom: 0;
   flex: 1 1 0;
   width: 100%;
@@ -8065,13 +8098,13 @@ button.site-window__btn {
   height: 100%;
   object-fit: contain;
   object-position: center;
-  padding: calc(14 * var(--u));
+  padding: calc(8 * var(--u));
   box-sizing: border-box;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-panel {
-  gap: calc(4 * var(--v));
-  padding: calc(16 * var(--v)) calc(16 * var(--u)) calc(12 * var(--v)) calc(14 * var(--u));
+  gap: calc(6 * var(--v));
+  padding: calc(14 * var(--v)) calc(18 * var(--u)) calc(14 * var(--v)) calc(16 * var(--u));
   grid-template-rows: auto minmax(0, 1fr) auto;
   height: 100%;
   min-height: 0;
@@ -8080,38 +8113,45 @@ button.site-window__btn {
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-tag {
   justify-self: end;
   margin: 0;
-  padding: calc(5 * var(--v)) calc(12 * var(--u));
+  padding: calc(4 * var(--v)) calc(10 * var(--u));
   letter-spacing: 0.02em;
-  font-size: clamp(9px, 2.3vw, calc(11 * var(--u)));
+  font-size: clamp(10px, 2.4vw, calc(12 * var(--t)));
+  font-weight: 700;
+  color: #5f489d;
+  background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.82);
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-copy {
   gap: 0;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   min-height: 0;
   max-height: 100%;
   overflow: hidden;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand-logo {
-  width: auto;
+  width: min(100%, calc(260 * var(--u)));
   max-width: 100%;
   height: auto;
-  max-height: min(100%, calc(40 * var(--v)));
-  aspect-ratio: 352 / 111;
+  max-height: min(100%, calc(110 * var(--v)));
+  aspect-ratio: auto;
   object-fit: contain;
-  object-position: left center;
-  margin-inline: 0;
+  object-position: center;
+  margin-inline: auto;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--consulta.csc-card--banner .csc-card-brand-logo {
-  max-height: min(100%, calc(48 * var(--v)));
+  width: min(100%, calc(220 * var(--u)));
+  max-height: min(100%, calc(140 * var(--v)));
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--fiscal.csc-card--banner .csc-card-brand-logo,
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--licencas.csc-card--banner .csc-card-brand-logo {
-  max-height: min(100%, calc(52 * var(--v)));
+  width: min(100%, calc(280 * var(--u)));
+  max-height: min(100%, calc(130 * var(--v)));
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand-row {
@@ -8120,17 +8160,23 @@ button.site-window__btn {
   height: auto;
   max-height: 100%;
   overflow: hidden;
+  align-items: center;
+  text-align: center;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand {
-  font-size: clamp(14px, 3.6vw, calc(18 * var(--u)));
+  font-size: clamp(16px, 4vw, calc(22 * var(--t)));
+  font-weight: 800;
   line-height: 1.1;
+  color: var(--csc-teal);
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-brand-sub {
   max-width: 100%;
-  font-size: clamp(10px, 2.4vw, calc(12 * var(--u)));
+  font-size: clamp(11px, 2.6vw, calc(14 * var(--t)));
+  font-weight: 500;
   line-height: 1.2;
+  color: var(--csc-teal);
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-hub .csc-card--banner .csc-card-impact {
@@ -8138,14 +8184,14 @@ button.site-window__btn {
   max-width: 100%;
   min-height: 0;
   height: auto;
-  max-height: calc(36 * var(--v));
+  max-height: calc(40 * var(--v));
   margin: 0;
   padding-block: 1px;
-  font-size: clamp(10px, 2.5vw, calc(12 * var(--u)));
-  font-weight: 500;
+  font-size: clamp(11px, 2.8vw, calc(15 * var(--t)));
+  font-weight: 700;
   line-height: 1.2;
   text-align: center;
-  color: var(--csc-teal);
+  color: #fff;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -8277,25 +8323,32 @@ button.site-window__btn {
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-showcase {
   flex: 1 1 auto;
   min-height: 0;
-  gap: calc(12 * var(--v));
+  gap: calc(10 * var(--v));
   justify-content: flex-start;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-brand.has-logo {
   margin-bottom: 0;
+  flex: 0 0 auto;
 }
 
+/* Figma Tela S 101:83 — marca ~28% da largura (~210×76), carrossel full-bleed 923×441 */
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-brand-logo {
-  width: min(78%, calc(380 * var(--u)));
+  width: min(28%, calc(210 * var(--u)));
+  max-width: 28%;
+  max-height: calc(80 * var(--v));
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-brand strong {
-  font-size: clamp(22px, 5.8vw, calc(32 * var(--t)));
+  font-size: clamp(20px, 5vw, calc(28 * var(--t)));
   font-weight: 800;
 }
 
 .app[data-orientation='portrait'] .csc-frame.csc-explore .csc-explore-brand span {
-  font-size: clamp(13px, 3.4vw, calc(17 * var(--t)));
+  font-size: clamp(12px, 3.2vw, calc(16 * var(--t)));
   font-weight: 500;
 }
 
@@ -8303,18 +8356,20 @@ button.site-window__btn {
   flex: 1 1 auto;
   min-height: 0;
   width: 100%;
-  container-type: size;
+  align-items: flex-start;
+  justify-content: stretch;
+  container-type: normal;
 }
 
 .app[data-orientation='portrait'] .csc-explore-carousel {
-  flex: 0 1 auto;
-  width: min(100%, calc(1024 * var(--u)), calc(100cqh * 1024 / 489));
+  flex: 0 0 auto;
+  width: 100%;
   max-width: 100%;
-  aspect-ratio: 1024 / 489;
+  aspect-ratio: 923 / 441;
   height: auto;
   min-height: 0;
-  max-height: 100%;
-  margin-inline: auto;
+  max-height: none;
+  margin-inline: 0;
   background: #fff;
   border-radius: 0;
   overflow: hidden;
