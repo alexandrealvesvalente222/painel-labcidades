@@ -119,6 +119,7 @@ export const SOLUTIONS: Solution[] = [
       './projects/reurb/carousel-02-dashboard.png',
       './projects/reurb/carousel-03-mapa.jpg',
       './projects/reurb/carousel-04-trilha.png',
+      './projects/reurb/carousel-05-trilha-modulos.png',
     ],
     accent: '#93039f',
     accentSoft: 'rgba(147, 3, 159, 0.16)',
